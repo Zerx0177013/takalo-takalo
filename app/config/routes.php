@@ -33,6 +33,10 @@ $router->group('', function (Router $router) use ($app) {
 			$app->render('index', ['items' => $controller->getAllItems()]);
 	});
 
+	$router->get('/items/new', function () use ($app) {
+		$app->render('item-new', ['categories' => []]);
+	});
+
 	 $router->get('/categories', [CategoryController::class, 'renderCategoryList']);
     $router->get('/categories/@id', [CategoryController::class, 'renderCategoryDetail']);
 

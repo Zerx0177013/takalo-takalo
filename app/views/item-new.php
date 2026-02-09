@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Takalo-Takalo - Ajouter un objet</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="/assets/vendors/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="/assets/vendors/css/vendor.bundle.base.css">
+    <!-- endinject -->
+    <!-- Layout styles -->
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <!-- End layout styles -->
+    <link rel="shortcut icon" href="/assets/images/favicon.ico" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: #f4f5f7;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .page-wrapper {
+            display: flex;
+            min-height: 100vh;
+        }
+        /* Sidebar */
+        .sidebar-wrapper {
+            width: 260px;
+            min-height: 100vh;
+            background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+            position: fixed;
+            left: 0;
+            top: 0;
+            padding: 25px 20px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 4px 0 15px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+        .sidebar-wrapper .logo {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 25px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+        }
+        .sidebar-wrapper .logo img {
+            height: 55px;
+            width: auto;
+            filter: brightness(0) invert(1);
+        }
+        .sidebar-wrapper .nav-menu {
+            list-style: none;
+            flex: 1;
+        }
+        .sidebar-wrapper .nav-menu li {
+            margin-bottom: 8px;
+        }
+        .sidebar-wrapper .nav-menu a {
+            color: rgba(255, 255, 255, 0.85);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            padding: 14px 18px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+        .sidebar-wrapper .nav-menu a:hover,
+        .sidebar-wrapper .nav-menu a.active {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            transform: translateX(5px);
+        }
+        .sidebar-wrapper .nav-menu i {
+            margin-right: 12px;
+            font-size: 1.25rem;
+            width: 24px;
+            text-align: center;
+        }
+        .logout-section {
+            margin-top: auto;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+        }
+        .logout-btn {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a5a 100%);
+            color: white;
+            border: none;
+            padding: 14px 18px;
+            border-radius: 10px;
+            cursor: pointer;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(238, 90, 90, 0.3);
+        }
+        .logout-btn:hover {
+            background: linear-gradient(135deg, #ee5a5a 0%, #dc4747 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(238, 90, 90, 0.4);
+        }
+        .logout-btn i {
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+        /* Main Content */
+        .main-content {
+            margin-left: 260px;
+            padding: 35px 40px;
+            flex: 1;
+            min-height: 100vh;
+        }
+        .header {
+            margin-bottom: 35px;
+        }
+        .header h1 {
+            color: #2d3436;
+            font-weight: 700;
+            font-size: 2rem;
+            margin-bottom: 8px;
+        }
+        .header p {
+            color: #636e72;
+            font-size: 1rem;
+        }
+        /* Form Container */
+        .form-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .form-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            padding: 40px;
+        }
+        .form-group {
+            margin-bottom: 28px;
+        }
+        .form-group label {
+            display: block;
+            color: #2d3436;
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+        }
+        .form-group label .required {
+            color: #e74c3c;
+            margin-left: 4px;
+        }
+        .form-group input[type="text"],
+        .form-group input[type="number"],
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            background: #fafafa;
+        }
+        .form-group input[type="text"]:focus,
+        .form-group input[type="number"]:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        .form-group .help-text {
+            color: #636e72;
+            font-size: 0.85rem;
+            margin-top: 6px;
+            display: block;
+        }
+        .image-upload-zone {
+            border: 2px dashed #d0d0d0;
+            border-radius: 10px;
+            padding: 40px;
+            text-align: center;
+            background: #fafafa;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .image-upload-zone:hover {
+            border-color: #667eea;
+            background: #f5f7ff;
+        }
+        .image-upload-zone i {
+            font-size: 60px;
+            color: #b2bec3;
+            margin-bottom: 15px;
+            display: block;
+        }
+        .image-upload-zone p {
+            color: #636e72;
+            margin-bottom: 8px;
+        }
+        .image-upload-zone input[type="file"] {
+            display: none;
+        }
+        .form-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 35px;
+            padding-top: 25px;
+            border-top: 1px solid #e0e0e0;
+        }
+        .form-actions button {
+            flex: 1;
+            padding: 16px 24px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .btn-submit {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+        .btn-cancel {
+            background: #f0f0f0;
+            color: #2d3436;
+        }
+        .btn-cancel:hover {
+            background: #e0e0e0;
+        }
+        /* Responsive */
+        @media (max-width: 992px) {
+            .sidebar-wrapper {
+                width: 220px;
+                padding: 20px 15px;
+            }
+            .main-content {
+                margin-left: 220px;
+                padding: 25px 30px;
+            }
+            .form-card {
+                padding: 30px;
+            }
+        }
+        @media (max-width: 768px) {
+            .sidebar-wrapper {
+                width: 70px;
+                padding: 15px 10px;
+            }
+            .sidebar-wrapper .logo img {
+                height: 35px;
+            }
+            .sidebar-wrapper .nav-menu a span,
+            .logout-btn span {
+                display: none;
+            }
+            .sidebar-wrapper .nav-menu a {
+                justify-content: center;
+                padding: 14px;
+            }
+            .sidebar-wrapper .nav-menu i {
+                margin-right: 0;
+            }
+            .logout-btn {
+                padding: 14px;
+            }
+            .logout-btn i {
+                margin-right: 0;
+            }
+            .main-content {
+                margin-left: 70px;
+                padding: 20px;
+            }
+            .form-card {
+                padding: 25px 20px;
+            }
+            .form-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-wrapper">
+        <!-- Sidebar -->
+        <div class="sidebar-wrapper">
+            <div class="logo">
+                <img src="/assets/images/logo.png" alt="Takalo-Takalo">
+            </div>
+            
+            <ul class="nav-menu">
+                <li>
+                    <a href="/">
+                        <i class="mdi mdi-home-outline"></i>
+                        <span>Accueil</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/items/new" class="active">
+                        <i class="mdi mdi-plus-circle-outline"></i>
+                        <span>Ajouter un objet</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" title="Non implémenté">
+                        <i class="mdi mdi-swap-horizontal"></i>
+                        <span>Mes échanges</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" title="Non implémenté">
+                        <i class="mdi mdi-heart-outline"></i>
+                        <span>Favoris</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" title="Non implémenté">
+                        <i class="mdi mdi-account-outline"></i>
+                        <span>Mon profil</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" title="Non implémenté">
+                        <i class="mdi mdi-cog-outline"></i>
+                        <span>Paramètres</span>
+                    </a>
+                </li>
+            </ul>
+
+            <div class="logout-section">
+                <button class="logout-btn" onclick="window.location.href='/logout'" title="Se déconnecter">
+                    <i class="mdi mdi-logout"></i>
+                    <span>Déconnexion</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="header">
+                <h1>➕ Ajouter un objet</h1>
+                <p>Partagez un objet que vous souhaitez échanger avec la communauté</p>
+            </div>
+
+            <div class="form-container">
+                <form class="form-card" action="/items" method="POST" enctype="multipart/form-data">
+                    
+                    <div class="form-group">
+                        <label for="name">
+                            Nom de l'objet
+                            <span class="required">*</span>
+                        </label>
+                        <input 
+                            type="text" 
+                            id="name" 
+                            name="name" 
+                            placeholder="Ex: iPhone 12, Vélo de ville, Table basse..." 
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description">
+                            Description
+                            <span class="required">*</span>
+                        </label>
+                        <textarea 
+                            id="description" 
+                            name="description" 
+                            placeholder="Décrivez votre objet en détail : état, caractéristiques, raison de l'échange..."
+                            required
+                        ></textarea>
+                        <small class="help-text">Une description détaillée augmente vos chances d'échange</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="idcategorie">
+                            Catégorie
+                            <span class="required">*</span>
+                        </label>
+                        <select id="idcategorie" name="idcategorie" required>
+                            <option value="">Sélectionnez une catégorie</option>
+                            <?php if (!empty($categories)): ?>
+                                <?php foreach ($categories as $category): ?>
+                                    <option value="<?php echo htmlspecialchars($category['idcategorie']); ?>">
+                                        <?php echo htmlspecialchars($category['name']); ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <option value="1">Électronique</option>
+                                <option value="2">Livres</option>
+                                <option value="3">Vêtements</option>
+                                <option value="4">Meubles</option>
+                                <option value="5">Sports et Loisirs</option>
+                                <option value="6">Jouets</option>
+                                <option value="7">Jardinage</option>
+                                <option value="8">Cuisine</option>
+                            <?php endif; ?>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="price">
+                            Valeur estimée (Ar)
+                        </label>
+                        <input 
+                            type="number" 
+                            id="price" 
+                            name="price" 
+                            placeholder="Ex: 450000" 
+                            step="0.01"
+                            min="0"
+                        >
+                        <small class="help-text">Optionnel - Aide les autres utilisateurs à évaluer l'échange</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label>
+                            Photos de l'objet
+                        </label>
+                        <div class="image-upload-zone" onclick="document.getElementById('imageURL').click()">
+                            <i class="mdi mdi-cloud-upload"></i>
+                            <p><strong>Cliquez pour ajouter des photos</strong></p>
+                            <small class="help-text">Formats acceptés : JPG, PNG, GIF (max 5MB)</small>
+                            <input type="file" id="imageURL" name="imageURL" accept="image/*" multiple>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn-cancel" onclick="window.location.href='/'">
+                            <i class="mdi mdi-close"></i>
+                            Annuler
+                        </button>
+                        <button type="submit" class="btn-submit">
+                            <i class="mdi mdi-check"></i>
+                            Publier l'objet
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- plugins:js -->
+    <script src="/assets/vendors/js/vendor.bundle.base.js"></script>
+    <!-- endinject -->
+    <!-- inject:js -->
+    <script src="/assets/js/off-canvas.js"></script>
+    <script src="/assets/js/hoverable-collapse.js"></script>
+    <script src="/assets/js/misc.js"></script>
+    <!-- endinject -->
+    
+    <script>
+        // Image upload preview
+        document.getElementById('imageURL').addEventListener('change', function(e) {
+            const files = e.target.files;
+            if (files.length > 0) {
+                const uploadZone = document.querySelector('.image-upload-zone');
+                uploadZone.querySelector('p').innerHTML = `<strong>${files.length} fichier(s) sélectionné(s)</strong>`;
+            }
+        });
+    </script>
+</body>
+</html>

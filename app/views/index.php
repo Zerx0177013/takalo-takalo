@@ -312,7 +312,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#" title="Non implémenté">
+                    <a href="/items/new">
                         <i class="mdi mdi-plus-circle-outline"></i>
                         <span>Ajouter un objet</span>
                     </a>

@@ -12,9 +12,13 @@ TRUNCATE TABLE categorie;
 TRUNCATE TABLE user;
 SET FOREIGN_KEY_CHECKS = 1;
 
--- Insertion des utilisateurs
-INSERT INTO user (username, email, password) VALUES
-('rakoto', 'rakoto.koto@email.com', '$2y$10$7JfAJguC/cFP7aEIs.ropu4to.mo7S23whAylHO5y/EdIXpNOWxZa') ;
+-- Les IDs servent de clés étrangères dans item et demande, donc on garde l'ordre 1..5
+INSERT INTO user (idUser, username, email, password) VALUES
+(1, 'alice', 'alice@example.com', '$2y$10$7JfAJguC/cFP7aEIs.ropu4to.mo7S23whAylHO5y/EdIXpNOWxZa'),
+(2, 'bob', 'bob@example.com', '$2y$10$7JfAJguC/cFP7aEIs.ropu4to.mo7S23whAylHO5y/EdIXpNOWxZa'),
+(3, 'claire', 'claire@example.com', '$2y$10$7JfAJguC/cFP7aEIs.ropu4to.mo7S23whAylHO5y/EdIXpNOWxZa'),
+(4, 'david', 'david@example.com', '$2y$10$7JfAJguC/cFP7aEIs.ropu4to.mo7S23whAylHO5y/EdIXpNOWxZa'),
+(5, 'emma', 'emma@example.com', '$2y$10$7JfAJguC/cFP7aEIs.ropu4to.mo7S23whAylHO5y/EdIXpNOWxZa');
 
 
 -- Insertion des catégories
