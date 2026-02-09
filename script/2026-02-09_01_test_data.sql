@@ -29,34 +29,34 @@ INSERT INTO categorie (name) VALUES
 ('Cuisine');
 
 -- Insertion des items
-INSERT INTO item (name, description, idUser, idcategorie) VALUES
+INSERT INTO item (name, description, idUser, idcategorie, price) VALUES
 -- Items d'Alice (idUser: 1)
-('iPhone 12', 'Smartphone en bon état, 128GB, avec chargeur', 1, 1),
-('Le Petit Prince', 'Livre de Saint-Exupéry en excellent état', 1, 2),
-('Veste en cuir', 'Veste noire taille M, portée 2 fois', 1, 3),
+('iPhone 12', 'Smartphone en bon état, 128GB, avec chargeur', 1, 1, 450.00),
+('Le Petit Prince', 'Livre de Saint-Exupéry en excellent état', 1, 2, 8.50),
+('Veste en cuir', 'Veste noire taille M, portée 2 fois', 1, 3, 75.00),
 
 -- Items de Bob (idUser: 2)
-('MacBook Pro 2020', 'Ordinateur portable 16 pouces, i7, 16GB RAM', 2, 1),
-('Ensemble Harry Potter', 'Collection complète des 7 livres', 2, 2),
-('Vélo de ville', 'Vélo en aluminium, 21 vitesses, très bon état', 2, 5),
+('MacBook Pro 2020', 'Ordinateur portable 16 pouces, i7, 16GB RAM', 2, 1, 1200.00),
+('Ensemble Harry Potter', 'Collection complète des 7 livres', 2, 2, 45.00),
+('Vélo de ville', 'Vélo en aluminium, 21 vitesses, très bon état', 2, 5, 180.00),
 
 -- Items de Claire (idUser: 3)
-('Samsung Galaxy Tab', 'Tablette 10 pouces, 64GB, comme neuve', 3, 1),
-('Robe d\'été', 'Robe fleurie taille S, jamais portée', 3, 3),
-('Table basse', 'Table en bois massif, style scandinave', 3, 4),
-('Set de casseroles', 'Set de 5 casseroles inox, état neuf', 3, 8),
+('Samsung Galaxy Tab', 'Tablette 10 pouces, 64GB, comme neuve', 3, 1, 280.00),
+('Robe d\'été', 'Robe fleurie taille S, jamais portée', 3, 3, 35.00),
+('Table basse', 'Table en bois massif, style scandinave', 3, 4, 120.00),
+('Set de casseroles', 'Set de 5 casseroles inox, état neuf', 3, 8, 90.00),
 
 -- Items de David (idUser: 4)
-('PlayStation 5', 'Console de jeu avec 2 manettes', 4, 1),
-('Encyclopédie Universalis', '20 volumes, édition 2020', 4, 2),
-('Canapé 3 places', 'Canapé en tissu gris, confortable', 4, 4),
-('Raquettes de tennis', 'Paire de raquettes Wilson avec housse', 4, 5),
+('PlayStation 5', 'Console de jeu avec 2 manettes', 4, 1, 500.00),
+('Encyclopédie Universalis', '20 volumes, édition 2020', 4, 2, 150.00),
+('Canapé 3 places', 'Canapé en tissu gris, confortable', 4, 4, 350.00),
+('Raquettes de tennis', 'Paire de raquettes Wilson avec housse', 4, 5, 65.00),
 
 -- Items d'Emma (idUser: 5)
-('Appareil photo Canon', 'Reflex EOS 2000D avec objectif 18-55mm', 5, 1),
-('Manteau d\'hiver', 'Manteau long noir taille M, très chaud', 5, 3),
-('Lego Star Wars', 'Set Millennium Falcon complet dans sa boîte', 5, 6),
-('Tondeuse électrique', 'Tondeuse à gazon Bosch, 1 an d\'utilisation', 5, 7);
+('Appareil photo Canon', 'Reflex EOS 2000D avec objectif 18-55mm', 5, 1, 380.00),
+('Manteau d\'hiver', 'Manteau long noir taille M, très chaud', 5, 3, 95.00),
+('Lego Star Wars', 'Set Millennium Falcon complet dans sa boîte', 5, 6, 140.00),
+('Tondeuse électrique', 'Tondeuse à gazon Bosch, 1 an d\'utilisation', 5, 7, 110.00);
 
 -- Insertion des statuts de demande
 INSERT INTO demandeStatus (idStatus, statusName) VALUES
