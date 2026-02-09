@@ -203,4 +203,15 @@ class ItemModel
             return [];
         }
     }
+
+    public function getItemsByUserId($userId)
+    {
+        try {
+            $statement = $this->pdo->prepare('SELECT * FROM `item` WHERE idUser = :userId');
+            $statement->execute([':userId' => $userId]);
+            return $statement->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            return [];
+        }
+    }
 }
