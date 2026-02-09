@@ -3,8 +3,8 @@
 namespace app\controllers;
 
 use app\models\CategoryModel;
+use Flight;
 use flight\Engine;
-use flight\Flight;
 
 class CategoryController {
 
