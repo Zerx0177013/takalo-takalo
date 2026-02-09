@@ -1,3 +1,7 @@
+<?php
+
+use Tracy\Bar;
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -306,13 +310,13 @@
             
             <ul class="nav-menu">
                 <li>
-                    <a href="/" class="active">
+                    <a href="<?= BASE_URL ?>/" class="active">
                         <i class="mdi mdi-home-outline"></i>
                         <span>Accueil</span>
                     </a>
                 </li>
                 <li>
-                    <a href="/items/new">
+                    <a href="<?= BASE_URL ?>/items/new">
                         <i class="mdi mdi-plus-circle-outline"></i>
                         <span>Ajouter un objet</span>
                     </a>
