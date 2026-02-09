@@ -60,6 +60,7 @@ class ItemModel
         }
     }
 
+
     public function createItem($name)
     {
         try {
@@ -70,6 +71,17 @@ class ItemModel
             return null;
         }
     }
+
+    // public function createItem($name)
+    // {
+    //     try {
+    //         $statement = $this->pdo->prepare('INSERT INTO `item` (name) VALUES (:name)');
+    //         $statement->execute([':name' => $name]);
+    //         return $this->pdo->lastInsertId();
+    //     } catch (PDOException $e) {
+    //         return null;
+    //     }
+    // }
 
     // public function updateItem($id, $name)
     // {
@@ -135,6 +147,30 @@ class ItemModel
             return $image === false ? null : $image;
         } catch (PDOException $e) {
             return null;
+        }
+    }
+
+    public function addImagesToAnItem($idItem, $imageInformationArray)
+    {
+        if (empty($imageInformationArray)) {
+            return 0;
+        }
+
+        try {
+            $statement = $this->pdo->prepare('INSERT INTO `imageItem` (idItem, imageURL) VALUES (:idItem, :imageURL)');
+            $insertedCount = 0;
+
+            foreach ($imageInformationArray as $imageUrl) {
+                $statement->execute([
+                    ':idItem' => $idItem,
+                    ':imageURL' => $imageUrl
+                ]);
+                $insertedCount++;
+            }
+
+            return $insertedCount;
+        } catch (PDOException $e) {
+            return 0;
         }
     }
 }

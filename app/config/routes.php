@@ -1,7 +1,11 @@
 <?php
 
 use app\controllers\ApiExampleController;
+<<<<<<< HEAD
 use app\controllers\ItemController;
+=======
+use app\controllers\CategoryController;
+>>>>>>> ba04085a9f24499cfb7fd051cb3b973305a5515d
 use app\middlewares\SecurityHeadersMiddleware;
 use flight\Engine;
 use flight\net\Router;
