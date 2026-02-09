@@ -1,6 +1,8 @@
 CREATE DATABASE takalo;
 
+DROP DATABASE IF EXISTS takalo;
 USE takalo;
+SET FOREIGN_KEY_CHECKS = 0;
 
 CREATE TABLE user (
     idUser INT PRIMARY KEY AUTO_INCREMENT,
@@ -9,7 +11,6 @@ CREATE TABLE user (
     password VARCHAR(255) NOT NULL
 );
 
-SET FOREIGN_KEY_CHECKS = 0;
 CREATE OR REPLACE TABLE item (
     idItem INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL,
@@ -25,28 +26,33 @@ CREATE OR REPLACE TABLE categorie (
     name VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE demande (
+CREATE OR REPLACE TABLE demande (
     idDemande INT AUTO_INCREMENT PRIMARY KEY,
     idDemandeur INT,
     idObjetOffert INT,
     idObjetDemande INT,
-    statut ENUM(
-        'EN_ATTENTE',
-        'ACCEPTEE',
-        'REFUSEE',
-        'ANNULEE'
-    ),
+    idDemandeStatus INT,
     createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+    statusAt DATETIME DEFAULT NULL,
     FOREIGN KEY (idDemandeur) REFERENCES user (idUser),
     FOREIGN KEY (idObjetOffert) REFERENCES item (idItem),
-    FOREIGN KEY (idObjetDemande) REFERENCES item (idItem)
+    FOREIGN KEY (idObjetDemande) REFERENCES item (idItem),
+    FOREIGN KEY (idDemandeStatus) REFERENCES demandeStatus (idStatus)
 );
 
-CREATE TABLE historiqueEchange (
+CREATE OR REPLACE TABLE historiqueEchange (
     idEchange INT AUTO_INCREMENT PRIMARY KEY,
     idDemande INT,
+    idDemandeur INT,
+    idOffreur INT,
+    idObjetOffert INT,
+    idObjetDemande INT,
     dateEchange DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (idDemande) REFERENCES demande (idDemande)
+    FOREIGN KEY (idDemande) REFERENCES demande (idDemande),
+    FOREIGN KEY (idDemandeur) REFERENCES user (idUser),
+    FOREIGN KEY (idOffreur) REFERENCES user (idUser),
+    FOREIGN KEY (idObjetOffert) REFERENCES item (idItem),
+    FOREIGN KEY (idObjetDemande) REFERENCES item (idItem)
 );
 
 CREATE TABLE imageItem (
@@ -54,4 +60,9 @@ CREATE TABLE imageItem (
     idItem INT,
     imageURL VARCHAR(255) NOT NULL,
     FOREIGN KEY (idItem) REFERENCES item (idItem)
+);
+
+CREATE TABLE demandeStatus(
+    idStatus INT AUTO_INCREMENT PRIMARY KEY,
+    statusName VARCHAR(255) NOT NULL
 );
