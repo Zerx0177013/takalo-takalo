@@ -23,6 +23,7 @@ $router->group('', function (Router $router) use ($app) {
 	});
 
 	$router->get('/categories', [CategoryController::class, 'renderCategoryList']);
+	
 	$router->group('/api', function () use ($router) {
 		$router->get('/users', [ApiExampleController::class, 'getUsers']);
 		$router->get('/users/@id:[0-9]', [ApiExampleController::class, 'getUser']);
