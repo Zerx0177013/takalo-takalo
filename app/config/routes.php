@@ -15,29 +15,34 @@ use app\controllers\ItemController;
 // This wraps all routes in the group with the SecurityHeadersMiddleware
 $router->group('', function (Router $router) use ($app) {
 
-    $router->get('/dashboard', function () use ($app) {
-        $app->render('dashboard');
-    });
+	$router->get('/dashboard', function () use ($app) {
+		$app->render('dashboard');
+	});
 
-    $router->get('/login', function () use ($app) {
-        $app->render('login');
-    });
+	$router->get('/login', function () use ($app) {
+		$app->render('login');
+	});
 
-    $router->get('/register', function () use ($app) {
-        $app->render('register');
-    });
+	$router->post('/login', function () use ($app) {
+		$email = $app->request()->data->email ?? null;
+		$password = $app->request()->data->password ?? null;
+	});
+
+	$router->get('/register', function () use ($app) {
+		$app->render('register');
+	});
 
 
 	$router->get('/', function () use ($app) {
 		$controller = new ItemController($app);
-			$app->render('index', ['items' => $controller->getAllItems()]);
+		$app->render('index', ['items' => $controller->getAllItems()]);
 	});
 
 	$router->get('/items/new', function () use ($app) {
 		$app->render('item-new', ['categories' => []]);
 	});
 
-	 $router->get('/categories', [CategoryController::class, 'renderCategoryList']);
-    $router->get('/categories/@id', [CategoryController::class, 'renderCategoryDetail']);
+	$router->get('/categories', [CategoryController::class, 'renderCategoryList']);
+	$router->get('/categories/@id', [CategoryController::class, 'renderCategoryDetail']);
 
 }, [SecurityHeadersMiddleware::class]);

@@ -40,7 +40,7 @@
                 </div>
                 <h4>Hello! let's get started</h4>
                 <h6 class="font-weight-light">Sign in to continue.</h6>
-                <form class="pt-3" id="loginForm" action="/login" method="POST">
+                <form class="pt-3" id="loginForm" action="/login/login" method="POST">
                   <div class="form-group">
                     <input type="email" class="form-control form-control-lg" id="email" name="email" placeholder="Email" required>
                     <div class="error-message" id="emailError">Please enter a valid email address</div>
