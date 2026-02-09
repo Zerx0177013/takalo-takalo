@@ -173,4 +173,34 @@ class ItemModel
             return 0;
         }
     }
+
+    public function getItemsByPriceRange($minPrice, $maxPrice)
+    {
+        try {
+            $statement = $this->pdo->prepare('SELECT * FROM `item` WHERE price >= :minPrice AND price <= :maxPrice');
+            $statement->execute([
+                ':minPrice' => $minPrice,
+                ':maxPrice' => $maxPrice
+            ]);
+            return $statement->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            return [];
+        }
+    }
+
+    public function getItemsByReferencePrice($referencePrice, $rangeOffset = 5)
+    {
+        try {
+            $minPrice = max(0, $referencePrice - $rangeOffset);
+            $maxPrice = $referencePrice + $rangeOffset;
+            $statement = $this->pdo->prepare('SELECT * FROM `item` WHERE price >= :minPrice AND price <= :maxPrice');
+            $statement->execute([
+                ':minPrice' => $minPrice,
+                ':maxPrice' => $maxPrice
+            ]);
+            return $statement->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            return [];
+        }
+    }
 }
