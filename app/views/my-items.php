@@ -1,21 +1,14 @@
 <?php
-
-use Tracy\Bar;
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Propositions d'échange - Takalo-Takalo</title>
-    <!-- plugins:css -->
+    <title>Mes Objets - Takalo-Takalo</title>
     <link rel="stylesheet" href="/assets/vendors/mdi/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="/assets/vendors/css/vendor.bundle.base.css">
-    <!-- endinject -->
-    <!-- Layout styles -->
     <link rel="stylesheet" href="/assets/css/style.css">
-    <!-- End layout styles -->
     <link rel="shortcut icon" href="/assets/images/favicon.ico" />
     <style>
         * {
@@ -31,7 +24,6 @@ use Tracy\Bar;
             display: flex;
             min-height: 100vh;
         }
-        /* Sidebar */
         .sidebar-wrapper {
             width: 260px;
             min-height: 100vh;
@@ -116,7 +108,6 @@ use Tracy\Bar;
             margin-right: 10px;
             font-size: 1.2rem;
         }
-        /* Main Content */
         .main-content {
             margin-left: 260px;
             padding: 35px 40px;
@@ -136,7 +127,6 @@ use Tracy\Bar;
             color: #636e72;
             font-size: 1rem;
         }
-        /* Items Grid */
         .items-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -232,7 +222,6 @@ use Tracy\Bar;
         .btn-secondary:hover {
             background: #e0e0e0;
         }
-        /* Empty State */
         .empty-state {
             text-align: center;
             padding: 80px 20px;
@@ -253,153 +242,24 @@ use Tracy\Bar;
             color: #b2bec3;
             font-size: 1rem;
         }
-        /* Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 2000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            animation: fadeIn 0.3s ease;
-        }
-        .modal.show {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .modal-content {
-            background: white;
-            padding: 40px;
-            border-radius: 16px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-            max-width: 500px;
-            width: 90%;
-            animation: slideUp 0.3s ease;
-        }
-        .modal-header {
-            margin-bottom: 25px;
-        }
-        .modal-header h2 {
-            color: #2d3436;
-            font-size: 1.8rem;
-            margin: 0;
-        }
-        .modal-body {
-            margin-bottom: 30px;
-            color: #636e72;
-            line-height: 1.6;
-        }
-        .modal-info {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-        }
-        .modal-info-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid #e0e0e0;
-        }
-        .modal-info-item:last-child {
-            border-bottom: none;
-        }
-        .modal-info-label {
-            font-weight: 600;
-            color: #2d3436;
-        }
-        .modal-info-value {
-            color: #636e72;
-        }
-        .modal-footer {
-            display: flex;
-            gap: 12px;
-        }
-        .modal-btn {
-            flex: 1;
-            padding: 14px 20px;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 0.95rem;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-        .modal-btn-confirm {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-        .modal-btn-confirm:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-        }
-        .modal-btn-cancel {
-            background: #f0f0f0;
-            color: #2d3436;
-        }
-        .modal-btn-cancel:hover {
-            background: #e0e0e0;
-        }
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-        @keyframes slideUp {
-            from {
-                transform: translateY(20px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-        /* Responsive */
         @media (max-width: 992px) {
             .sidebar-wrapper {
                 width: 220px;
-                padding: 20px 15px;
             }
             .main-content {
                 margin-left: 220px;
-                padding: 25px 30px;
             }
         }
         @media (max-width: 768px) {
             .sidebar-wrapper {
                 width: 70px;
-                padding: 15px 10px;
-            }
-            .sidebar-wrapper .logo img {
-                height: 35px;
             }
             .sidebar-wrapper .nav-menu a span,
             .logout-btn span {
                 display: none;
             }
-            .sidebar-wrapper .nav-menu a {
-                justify-content: center;
-                padding: 14px;
-            }
-            .sidebar-wrapper .nav-menu i {
-                margin-right: 0;
-            }
-            .logout-btn {
-                padding: 14px;
-            }
-            .logout-btn i {
-                margin-right: 0;
-            }
             .main-content {
                 margin-left: 70px;
-                padding: 20px;
             }
             .items-grid {
                 grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -410,7 +270,6 @@ use Tracy\Bar;
 </head>
 <body>
     <div class="page-wrapper">
-        <!-- Sidebar -->
         <div class="sidebar-wrapper">
             <div class="logo">
                 <img src="/assets/images/logo.png" alt="Takalo-Takalo">
@@ -424,13 +283,13 @@ use Tracy\Bar;
                     </a>
                 </li>
                 <li>
-                    <a href="<?= BASE_URL ?>/items/new">
-                        <i class="mdi mdi-plus-circle-outline"></i>
-                        <span>Ajouter un objet</span>
+                    <a href="<?= BASE_URL ?>/my-items" class="active">
+                        <i class="mdi mdi-package-outline"></i>
+                        <span>Mes objets</span>
                     </a>
                 </li>
                 <li>
-                    <a href="<?= BASE_URL ?>/propositions" class="active">
+                    <a href="<?= BASE_URL ?>/propositions">
                         <i class="mdi mdi-swap-horizontal"></i>
                         <span>Propositions</span>
                     </a>
@@ -447,27 +306,20 @@ use Tracy\Bar;
                         <span>Mon profil</span>
                     </a>
                 </li>
-                <li>
-                    <a href="#" title="Non implémenté">
-                        <i class="mdi mdi-cog-outline"></i>
-                        <span>Paramètres</span>
-                    </a>
-                </li>
             </ul>
 
             <div class="logout-section">
-                <button class="logout-btn" onclick="window.location.href='/logout'" title="Se déconnecter">
+                <button class="logout-btn" onclick="window.location.href='/logout'">
                     <i class="mdi mdi-logout"></i>
                     <span>Déconnexion</span>
                 </button>
             </div>
         </div>
 
-        <!-- Main Content -->
         <div class="main-content">
             <div class="header">
-                <h1>💱 Propositions d'échange</h1>
-                <p>Tous les objets disponibles pour l'échange</p>
+                <h1>📦 Mes objets</h1>
+                <p>Sélectionnez un objet pour le proposer en échange</p>
             </div>
 
             <div class="items-grid">
@@ -493,7 +345,7 @@ use Tracy\Bar;
                                     <div class="item-price"><?php echo number_format($item['price'], 2, ',', ' '); ?> Ar</div>
                                 <?php endif; ?>
                                 <div class="item-actions">
-                                    <button class="btn-primary" onclick="confirmExchange(<?php echo $selectedItem['idItem']; ?>, <?php echo $item['idItem']; ?>, '<?php echo htmlspecialchars($selectedItem['name']); ?>', '<?php echo htmlspecialchars($item['name']); ?>')">Échanger</button>
+                                    <button class="btn-primary" onclick="selectItem(<?php echo $item['idItem']; ?>)">Échanger</button>
                                     <button class="btn-secondary">Détails</button>
                                 </div>
                             </div>
@@ -502,109 +354,24 @@ use Tracy\Bar;
                 <?php else: ?>
                     <div class="empty-state">
                         <i class="mdi mdi-package-variant-closed"></i>
-                        <h2>Aucune proposition disponible</h2>
-                        <p>Il n'y a actuellement aucune proposition d'échange disponible.</p>
+                        <h2>Aucun objet</h2>
+                        <p>Vous n'avez pas encore ajouté d'objets à proposer en échange.</p>
                     </div>
                 <?php endif; ?>
             </div>
         </div>
     </div>
 
-    <!-- plugins:js -->
     <script src="/assets/vendors/js/vendor.bundle.base.js"></script>
-    <!-- endinject -->
-    <!-- inject:js -->
     <script src="/assets/js/off-canvas.js"></script>
     <script src="/assets/js/hoverable-collapse.js"></script>
     <script src="/assets/js/misc.js"></script>
-    <!-- endinject -->
-
-    <!-- Exchange Modal -->
-    <div id="exchangeModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>💱 Confirmer l'échange</h2>
-            </div>
-            <div class="modal-body">
-                <p>Êtes-vous sûr de vouloir proposer cet échange ?</p>
-                <div class="modal-info">
-                    <div class="modal-info-item">
-                        <span class="modal-info-label">Vous offrez:</span>
-                        <span class="modal-info-value" id="modalOfferedItem">-</span>
-                    </div>
-                    <div class="modal-info-item">
-                        <span class="modal-info-label">Vous demandez:</span>
-                        <span class="modal-info-value" id="modalRequestedItem">-</span>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="modal-btn modal-btn-confirm" onclick="submitExchange()">Confirmer</button>
-                <button class="modal-btn modal-btn-cancel" onclick="closeModal()">Annuler</button>
-            </div>
-        </div>
-    </div>
-
+    
     <script>
-        let selectedItemId = null;
-        let proposedItemId = null;
-        let selectedItemName = null;
-        let proposedItemName = null;
-
-        function confirmExchange(offeredItemId, requestedItemId, offeredItemName, requestedItemName) {
-            selectedItemId = offeredItemId;
-            proposedItemId = requestedItemId;
-            selectedItemName = offeredItemName;
-            proposedItemName = requestedItemName;
-            
-            document.getElementById('modalOfferedItem').textContent = offeredItemName;
-            document.getElementById('modalRequestedItem').textContent = requestedItemName;
-            
-            document.getElementById('exchangeModal').classList.add('show');
+        function selectItem(itemId) {
+            // Rediriger vers la page propositions avec l'item sélectionné
+            window.location.href = '/propositions?itemId=' + itemId;
         }
-
-        function closeModal() {
-            document.getElementById('exchangeModal').classList.remove('show');
-        }
-
-        function submitExchange() {
-            // Send POST request to create exchange
-            fetch('/exchange', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    idObjetOffert: selectedItemId,
-                    idObjetDemande: proposedItemId
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                closeModal();
-                if (data.success) {
-                    alert('✅ Demande d\'échange créée avec succès!');
-                    // Redirect to my-items or show success page
-                    setTimeout(() => {
-                        window.location.href = '/my-items';
-                    }, 1500);
-                } else {
-                    alert('❌ Erreur: ' + (data.message || 'Impossible de créer la demande'));
-                }
-            })
-            .catch(error => {
-                closeModal();
-                console.error('Error:', error);
-                alert('❌ Une erreur est survenue');
-            });
-        }
-
-        // Close modal when clicking outside
-        document.getElementById('exchangeModal').addEventListener('click', function(event) {
-            if (event.target === this) {
-                closeModal();
-            }
-        });
     </script>
 </body>
 </html>

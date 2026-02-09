@@ -52,21 +52,26 @@ $router->group('', function (Router $router) use ($app) {
 				$app->render('dashboard');
 			});
 
+<<<<<<< HEAD
+=======
+			$router->post('/login', function () use ($app) {
+				$email = $app->request()->data->email ?? null;
+				$password = $app->request()->data->password ?? null;
+			});
+
+>>>>>>> 4d6af2e3221861514013b79780dfceb2f71e2b06
 			$router->get('/', function () use ($app) {
 				$controller = new ItemController($app);
 				$app->render('index', ['items' => $controller->getAllItems()]);
 			});
 
+			$router->get('/my-items', [ItemController::class, 'myItems']);
+
 			$router->get('/propositions', [ItemController::class, 'propositions']);
 
-			$router->get('/items/new', function () use ($app) {
-				$app->render('item-new', ['categories' => []]);
-			});
-
+			$router->post('/exchange', [ItemController::class, 'createExchange']);
 			$router->get('/categories', [CategoryController::class, 'renderCategoryList']);
 			$router->get('/categories/@id', [CategoryController::class, 'renderCategoryDetail']);
 		}
 	});
-
-
 }, [SecurityHeadersMiddleware::class]);
