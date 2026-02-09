@@ -173,4 +173,18 @@ class ItemModel
             return 0;
         }
     }
+
+    public function getItemsByPriceRange($minPrice, $maxPrice)
+    {
+        try {
+            $statement = $this->pdo->prepare('SELECT * FROM `item` WHERE price >= :minPrice AND price <= :maxPrice');
+            $statement->execute([
+                ':minPrice' => $minPrice,
+                ':maxPrice' => $maxPrice
+            ]);
+            return $statement->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            return [];
+        }
+    }
 }
