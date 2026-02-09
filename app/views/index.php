@@ -322,6 +322,12 @@ use Tracy\Bar;
                     </a>
                 </li>
                 <li>
+                    <a href="<?= BASE_URL ?>/my-items">
+                        <i class="mdi mdi-package-outline"></i>
+                        <span>Mes objets</span>
+                    </a>
+                </li>
+                <li>
                     <a href="#" title="Non implémenté">
                         <i class="mdi mdi-swap-horizontal"></i>
                         <span>Mes échanges</span>
