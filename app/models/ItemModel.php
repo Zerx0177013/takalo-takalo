@@ -60,16 +60,16 @@ class ItemModel
         }
     }
 
-    // public function createItem($name)
-    // {
-    //     try {
-    //         $statement = $this->pdo->prepare('INSERT INTO `item` (name) VALUES (:name)');
-    //         $statement->execute([':name' => $name]);
-    //         return $this->pdo->lastInsertId();
-    //     } catch (PDOException $e) {
-    //         return null;
-    //     }
-    // }
+    public function createItem($name)
+    {
+        try {
+            $statement = $this->pdo->prepare('INSERT INTO `item` (name) VALUES (:name)');
+            $statement->execute([':name' => $name]);
+            return $this->pdo->lastInsertId();
+        } catch (PDOException $e) {
+            return null;
+        }
+    }
 
     // public function updateItem($id, $name)
     // {
@@ -90,6 +90,51 @@ class ItemModel
             return $statement->rowCount() > 0;
         } catch (PDOException $e) {
             return false;
+        }
+    }
+
+    public function searchItemsByName($name)
+    {
+        try {
+            $statement = $this->pdo->prepare('SELECT * FROM `item` WHERE name LIKE :name');
+            $statement->execute([':name' => '%' . $name . '%']);
+            return $statement->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            return [];
+        }
+    }
+
+    public function searchItemsByCategory($categoryId)
+    {
+        try {
+            $statement = $this->pdo->prepare('SELECT * FROM `item` WHERE idcategorie = :categoryId');
+            $statement->execute([':categoryId' => $categoryId]);
+            return $statement->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            return [];
+        }
+    }
+
+    public function getAllImagesOfAnItem($idItem)
+    {
+        try {
+            $statement = $this->pdo->prepare('SELECT * FROM `imageItem` WHERE idItem = :idItem');
+            $statement->execute([':idItem' => $idItem]);
+            return $statement->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            return [];
+        }
+    }
+
+    public function getFirstImageOfAnItem($idItem)
+    {
+        try {
+            $statement = $this->pdo->prepare('SELECT * FROM `imageItem` WHERE idItem = :idItem LIMIT 1');
+            $statement->execute([':idItem' => $idItem]);
+            $image = $statement->fetch(PDO::FETCH_ASSOC);
+            return $image === false ? null : $image;
+        } catch (PDOException $e) {
+            return null;
         }
     }
 }

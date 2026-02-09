@@ -18,6 +18,7 @@ CREATE OR REPLACE TABLE item (
     description TEXT,
     idUser INT,
     idcategorie INT,
+    price NUMERIC(10, 2) DEFAULT NULL,
     FOREIGN KEY (idUser) REFERENCES user (idUser),
     FOREIGN KEY (idcategorie) REFERENCES categorie (idcategorie)
 );
