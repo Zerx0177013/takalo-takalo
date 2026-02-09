@@ -125,4 +125,16 @@ class ItemModel
             return [];
         }
     }
+
+    public function getFirstImageOfAnItem($idItem)
+    {
+        try {
+            $statement = $this->pdo->prepare('SELECT * FROM `imageItem` WHERE idItem = :idItem LIMIT 1');
+            $statement->execute([':idItem' => $idItem]);
+            $image = $statement->fetch(PDO::FETCH_ASSOC);
+            return $image === false ? null : $image;
+        } catch (PDOException $e) {
+            return null;
+        }
+    }
 }
