@@ -2,6 +2,16 @@
 
 USE takalo;
 
+SET FOREIGN_KEY_CHECKS = 0;
+TRUNCATE TABLE imageItem;
+TRUNCATE TABLE historiqueEchange;
+TRUNCATE TABLE demande;
+TRUNCATE TABLE demandeStatus;
+TRUNCATE TABLE item;
+TRUNCATE TABLE categorie;
+TRUNCATE TABLE user;
+SET FOREIGN_KEY_CHECKS = 1;
+
 -- Insertion des utilisateurs
 INSERT INTO user (username, email, password) VALUES
 ('alice_martin', 'alice.martin@email.com', '$2y$10$abcdefghijklmnopqrstuv'),
@@ -51,30 +61,58 @@ INSERT INTO item (name, description, idUser, idcategorie) VALUES
 ('Lego Star Wars', 'Set Millennium Falcon complet dans sa boîte', 5, 6),
 ('Tondeuse électrique', 'Tondeuse à gazon Bosch, 1 an d\'utilisation', 5, 7);
 
+-- Insertion des statuts de demande
+INSERT INTO demandeStatus (idStatus, statusName) VALUES
+(1, 'EN_ATTENTE'),
+(2, 'ACCEPTEE'),
+(3, 'REFUSEE'),
+(4, 'ANNULEE');
+
 -- Insertion des demandes d'échange
-INSERT INTO demande (idDemandeur, idObjetOffert, idObjetDemande, statut, createdAt) VALUES
+INSERT INTO demande (idDemandeur, idObjetOffert, idObjetDemande, idDemandeStatus, createdAt, statusAt) VALUES
 -- Bob veut l'iPhone d'Alice, offre son MacBook
-(2, 4, 1, 'EN_ATTENTE', '2026-02-08 10:30:00'),
+(2, 4, 1, 1, '2026-02-08 10:30:00', NULL),
 
 -- Claire veut le vélo de Bob, offre sa tablette
-(3, 7, 6, 'ACCEPTEE', '2026-02-07 14:20:00'),
+(3, 7, 6, 2, '2026-02-07 14:20:00', '2026-02-07 15:00:00'),
 
 -- David veut la veste d'Alice, offre ses raquettes
-(4, 14, 3, 'REFUSEE', '2026-02-06 09:15:00'),
+(4, 14, 3, 3, '2026-02-06 09:15:00', '2026-02-06 09:45:00'),
 
 -- Emma veut le set Harry Potter de Bob, offre son appareil photo
-(5, 15, 5, 'EN_ATTENTE', '2026-02-09 08:00:00'),
+(5, 15, 5, 1, '2026-02-09 08:00:00', NULL),
 
 -- Alice veut la PS5 de David, offre son livre
-(1, 2, 11, 'EN_ATTENTE', '2026-02-08 16:45:00'),
+(1, 2, 11, 1, '2026-02-08 16:45:00', NULL),
 
 -- Claire veut le canapé de David, offre sa table basse
-(3, 9, 13, 'ACCEPTEE', '2026-02-05 11:30:00'),
+(3, 9, 13, 2, '2026-02-05 11:30:00', '2026-02-05 12:10:00'),
 
 -- Bob veut le manteau d'Emma, offre l'encyclopédie
-(2, 12, 16, 'ANNULEE', '2026-02-04 13:20:00');
+(2, 12, 16, 4, '2026-02-04 13:20:00', '2026-02-04 14:00:00');
 
 -- Insertion de l'historique des échanges (seulement pour les demandes acceptées)
-INSERT INTO historiqueEchange (idDemande, dateEchange) VALUES
-(2, '2026-02-08 10:00:00'),  -- Échange tablette contre vélo
-(6, '2026-02-06 15:30:00');  -- Échange table basse contre canapé
+INSERT INTO historiqueEchange (idDemande, idDemandeur, idOffreur, idObjetOffert, idObjetDemande, dateEchange) VALUES
+(2, 3, 2, 7, 6, '2026-02-08 10:00:00'),  -- Claire (3) échange sa tablette (7) contre le vélo de Bob (6)
+(6, 3, 4, 9, 13, '2026-02-06 15:30:00'); -- Claire (3) échange sa table basse (9) contre le canapé de David (13)
+
+-- Insertion des images des items
+INSERT INTO imageItem (idItem, imageURL) VALUES
+(1, 'https://example.com/images/iphone12.jpg'),
+(2, 'https://example.com/images/le-petit-prince.jpg'),
+(3, 'https://example.com/images/veste-cuir.jpg'),
+(4, 'https://example.com/images/macbook-pro-2020.jpg'),
+(5, 'https://example.com/images/harry-potter-set.jpg'),
+(6, 'https://example.com/images/velo-ville.jpg'),
+(7, 'https://example.com/images/galaxy-tab.jpg'),
+(8, 'https://example.com/images/robe-ete.jpg'),
+(9, 'https://example.com/images/table-basse.jpg'),
+(10, 'https://example.com/images/set-casseroles.jpg'),
+(11, 'https://example.com/images/ps5.jpg'),
+(12, 'https://example.com/images/encyclopedie.jpg'),
+(13, 'https://example.com/images/canape.jpg'),
+(14, 'https://example.com/images/raquettes-tennis.jpg'),
+(15, 'https://example.com/images/appareil-photo-canon.jpg'),
+(16, 'https://example.com/images/manteau-hiver.jpg'),
+(17, 'https://example.com/images/lego-star-wars.jpg'),
+(18, 'https://example.com/images/tondeuse-electrique.jpg');
