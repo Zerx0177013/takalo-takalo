@@ -4,10 +4,10 @@ namespace app\models;
 
 class UserModel
 {
-  private $db ;
+    private $db;
     public function __construct($db)
     {
-$this->db = $db;
+        $this->db = $db;
     }
     public function getNumberOfUsers(): int
     {
