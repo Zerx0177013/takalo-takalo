@@ -60,16 +60,16 @@ class ItemModel
         }
     }
 
-    // public function createItem($name)
-    // {
-    //     try {
-    //         $statement = $this->pdo->prepare('INSERT INTO `item` (name) VALUES (:name)');
-    //         $statement->execute([':name' => $name]);
-    //         return $this->pdo->lastInsertId();
-    //     } catch (PDOException $e) {
-    //         return null;
-    //     }
-    // }
+    public function createItem($name)
+    {
+        try {
+            $statement = $this->pdo->prepare('INSERT INTO `item` (name) VALUES (:name)');
+            $statement->execute([':name' => $name]);
+            return $this->pdo->lastInsertId();
+        } catch (PDOException $e) {
+            return null;
+        }
+    }
 
     // public function updateItem($id, $name)
     // {
@@ -92,4 +92,28 @@ class ItemModel
             return false;
         }
     }
+
+    public function searchItemsByName($name)
+    {
+        try {
+            $statement = $this->pdo->prepare('SELECT * FROM `item` WHERE name LIKE :name');
+            $statement->execute([':name' => '%' . $name . '%']);
+            return $statement->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            return [];
+        }
+    }
+
+    public function searchItemsByCategory($categoryId)
+    {
+        try {
+            $statement = $this->pdo->prepare('SELECT * FROM `item` WHERE idcategorie = :categoryId');
+            $statement->execute([':categoryId' => $categoryId]);
+            return $statement->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            return [];
+        }
+    }
+
+    public functio
 }
