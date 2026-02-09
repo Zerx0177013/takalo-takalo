@@ -115,5 +115,14 @@ class ItemModel
         }
     }
 
-
+    public function getAllImagesOfAnItem($idItem)
+    {
+        try {
+            $statement = $this->pdo->prepare('SELECT * FROM `imageItem` WHERE idItem = :idItem');
+            $statement->execute([':idItem' => $idItem]);
+            return $statement->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            return [];
+        }
+    }
 }
