@@ -31,4 +31,14 @@ $router->group('', function (Router $router) use ($app) {
 		$app->render('register');
 	});
 
+<<<<<<< HEAD
+=======
+	$router->get('/categories', [CategoryController::class, 'renderCategoryList']);
+
+	$router->group('/api', function () use ($router) {
+		$router->get('/users', [ApiExampleController::class, 'getUsers']);
+		$router->get('/users/@id:[0-9]', [ApiExampleController::class, 'getUser']);
+		$router->post('/users/@id:[0-9]', [ApiExampleController::class, 'updateUser']);
+	});
+>>>>>>> ba04085a9f24499cfb7fd051cb3b973305a5515d
 }, [SecurityHeadersMiddleware::class]);
