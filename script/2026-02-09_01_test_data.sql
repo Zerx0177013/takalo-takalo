@@ -70,27 +70,27 @@ INSERT INTO demandeStatus (idStatus, statusName) VALUES
 (4, 'ANNULEE');
 
 -- Insertion des demandes d'échange
-INSERT INTO demande (idDemandeur, idObjetOffert, idObjetDemande, idDemandeStatus, createdAt, statusAt) VALUES
+INSERT INTO demande (idDemandeur, idReceveur, idObjetOffert, idObjetDemande, idDemandeStatus, createdAt, statusAt) VALUES
 -- Bob veut l'iPhone d'Alice, offre son MacBook
-(2, 4, 1, 1, '2026-02-08 10:30:00', NULL),
+(2, 1, 4, 1, 1, '2026-02-08 10:30:00', NULL),
 
 -- Claire veut le vélo de Bob, offre sa tablette
-(3, 7, 6, 2, '2026-02-07 14:20:00', '2026-02-07 15:00:00'),
+(3, 2, 7, 6, 2, '2026-02-07 14:20:00', '2026-02-07 15:00:00'),
 
 -- David veut la veste d'Alice, offre ses raquettes
-(4, 14, 3, 3, '2026-02-06 09:15:00', '2026-02-06 09:45:00'),
+(4, 1, 14, 3, 3, '2026-02-06 09:15:00', '2026-02-06 09:45:00'),
 
 -- Emma veut le set Harry Potter de Bob, offre son appareil photo
-(5, 15, 5, 1, '2026-02-09 08:00:00', NULL),
+(5, 2, 15, 5, 1, '2026-02-09 08:00:00', NULL),
 
 -- Alice veut la PS5 de David, offre son livre
-(1, 2, 11, 1, '2026-02-08 16:45:00', NULL),
+(1, 4, 2, 11, 1, '2026-02-08 16:45:00', NULL),
 
 -- Claire veut le canapé de David, offre sa table basse
-(3, 9, 13, 2, '2026-02-05 11:30:00', '2026-02-05 12:10:00'),
+(3, 4, 9, 13, 2, '2026-02-05 11:30:00', '2026-02-05 12:10:00'),
 
 -- Bob veut le manteau d'Emma, offre l'encyclopédie
-(2, 12, 16, 4, '2026-02-04 13:20:00', '2026-02-04 14:00:00');
+(2, 5, 12, 16, 4, '2026-02-04 13:20:00', '2026-02-04 14:00:00');
 
 -- Insertion de l'historique des échanges (seulement pour les demandes acceptées)
 INSERT INTO historiqueEchange (idDemande, idDemandeur, idOffreur, idObjetOffert, idObjetDemande, dateEchange) VALUES
