@@ -25,6 +25,11 @@ $router->group('', function (Router $router) use ($app) {
 				$password = $app->request()->data->password ?? null;
 			});
 
+			
+			$router->get('/', function () use ($app) {
+				$app->render('login');
+			});
+
 			$router->get('/login', function () use ($app) {
 				$app->render('login');
 			});
