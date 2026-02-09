@@ -20,6 +20,7 @@ INSERT INTO user (username, email, password) VALUES
 ('david_bernard', 'david.bernard@email.com', '$2y$10$opqrstuvwxyzabcdefghij'),
 ('emma_petit', 'emma.petit@email.com', '$2y$10$klmnopqrstuvwxyzabcdef');
 
+
 -- Insertion des catégories
 INSERT INTO categorie (name) VALUES
 ('Électronique'),

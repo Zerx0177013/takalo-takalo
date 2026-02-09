@@ -67,3 +67,9 @@ CREATE TABLE demandeStatus(
     idStatus INT AUTO_INCREMENT PRIMARY KEY,
     statusName VARCHAR(255) NOT NULL
 );
+
+CREATE TABLE admin (
+    idAdmin INT AUTO_INCREMENT PRIMARY KEY,
+    idUser INT,
+    FOREIGN KEY (idUser) REFERENCES user (idUser)
+);
