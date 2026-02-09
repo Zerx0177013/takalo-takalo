@@ -21,6 +21,14 @@ $router->group('', function (Router $router) use ($app) {
 		$app->render('welcome', ['message' => 'Coucouuuuuuuuuuuuuuuuuuuuuuuuuuuu!']);
 	});
 
+	$router->get('/login', function () use ($app) {
+		$app->render('login');
+	});
+
+	$router->get('/register', function () use ($app) {
+		$app->render('register');
+	});
+
 	$router->get('/hello-world/@name', function ($name) {
 		echo '<h1>Hello world! Oh hey ' . $name . '!</h1>';
 	});
