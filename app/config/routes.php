@@ -15,12 +15,14 @@ use app\controllers\ItemController;
 // This wraps all routes in the group with the SecurityHeadersMiddleware
 $router->group('', function (Router $router) use ($app) {
 
+	$router->group('/', function () use ($router, $app) {
+	
+		$authModel = new \app\models\AuthModel($app->db());
+		if(!$authModel->isLoggedIn()){
+				$app->render('login');
+		} else{
 	$router->get('/dashboard', function () use ($app) {
 		$app->render('dashboard');
-	});
-
-	$router->get('/login', function () use ($app) {
-		$app->render('login');
 	});
 
 	$router->post('/login', function () use ($app) {
@@ -44,5 +46,8 @@ $router->group('', function (Router $router) use ($app) {
 
 	$router->get('/categories', [CategoryController::class, 'renderCategoryList']);
 	$router->get('/categories/@id', [CategoryController::class, 'renderCategoryDetail']);
+		}
+	});
+
 
 }, [SecurityHeadersMiddleware::class]);
