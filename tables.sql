@@ -9,16 +9,19 @@ CREATE TABLE user (
     password VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE item (
+SET FOREIGN_KEY_CHECKS = 0;
+CREATE OR REPLACE TABLE item (
     idItem INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL,
     description TEXT,
     idUser INT,
-    FOREIGN KEY (idUser) REFERENCES user (idUser)
+    idcategorie INT,
+    FOREIGN KEY (idUser) REFERENCES user (idUser),
+    FOREIGN KEY (idcategorie) REFERENCES categorie (idcategorie)
 );
 
-CREATE TABLE itemType (
-    idItemType INT PRIMARY KEY AUTO_INCREMENT,
+CREATE OR REPLACE TABLE categorie (
+    idcategorie INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL
 );
 
