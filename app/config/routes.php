@@ -1,6 +1,7 @@
 <?php
 
 use app\controllers\ApiExampleController;
+use app\controllers\ItemController;
 use app\middlewares\SecurityHeadersMiddleware;
 use flight\Engine;
 use flight\net\Router;
@@ -14,7 +15,8 @@ use flight\net\Router;
 $router->group('', function (Router $router) use ($app) {
 
 	$router->get('/', function () use ($app) {
-		$app->render('dashboard');
+		$controller = new ItemController($app);
+			$app->render('index', ['items' => $controller->getAllItems()]);
 	});
 
 	$router->get('/login', function () use ($app) {
@@ -25,9 +27,4 @@ $router->group('', function (Router $router) use ($app) {
 		$app->render('register');
 	});
 
-	$router->group('/api', function () use ($router) {
-		$router->get('/users', [ApiExampleController::class, 'getUsers']);
-		$router->get('/users/@id:[0-9]', [ApiExampleController::class, 'getUser']);
-		$router->post('/users/@id:[0-9]', [ApiExampleController::class, 'updateUser']);
-	});
 }, [SecurityHeadersMiddleware::class]);
