@@ -30,12 +30,14 @@ CREATE OR REPLACE TABLE categorie (
 CREATE OR REPLACE TABLE demande (
     idDemande INT AUTO_INCREMENT PRIMARY KEY,
     idDemandeur INT,
+    idReceveur INT,
     idObjetOffert INT,
     idObjetDemande INT,
     idDemandeStatus INT,
     createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
     statusAt DATETIME DEFAULT NULL,
     FOREIGN KEY (idDemandeur) REFERENCES user (idUser),
+    FOREIGN KEY (idReceveur) REFERENCES user (idUser),
     FOREIGN KEY (idObjetOffert) REFERENCES item (idItem),
     FOREIGN KEY (idObjetDemande) REFERENCES item (idItem),
     FOREIGN KEY (idDemandeStatus) REFERENCES demandeStatus (idStatus)
