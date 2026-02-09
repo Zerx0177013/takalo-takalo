@@ -25,7 +25,6 @@ $router->group('', function (Router $router) use ($app) {
 				$password = $app->request()->data->password ?? null;
 			});
 
-			
 			$router->get('/', function () use ($app) {
 				$app->render('login');
 			});
@@ -47,23 +46,18 @@ $router->group('', function (Router $router) use ($app) {
 				$password = $app->request()->data->password ?? null;
 			});
 
-
-
 			$router->get('/', function () use ($app) {
 				$controller = new ItemController($app);
 				$app->render('index', ['items' => $controller->getAllItems()]);
 			});
 
+			$router->get('/my-items', [ItemController::class, 'myItems']);
+
 			$router->get('/propositions', [ItemController::class, 'propositions']);
 
-			$router->get('/items/new', function () use ($app) {
-				$app->render('item-new', ['categories' => []]);
-			});
-
+			$router->post('/exchange', [ItemController::class, 'createExchange']);
 			$router->get('/categories', [CategoryController::class, 'renderCategoryList']);
 			$router->get('/categories/@id', [CategoryController::class, 'renderCategoryDetail']);
 		}
 	});
-
-
 }, [SecurityHeadersMiddleware::class]);
