@@ -48,3 +48,10 @@ CREATE TABLE historiqueEchange (
     dateEchange DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (idDemande) REFERENCES demande (idDemande)
 );
+
+CREATE TABLE imageItem (
+    idImage INT AUTO_INCREMENT PRIMARY KEY,
+    idItem INT,
+    imageURL VARCHAR(255) NOT NULL,
+    FOREIGN KEY (idItem) REFERENCES item (idItem)
+);
