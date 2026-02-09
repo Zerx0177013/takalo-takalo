@@ -38,6 +38,8 @@ $router->group('', function (Router $router) use ($app) {
 		$app->render('index', ['items' => $controller->getAllItems()]);
 	});
 
+	$router->get('/propositions', [ItemController::class, 'propositions']);
+
 	$router->get('/items/new', function () use ($app) {
 		$app->render('item-new', ['categories' => []]);
 	});

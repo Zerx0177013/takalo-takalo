@@ -8,7 +8,7 @@ use Tracy\Bar;
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Takalo-Takalo - Home</title>
+    <title>Propositions d'échange - Takalo-Takalo</title>
     <!-- plugins:css -->
     <link rel="stylesheet" href="/assets/vendors/mdi/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="/assets/vendors/css/vendor.bundle.base.css">
@@ -310,7 +310,7 @@ use Tracy\Bar;
             
             <ul class="nav-menu">
                 <li>
-                    <a href="<?= BASE_URL ?>/" class="active">
+                    <a href="<?= BASE_URL ?>/">
                         <i class="mdi mdi-home-outline"></i>
                         <span>Accueil</span>
                     </a>
@@ -322,9 +322,9 @@ use Tracy\Bar;
                     </a>
                 </li>
                 <li>
-                    <a href="#" title="Non implémenté">
+                    <a href="<?= BASE_URL ?>/propositions" class="active">
                         <i class="mdi mdi-swap-horizontal"></i>
-                        <span>Mes échanges</span>
+                        <span>Propositions</span>
                     </a>
                 </li>
                 <li>
@@ -358,8 +358,8 @@ use Tracy\Bar;
         <!-- Main Content -->
         <div class="main-content">
             <div class="header">
-                <h1>📦 Objets disponibles</h1>
-                <p>Découvrez les objets disponibles pour l'échange</p>
+                <h1>💱 Propositions d'échange</h1>
+                <p>Tous les objets disponibles pour l'échange</p>
             </div>
 
             <div class="items-grid">
@@ -394,8 +394,8 @@ use Tracy\Bar;
                 <?php else: ?>
                     <div class="empty-state">
                         <i class="mdi mdi-package-variant-closed"></i>
-                        <h2>Aucun objet disponible</h2>
-                        <p>Il n'y a actuellement aucun objet disponible pour l'échange.</p>
+                        <h2>Aucune proposition disponible</h2>
+                        <p>Il n'y a actuellement aucune proposition d'échange disponible.</p>
                     </div>
                 <?php endif; ?>
             </div>
