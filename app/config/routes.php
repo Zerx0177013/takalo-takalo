@@ -1,6 +1,7 @@
 <?php
 
 use app\controllers\ApiExampleController;
+use app\controllers\CategoryController;
 use app\middlewares\SecurityHeadersMiddleware;
 use flight\Engine;
 use flight\net\Router;
@@ -28,6 +29,8 @@ $router->group('', function (Router $router) use ($app) {
 	$router->get('/register', function () use ($app) {
 		$app->render('register');
 	});
+
+	$router->get('/categories', [CategoryController::class, 'renderCategoryList']);
 
 	$router->get('/hello-world/@name', function ($name) {
 		echo '<h1>Hello world! Oh hey ' . $name . '!</h1>';
