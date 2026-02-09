@@ -1,11 +1,11 @@
 <?php
 
-use app\controllers\ApiExampleController;
 use app\controllers\CategoryController;
 use app\middlewares\SecurityHeadersMiddleware;
 use flight\Engine;
 use flight\net\Router;
 use app\controllers\ItemController;
+use app\controllers\LoginController;
 
 /** 
  * @var Router $router 
@@ -16,16 +16,19 @@ use app\controllers\ItemController;
 $router->group('', function (Router $router) use ($app) {
 
 	$router->group('/', function () use ($router, $app) {
-
-		$authModel = new \app\models\AuthModel($app->db());
-		if (!$authModel->isLoggedIn()) {
-
+		$authController = new \app\controllers\AuthController($app);
+		if (!$authController->isLogged()) {
 			$router->post('/login', function () use ($app) {
 				$email = $app->request()->data->email ?? null;
 				$password = $app->request()->data->password ?? null;
+				$authController = new \app\controllers\AuthController($app);
+				$user = $authController->login($email, $password);
+				if ($authController->isLogged())
+					$app->redirect('/dashboard');
+				else
+					$app->redirect('/login');
 			});
 
-			
 			$router->get('/', function () use ($app) {
 				$app->render('login');
 			});
@@ -38,16 +41,16 @@ $router->group('', function (Router $router) use ($app) {
 				$app->render('register');
 			});
 		} else {
+
+			$router->get('/logout', function () use ($app) {
+				$authController = new \app\controllers\AuthController($app);
+				$authController->logOut();
+				$app->redirect('/login');
+			});
+
 			$router->get('/dashboard', function () use ($app) {
 				$app->render('dashboard');
 			});
-
-			$router->post('/login', function () use ($app) {
-				$email = $app->request()->data->email ?? null;
-				$password = $app->request()->data->password ?? null;
-			});
-
-
 
 			$router->get('/', function () use ($app) {
 				$controller = new ItemController($app);

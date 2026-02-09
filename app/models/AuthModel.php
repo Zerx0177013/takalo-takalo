@@ -19,9 +19,13 @@ class AuthModel {
         }
     }
     public function isLoggedIn(): bool {
-        return isset($_SESSION['user_id']);
+        return isset($_SESSION['idUser']);
     }
-    public function login($userId): void {
-        $_SESSION['user_id'] = $userId;
+    public function login($userId) {
+        $_SESSION['idUser'] = $userId;
+    }
+    public function logout() {
+        session_unset();
+        session_destroy();
     }
 }
