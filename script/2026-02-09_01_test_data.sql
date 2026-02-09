@@ -14,11 +14,7 @@ SET FOREIGN_KEY_CHECKS = 1;
 
 -- Insertion des utilisateurs
 INSERT INTO user (username, email, password) VALUES
-('alice_martin', 'alice.martin@email.com', '$2y$10$abcdefghijklmnopqrstuv'),
-('bob_dupont', 'bob.dupont@email.com', '$2y$10$wxyzabcdefghijklmnopqr'),
-('claire_rousseau', 'claire.rousseau@email.com', '$2y$10$stuvwxyzabcdefghijklmn'),
-('david_bernard', 'david.bernard@email.com', '$2y$10$opqrstuvwxyzabcdefghij'),
-('emma_petit', 'emma.petit@email.com', '$2y$10$klmnopqrstuvwxyzabcdef');
+('rakoto', 'rakoto.koto@email.com', '$2y$10$7JfAJguC/cFP7aEIs.ropu4to.mo7S23whAylHO5y/EdIXpNOWxZa') ;
 
 
 -- Insertion des catégories
