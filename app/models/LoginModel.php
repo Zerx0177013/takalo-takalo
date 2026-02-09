@@ -9,7 +9,7 @@ use PDOException;
 class LoginModel
 {
     private PDO $pdo;
-    private ?string $error = null;
+    private string $error = '';
 
     public function __construct(PDO $pdo)
     {
@@ -53,7 +53,7 @@ class LoginModel
         return UserModel::fromArray($row);
     }
 
-    public function getError(): ?string
+    public function getError(): string
     {
         return $this->error;
     }

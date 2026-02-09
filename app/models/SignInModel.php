@@ -9,7 +9,7 @@ use PDOException;
 class SignInModel
 {
     private PDO $pdo;
-    private ?string $error = null;
+    private string $error = '';
 
     public function __construct(PDO $pdo)
     {
@@ -54,14 +54,14 @@ class SignInModel
             ]);
 
             $id = $this->pdo->lastInsertId();
-            return new UserModel($id === '' ? null : (int) $id, $username, $email, $hash);
+            return new UserModel($id === '' ? 0 : (int) $id, $username, $email, $hash);
         } catch (PDOException $e) {
             $this->error = 'Erreur base de données.';
             return null;
         }
     }
 
-    public function getError(): ?string
+    public function getError(): string
     {
         return $this->error;
     }

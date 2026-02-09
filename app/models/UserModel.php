@@ -5,12 +5,12 @@ namespace app\models;
 
 class UserModel
 {
-    private ?int $idUser;
+    private int $idUser;
     private string $username;
     private string $email;
     private string $password;
 
-    public function __construct(?int $idUser, string $username, string $email, string $password)
+    public function __construct(int $idUser, string $username, string $email, string $password)
     {
         $this->idUser = $idUser;
         $this->username = $username;
@@ -21,14 +21,14 @@ class UserModel
     public static function fromArray(array $data): self
     {
         return new self(
-            $data['idUser'] ?? null,
+            $data['idUser'] ?? 0,
             $data['username'] ?? '',
             $data['email'] ?? '',
             $data['password'] ?? ''
         );
     }
 
-    public function getId(): ?int
+    public function getId(): int
     {
         return $this->idUser;
     }
