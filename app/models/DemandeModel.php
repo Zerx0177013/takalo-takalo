@@ -80,4 +80,15 @@ class DemandeModel
             return false;
         }
     }
+
+    public function refuseDemande($id)
+    {
+        try {
+            $statement = $this->pdo->prepare('UPDATE `demande` SET idDemandeStatus = 3, statusAt = NOW() WHERE idDemande = :id');
+            $statement->execute([':id' => $id]);
+            return $statement->rowCount() > 0;
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
 }
