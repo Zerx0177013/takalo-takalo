@@ -109,7 +109,7 @@
             font-size: 1.2rem;
         }
         .main-content {
-            margin-left: 260px;
+            margin-left: 40px;
             padding: 35px 40px;
             flex: 1;
             min-height: 100vh;
@@ -270,51 +270,9 @@
 </head>
 <body>
     <div class="page-wrapper">
-        <div class="sidebar-wrapper">
-            <div class="logo">
-                <img src="/assets/images/logo.png" alt="Takalo-Takalo">
-            </div>
-            
-            <ul class="nav-menu">
-                <li>
-                    <a href="<?= BASE_URL ?>/">
-                        <i class="mdi mdi-home-outline"></i>
-                        <span>Accueil</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="<?= BASE_URL ?>/my-items" class="active">
-                        <i class="mdi mdi-package-outline"></i>
-                        <span>Mes objets</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="<?= BASE_URL ?>/propositions">
-                        <i class="mdi mdi-swap-horizontal"></i>
-                        <span>Propositions</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" title="Non implémenté">
-                        <i class="mdi mdi-heart-outline"></i>
-                        <span>Favoris</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" title="Non implémenté">
-                        <i class="mdi mdi-account-outline"></i>
-                        <span>Mon profil</span>
-                    </a>
-                </li>
-            </ul>
-
-            <div class="logout-section">
-                <button class="logout-btn" onclick="window.location.href='/logout'">
-                    <i class="mdi mdi-logout"></i>
-                    <span>Déconnexion</span>
-                </button>
-            </div>
-        </div>
+   <?php
+   require_once("sidebar.php");
+   ?>
 
         <div class="main-content">
             <div class="header">

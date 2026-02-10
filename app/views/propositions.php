@@ -31,91 +31,7 @@ use Tracy\Bar;
             display: flex;
             min-height: 100vh;
         }
-        /* Sidebar */
-        .sidebar-wrapper {
-            width: 260px;
-            min-height: 100vh;
-            background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
-            position: fixed;
-            left: 0;
-            top: 0;
-            padding: 25px 20px;
-            display: flex;
-            flex-direction: column;
-            box-shadow: 4px 0 15px rgba(0, 0, 0, 0.1);
-            z-index: 1000;
-        }
-        .sidebar-wrapper .logo {
-            text-align: center;
-            margin-bottom: 40px;
-            padding-bottom: 25px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-        }
-        .sidebar-wrapper .logo img {
-            height: 55px;
-            width: auto;
-            filter: brightness(0) invert(1);
-        }
-        .sidebar-wrapper .nav-menu {
-            list-style: none;
-            flex: 1;
-        }
-        .sidebar-wrapper .nav-menu li {
-            margin-bottom: 8px;
-        }
-        .sidebar-wrapper .nav-menu a {
-            color: rgba(255, 255, 255, 0.85);
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            padding: 14px 18px;
-            border-radius: 10px;
-            transition: all 0.3s ease;
-            font-size: 0.95rem;
-            font-weight: 500;
-        }
-        .sidebar-wrapper .nav-menu a:hover,
-        .sidebar-wrapper .nav-menu a.active {
-            background-color: rgba(255, 255, 255, 0.2);
-            color: white;
-            transform: translateX(5px);
-        }
-        .sidebar-wrapper .nav-menu i {
-            margin-right: 12px;
-            font-size: 1.25rem;
-            width: 24px;
-            text-align: center;
-        }
-        .logout-section {
-            margin-top: auto;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.15);
-        }
-        .logout-btn {
-            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a5a 100%);
-            color: white;
-            border: none;
-            padding: 14px 18px;
-            border-radius: 10px;
-            cursor: pointer;
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-            font-size: 0.95rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(238, 90, 90, 0.3);
-        }
-        .logout-btn:hover {
-            background: linear-gradient(135deg, #ee5a5a 0%, #dc4747 100%);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(238, 90, 90, 0.4);
-        }
-        .logout-btn i {
-            margin-right: 10px;
-            font-size: 1.2rem;
-        }
+   
         /* Main Content */
         .main-content {
             margin-left: 260px;
@@ -368,7 +284,7 @@ use Tracy\Bar;
                 padding: 20px 15px;
             }
             .main-content {
-                margin-left: 220px;
+                margin-left: 40px;
                 padding: 25px 30px;
             }
         }
@@ -411,57 +327,10 @@ use Tracy\Bar;
 <body>
     <div class="page-wrapper">
         <!-- Sidebar -->
-        <div class="sidebar-wrapper">
-            <div class="logo">
-                <img src="/assets/images/logo.png" alt="Takalo-Takalo">
-            </div>
-            
-            <ul class="nav-menu">
-                <li>
-                    <a href="<?= BASE_URL ?>/">
-                        <i class="mdi mdi-home-outline"></i>
-                        <span>Accueil</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="<?= BASE_URL ?>/items/new">
-                        <i class="mdi mdi-plus-circle-outline"></i>
-                        <span>Ajouter un objet</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="<?= BASE_URL ?>/propositions" class="active">
-                        <i class="mdi mdi-swap-horizontal"></i>
-                        <span>Propositions</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" title="Non implémenté">
-                        <i class="mdi mdi-heart-outline"></i>
-                        <span>Favoris</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" title="Non implémenté">
-                        <i class="mdi mdi-account-outline"></i>
-                        <span>Mon profil</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" title="Non implémenté">
-                        <i class="mdi mdi-cog-outline"></i>
-                        <span>Paramètres</span>
-                    </a>
-                </li>
-            </ul>
+    <?php
+   require_once("sidebar.php");
+   ?>
 
-            <div class="logout-section">
-                <button class="logout-btn" onclick="window.location.href='/logout'" title="Se déconnecter">
-                    <i class="mdi mdi-logout"></i>
-                    <span>Déconnexion</span>
-                </button>
-            </div>
-        </div>
 
         <!-- Main Content -->
         <div class="main-content">
