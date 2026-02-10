@@ -65,7 +65,6 @@ $router->group('', function (Router $router) use ($app) {
 			$router->get('/my-items', [ItemController::class, 'myItems']);
 
 
-
 			$router->get('/items/new', function () use ($app) {
 				$app->render('item-new', ['categories' => []]);
 			});
