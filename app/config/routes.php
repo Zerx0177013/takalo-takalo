@@ -72,6 +72,8 @@ $router->group('', function (Router $router) use ($app) {
 				$app->render('item-new', ['categories' => []]);
 			});
 
+			$router->post('/items', [ItemController::class, 'createItem']);
+
 			$router->get('/categories', [CategoryController::class, 'renderCategoryList']);
 			$router->get('/categories/@id', [CategoryController::class, 'renderCategoryDetail']);
 		}
