@@ -118,7 +118,7 @@ use Tracy\Bar;
         }
         /* Main Content */
         .main-content {
-            margin-left: 240px; /* Reduced margin */
+            margin-left: 40px; /* Reduced margin */
             padding: 35px 40px;
             flex: 1;
             min-height: 100vh;
