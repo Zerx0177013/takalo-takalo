@@ -11,10 +11,6 @@ use flight\Engine;
 class ItemController
 {
     protected Engine $app;
-
-    // Hardcoded user ID (comment out session usage)
-    private const CURRENT_USER_ID = 1; // TODO: Replace with $_SESSION['idUser'] when session is available
-
     public function __construct(Engine $app)
     {
         $this->app = $app;
@@ -52,9 +48,7 @@ class ItemController
         $pdo = $this->app->db();
         $model = new ItemModel($pdo);
 
-        // Hardcoded user ID
-        // TODO: Use $_SESSION['idUser'] when session is available
-        $userId = self::CURRENT_USER_ID;
+        $userId = $_SESSION['idUser'];
 
         $items = $model->getItemsByUserId($userId);
 
@@ -79,9 +73,8 @@ class ItemController
         $pdo = $this->app->db();
         $model = new ItemModel($pdo);
 
-        // Hardcoded user ID
-        // TODO: Use $_SESSION['idUser'] when session is available
-        $currentUserId = self::CURRENT_USER_ID;
+
+        $currentUserId = $_SESSION['idUser'];
 
         $itemId = $this->app->request()->query['itemId'] ?? null;
         $range = (int) ($this->app->request()->query['range'] ?? 5);
@@ -116,24 +109,19 @@ class ItemController
         ]);
     }
 
-    /**
-     * Crée une demande d'échange
-     * POST /exchange avec: idObjetOffert, idObjetDemande
-     */
+
     public function createExchange()
     {
         $pdo = $this->app->db();
         $demandModel = new DemandModel($pdo);
         $itemModel = new ItemModel($pdo);
 
-        // Hardcoded user ID
-        // TODO: Use $_SESSION['idUser'] when session is available
-        $currentUserId = self::CURRENT_USER_ID;
+
+        $currentUserId = $_SESSION['idUser'];
 
         $idObjetOffert = $this->app->request()->data->idObjetOffert;
         $idObjetDemande = $this->app->request()->data->idObjetDemande;
 
-        // Récupérer l'item demandé pour connaître le propriétaire (idReceveur)
         $itemDemande = $itemModel->getItemById($idObjetDemande);
 
         if (!$itemDemande) {
@@ -143,7 +131,6 @@ class ItemController
 
         $idReceveur = $itemDemande['idUser'];
 
-        // Créer la demande d'échange
         $demandeId = $demandModel->createDemande($currentUserId, $idReceveur, $idObjetOffert, $idObjetDemande);
 
         if ($demandeId) {
@@ -162,15 +149,12 @@ class ItemController
         $pdo = $this->app->db();
         $model = new ItemModel($pdo);
 
-        // Hardcoded user ID 
-        $currentUserId = self::CURRENT_USER_ID;
-        $name = $this->app->request()->data->name;           // from name="name"
-        $desc = $this->app->request()->data->description;   // from name="description"
-        $idcategorie = $this->app->request()->data->idcategorie;  // from name="idcategorie"
-        $price = $this->app->request()->data->price;        // from name="price"
-
-        // For the file upload
-        $imageFile = $this->app->request()->files['imageURL'];  // from name="imageURL"
+        $currentUserId = $_SESSION['idUser'];
+        $name = $this->app->request()->data->name;           
+        $desc = $this->app->request()->data->description; 
+        $idcategorie = $this->app->request()->data->idcategorie; 
+        $price = $this->app->request()->data->price;      
+        $imageFile = $this->app->request()->files['imageURL']; 
 
         $model->createItem($name, $desc, $price, $idcategorie, $currentUserId, [$imageFile]);
 
