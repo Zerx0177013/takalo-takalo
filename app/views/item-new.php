@@ -419,7 +419,7 @@
                     </div>
 
                     <div class="form-actions">
-                        <button type="button" class="btn-cancel" onclick="window.location.href='/'">
+                        <button type="button" class="btn-cancel" onclick="window.location.href='/items/new'">
                             <i class="mdi mdi-close"></i>
                             Annuler
                         </button>

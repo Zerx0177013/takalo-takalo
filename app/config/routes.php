@@ -67,15 +67,21 @@ $router->group('', function (Router $router) use ($app) {
 			$router->get('/propositions', [ItemController::class, 'propositions']);
 			$router->get('/my-items', [ItemController::class, 'myItems']);
 
-
-			$router->get('/items/new', function () use ($app) {
-				$app->render('item-new', ['categories' => []]);
-			});
+			// Items routes
+			$router->get('/items/new', [CategoryController::class, 'renderItemForm']);
 
 			$router->post('/items', [ItemController::class, 'createItem']);
 
+			// Categories CRUD routes
 			$router->get('/categories', [CategoryController::class, 'renderCategoryList']);
 			$router->get('/categories/@id', [CategoryController::class, 'renderCategoryDetail']);
+			$router->post('/categories', [CategoryController::class, 'createCategory']);
+			// put il va prendre categorie/id et envoie une appelle à updateCategory avec l'id en paramètre;
+			// en prennant en compte que put s'utilise pour mettre à jour une ressource.
+			$router->put('/categories/@id', [CategoryController::class, 'updateCategory']);
+			// delete il va prendre categorie/id et envoie une appelle à deleteCategory avec l'id en paramètre;
+			// en prennant en compte que delete s'utilise pour supprimer une ressource.
+			$router->delete('/categories/@id', [CategoryController::class, 'deleteCategory']);
 		}
 	});
 
