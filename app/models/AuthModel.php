@@ -21,8 +21,9 @@ class AuthModel {
     public function isLoggedIn(): bool {
         return isset($_SESSION['idUser']);
     }
-    public function login($userId) {
+    public function login($userId,$user) {
         $_SESSION['idUser'] = $userId;
+        $_SESSION['username'] = $user['username'] ;
     }
     public function logout() {
         session_unset();
