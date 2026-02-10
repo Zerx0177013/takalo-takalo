@@ -24,13 +24,13 @@ class UserModel
         $stmt = $this->db->prepare('SELECT idUser,username FROM `user` WHERE email = :email AND password = :password');
         $stmt->execute([':email' => $email, ':password' => $password]);
         $user = $stmt->fetch(\PDO::FETCH_ASSOC);
-        if($this->isAdmin($user['idUser'])){
-            $user['isAdmin'] = true;
+        
+        if (!$user) {
+            return null;
         }
-        else{
-            $user['isAdmin'] = false;
-        }
-        return $user ?: null; 
+        
+        $user['isAdmin'] = $this->isAdmin($user['idUser']);
+        return $user; 
     }
     public function isAdmin($id){
         $stmtm = $this->db->prepare('SELECT COUNT(*) FROM `admin` WHERE idUser = :id');
