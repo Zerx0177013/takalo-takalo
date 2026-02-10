@@ -37,5 +37,15 @@ class UserModel
         $stmtm->execute([':id' => $id]);
         return (int) $stmtm->fetchColumn() > 0;
     }
+
+    public function register(string $username, string $email, string $password): bool
+    {
+        $stmt = $this->db->prepare('INSERT INTO `user` (username, email, password) VALUES (:username, :email, :password)');
+        return $stmt->execute([
+            ':username' => $username,
+            ':email' => $email,
+            ':password' => $password
+        ]);
+    }
     
 }
