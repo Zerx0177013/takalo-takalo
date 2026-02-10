@@ -18,12 +18,12 @@ class CategoryController {
 		$categoryModel = new CategoryModel(Flight::db());
 		$categories = $categoryModel->getAllCategories();
 
-		// $this->app->render('categories', [
-		// 	'categories' => $categories,
-		// 	'currentPage' => 'categories',
-		// ]);
+		$this->app->render('categories', [
+			'categories' => $categories,
+			'currentPage' => 'categories',
+		]);
 
-		$this->app->json($categories, 200, true, 'utf-8', JSON_PRETTY_PRINT);
+		// $this->app->json($categories, 200, true, 'utf-8', JSON_PRETTY_PRINT);
 
 	}
 
