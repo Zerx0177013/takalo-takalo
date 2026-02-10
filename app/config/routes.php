@@ -1,6 +1,7 @@
 <?php
 
 use app\controllers\CategoryController;
+use app\controllers\RegisterController;
 use app\middlewares\SecurityHeadersMiddleware;
 use flight\Engine;
 use flight\net\Router;
@@ -44,6 +45,8 @@ $router->group('', function (Router $router) use ($app) {
 			$router->get('/register', function () use ($app) {
 				$app->render('register');
 			});
+
+			$router->post('/register', [RegisterController::class, 'register']);
 		} else {
 
 			$router->get('/logout', function () use ($app) {
