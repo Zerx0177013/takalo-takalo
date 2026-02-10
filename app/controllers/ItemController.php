@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace app\controllers;
 
 use app\models\ItemModel;
-use app\models\DemandModel;
+use app\models\DemandeModel;
 use flight\Engine;
 
 class ItemController
@@ -113,7 +113,7 @@ class ItemController
     public function createExchange()
     {
         $pdo = $this->app->db();
-        $demandModel = new DemandModel($pdo);
+        $demandModel = new DemandeModel($pdo);
         $itemModel = new ItemModel($pdo);
 
 
@@ -130,8 +130,8 @@ class ItemController
         }
 
         $idReceveur = $itemDemande['idUser'];
-
-        $demandeId = $demandModel->createDemande($currentUserId, $idReceveur, $idObjetOffert, $idObjetDemande);
+        
+        $demandeId = $demandModel->createDemande($currentUserId, $idReceveur, $idObjetOffert, $idObjetDemande, 1);
 
         if ($demandeId) {
             $this->app->json([
