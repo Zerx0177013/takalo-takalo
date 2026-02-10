@@ -61,27 +61,23 @@ class ItemModel
     }
 
 
-    public function createItem($name)
+    public function createItem($name, $description, $price, $categoryId, $userId, $arrayOfImageUrls)
     {
         try {
-            $statement = $this->pdo->prepare('INSERT INTO `item` (name) VALUES (:name)');
-            $statement->execute([':name' => $name]);
+            $statement = $this->pdo->prepare('INSERT INTO `item` (name, description, price, idcategorie, idUser) VALUES (:name, :description, :price, :categoryId, :userId)');
+            $statement->execute([
+                ':name' => $name,
+                ':description' => $description,
+                ':price' => $price,
+                ':categoryId' => $categoryId,
+                ':userId' => $userId
+            ]);
+            $this->addImagesToAnItem($this->pdo->lastInsertId(), $arrayOfImageUrls);
             return $this->pdo->lastInsertId();
         } catch (PDOException $e) {
             return null;
         }
     }
-
-    // public function createItem($name)
-    // {
-    //     try {
-    //         $statement = $this->pdo->prepare('INSERT INTO `item` (name) VALUES (:name)');
-    //         $statement->execute([':name' => $name]);
-    //         return $this->pdo->lastInsertId();
-    //     } catch (PDOException $e) {
-    //         return null;
-    //     }
-    // }
 
     // public function updateItem($id, $name)
     // {

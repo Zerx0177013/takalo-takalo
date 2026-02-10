@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -19,14 +20,17 @@
             padding: 0;
             box-sizing: border-box;
         }
+
         body {
             background: #f4f5f7;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
+
         .page-wrapper {
             display: flex;
             min-height: 100vh;
         }
+
         /* Sidebar */
         .sidebar-wrapper {
             width: 260px;
@@ -41,24 +45,29 @@
             box-shadow: 4px 0 15px rgba(0, 0, 0, 0.1);
             z-index: 1000;
         }
+
         .sidebar-wrapper .logo {
             text-align: center;
             margin-bottom: 40px;
             padding-bottom: 25px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.15);
         }
+
         .sidebar-wrapper .logo img {
             height: 55px;
             width: auto;
             filter: brightness(0) invert(1);
         }
+
         .sidebar-wrapper .nav-menu {
             list-style: none;
             flex: 1;
         }
+
         .sidebar-wrapper .nav-menu li {
             margin-bottom: 8px;
         }
+
         .sidebar-wrapper .nav-menu a {
             color: rgba(255, 255, 255, 0.85);
             text-decoration: none;
@@ -70,23 +79,27 @@
             font-size: 0.95rem;
             font-weight: 500;
         }
+
         .sidebar-wrapper .nav-menu a:hover,
         .sidebar-wrapper .nav-menu a.active {
             background-color: rgba(255, 255, 255, 0.2);
             color: white;
             transform: translateX(5px);
         }
+
         .sidebar-wrapper .nav-menu i {
             margin-right: 12px;
             font-size: 1.25rem;
             width: 24px;
             text-align: center;
         }
+
         .logout-section {
             margin-top: auto;
             padding-top: 20px;
             border-top: 1px solid rgba(255, 255, 255, 0.15);
         }
+
         .logout-btn {
             background: linear-gradient(135deg, #ff6b6b 0%, #ee5a5a 100%);
             color: white;
@@ -103,15 +116,18 @@
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(238, 90, 90, 0.3);
         }
+
         .logout-btn:hover {
             background: linear-gradient(135deg, #ee5a5a 0%, #dc4747 100%);
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(238, 90, 90, 0.4);
         }
+
         .logout-btn i {
             margin-right: 10px;
             font-size: 1.2rem;
         }
+
         /* Main Content */
         .main-content {
             margin-left: 260px;
@@ -119,33 +135,40 @@
             flex: 1;
             min-height: 100vh;
         }
+
         .header {
             margin-bottom: 35px;
         }
+
         .header h1 {
             color: #2d3436;
             font-weight: 700;
             font-size: 2rem;
             margin-bottom: 8px;
         }
+
         .header p {
             color: #636e72;
             font-size: 1rem;
         }
+
         /* Form Container */
         .form-container {
             max-width: 800px;
             margin: 0 auto;
         }
+
         .form-card {
             background: white;
             border-radius: 16px;
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
             padding: 40px;
         }
+
         .form-group {
             margin-bottom: 28px;
         }
+
         .form-group label {
             display: block;
             color: #2d3436;
@@ -153,10 +176,12 @@
             margin-bottom: 10px;
             font-size: 0.95rem;
         }
+
         .form-group label .required {
             color: #e74c3c;
             margin-left: 4px;
         }
+
         .form-group input[type="text"],
         .form-group input[type="number"],
         .form-group textarea,
@@ -170,6 +195,7 @@
             font-family: inherit;
             background: #fafafa;
         }
+
         .form-group input[type="text"]:focus,
         .form-group input[type="number"]:focus,
         .form-group textarea:focus,
@@ -179,16 +205,19 @@
             background: white;
             box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
+
         .form-group textarea {
             min-height: 120px;
             resize: vertical;
         }
+
         .form-group .help-text {
             color: #636e72;
             font-size: 0.85rem;
             margin-top: 6px;
             display: block;
         }
+
         .image-upload-zone {
             border: 2px dashed #d0d0d0;
             border-radius: 10px;
@@ -198,29 +227,35 @@
             cursor: pointer;
             transition: all 0.3s ease;
         }
+
         .image-upload-zone:hover {
             border-color: #667eea;
             background: #f5f7ff;
         }
+
         .image-upload-zone i {
             font-size: 60px;
             color: #b2bec3;
             margin-bottom: 15px;
             display: block;
         }
+
         .image-upload-zone p {
             color: #636e72;
             margin-bottom: 8px;
         }
+
         .image-upload-zone input[type="file"] {
             display: none;
         }
+
         .image-preview-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
             gap: 15px;
             margin-top: 15px;
         }
+
         .image-preview-item {
             position: relative;
             border: 2px solid #e0e0e0;
@@ -229,11 +264,13 @@
             background: #fafafa;
             aspect-ratio: 1;
         }
+
         .image-preview-item img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
+
         .image-preview-item .remove-image {
             position: absolute;
             top: 5px;
@@ -252,10 +289,12 @@
             line-height: 1;
             transition: all 0.3s ease;
         }
+
         .image-preview-item .remove-image:hover {
             background: #c0392b;
             transform: scale(1.1);
         }
+
         .image-preview-item .file-name {
             position: absolute;
             bottom: 0;
@@ -270,6 +309,7 @@
             overflow: hidden;
             text-overflow: ellipsis;
         }
+
         .form-actions {
             display: flex;
             gap: 15px;
@@ -277,6 +317,7 @@
             padding-top: 25px;
             border-top: 1px solid #e0e0e0;
         }
+
         .form-actions button {
             flex: 1;
             padding: 16px 24px;
@@ -291,74 +332,92 @@
             justify-content: center;
             gap: 8px;
         }
+
         .btn-submit {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
         }
+
         .btn-submit:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
         }
+
         .btn-cancel {
             background: #f0f0f0;
             color: #2d3436;
         }
+
         .btn-cancel:hover {
             background: #e0e0e0;
         }
+
         /* Responsive */
         @media (max-width: 992px) {
             .sidebar-wrapper {
                 width: 220px;
                 padding: 20px 15px;
             }
+
             .main-content {
                 margin-left: 220px;
                 padding: 25px 30px;
             }
+
             .form-card {
                 padding: 30px;
             }
         }
+
         @media (max-width: 768px) {
             .sidebar-wrapper {
                 width: 70px;
                 padding: 15px 10px;
             }
+
             .sidebar-wrapper .logo img {
                 height: 35px;
             }
+
             .sidebar-wrapper .nav-menu a span,
             .logout-btn span {
                 display: none;
             }
+
             .sidebar-wrapper .nav-menu a {
                 justify-content: center;
                 padding: 14px;
             }
+
             .sidebar-wrapper .nav-menu i {
                 margin-right: 0;
             }
+
             .logout-btn {
                 padding: 14px;
             }
+
             .logout-btn i {
                 margin-right: 0;
             }
+
             .main-content {
                 margin-left: 70px;
                 padding: 20px;
             }
+
             .form-card {
                 padding: 25px 20px;
             }
+
             .form-actions {
                 flex-direction: column;
             }
         }
     </style>
 </head>
+
 <body>
     <div class="page-wrapper">
         <!-- Sidebar -->
@@ -366,7 +425,7 @@
             <div class="logo">
                 <img src="/assets/images/logo.png" alt="Takalo-Takalo">
             </div>
-            
+
             <ul class="nav-menu">
                 <li>
                     <a href="/">
@@ -423,19 +482,18 @@
 
             <div class="form-container">
                 <form class="form-card" action="/items" method="POST" enctype="multipart/form-data">
-                    
+
                     <div class="form-group">
                         <label for="name">
                             Nom de l'objet
                             <span class="required">*</span>
                         </label>
-                        <input 
-                            type="text" 
-                            id="name" 
-                            name="name" 
-                            placeholder="Ex: iPhone 12, Vélo de ville, Table basse..." 
-                            required
-                        >
+                        <input
+                            type="text"
+                            id="name"
+                            name="name"
+                            placeholder="Ex: iPhone 12, Vélo de ville, Table basse..."
+                            required>
                     </div>
 
                     <div class="form-group">
@@ -443,12 +501,11 @@
                             Description
                             <span class="required">*</span>
                         </label>
-                        <textarea 
-                            id="description" 
-                            name="description" 
+                        <textarea
+                            id="description"
+                            name="description"
                             placeholder="Décrivez votre objet en détail : état, caractéristiques, raison de l'échange..."
-                            required
-                        ></textarea>
+                            required></textarea>
                         <small class="help-text">Une description détaillée augmente vos chances d'échange</small>
                     </div>
 
@@ -482,14 +539,13 @@
                         <label for="price">
                             Valeur estimée (Ar)
                         </label>
-                        <input 
-                            type="number" 
-                            id="price" 
-                            name="price" 
-                            placeholder="Ex: 450000" 
+                        <input
+                            type="number"
+                            id="price"
+                            name="price"
+                            placeholder="Ex: 450000"
                             step="0.01"
-                            min="0"
-                        >
+                            min="0">
                         <small class="help-text">Optionnel - Aide les autres utilisateurs à évaluer l'échange</small>
                     </div>
 
@@ -529,7 +585,7 @@
     <script src="/assets/js/hoverable-collapse.js"></script>
     <script src="/assets/js/misc.js"></script>
     <!-- endinject -->
-    
+
     <script>
         let selectedFiles = [];
 
@@ -537,11 +593,11 @@
         document.getElementById('imageURL').addEventListener('change', function(e) {
             const files = Array.from(e.target.files);
             const previewContainer = document.getElementById('imagePreviewContainer');
-            
+
             if (files.length > 0) {
                 selectedFiles = files;
                 displayImagePreviews();
-                
+
                 // Update upload zone text
                 const uploadZone = document.querySelector('.image-upload-zone');
                 uploadZone.querySelector('p').innerHTML = `<strong>${files.length} fichier(s) sélectionné(s)</strong>`;
@@ -551,23 +607,23 @@
         function displayImagePreviews() {
             const previewContainer = document.getElementById('imagePreviewContainer');
             previewContainer.innerHTML = '';
-            
+
             if (selectedFiles.length === 0) {
                 previewContainer.style.display = 'none';
                 return;
             }
-            
+
             previewContainer.style.display = 'block';
             const grid = document.createElement('div');
             grid.className = 'image-preview-grid';
-            
+
             selectedFiles.forEach((file, index) => {
                 const reader = new FileReader();
-                
+
                 reader.onload = function(e) {
                     const previewItem = document.createElement('div');
                     previewItem.className = 'image-preview-item';
-                    
+
                     previewItem.innerHTML = `
                         <img src="${e.target.result}" alt="${file.name}">
                         <button type="button" class="remove-image" onclick="removeImage(${index})" title="Supprimer">
@@ -575,27 +631,27 @@
                         </button>
                         <div class="file-name">${file.name}</div>
                     `;
-                    
+
                     grid.appendChild(previewItem);
                 };
-                
+
                 reader.readAsDataURL(file);
             });
-            
+
             previewContainer.appendChild(grid);
         }
 
         function removeImage(index) {
             selectedFiles.splice(index, 1);
-            
+
             // Update the file input
             const dataTransfer = new DataTransfer();
             selectedFiles.forEach(file => dataTransfer.items.add(file));
             document.getElementById('imageURL').files = dataTransfer.files;
-            
+
             // Update display
             displayImagePreviews();
-            
+
             // Update upload zone text
             const uploadZone = document.querySelector('.image-upload-zone');
             if (selectedFiles.length > 0) {
@@ -606,4 +662,5 @@
         }
     </script>
 </body>
+
 </html>

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace app\controllers;
@@ -10,7 +11,7 @@ use flight\Engine;
 class ItemController
 {
     protected Engine $app;
-    
+
     // Hardcoded user ID (comment out session usage)
     private const CURRENT_USER_ID = 1; // TODO: Replace with $_SESSION['idUser'] when session is available
 
@@ -18,28 +19,21 @@ class ItemController
     {
         $this->app = $app;
     }
-
-    /**
-     * Récupère tous les items avec leur première image
-     */
     public function getAllItems(): array
     {
         $pdo = $this->app->db();
         $model = new ItemModel($pdo);
         $items = $model->getAllItems();
-        
+
         // Charger la première image de chaque item
         foreach ($items as &$item) {
             $image = $model->getFirstImageOfAnItem($item['idItem']);
             $item['image'] = $image ? $image['imageURL'] : null;
         }
-        
+
         return $items;
     }
 
-    /**
-     * Récupère un item par son ID
-     */
     public function getItemById(int $id): ?array
     {
         $pdo = $this->app->db();
@@ -47,30 +41,23 @@ class ItemController
         return $model->getItemById($id);
     }
 
-    /**
-     * Affiche la page d'accueil avec tous les items
-     */
     public function index()
     {
         $items = $this->getAllItems();
         $this->app->render('index', ['items' => $items]);
     }
 
-    /**
-     * Affiche la liste de mes items (items de l'utilisateur connecté)
-     * Pour sélectionner un item à échanger
-     */
     public function myItems()
     {
         $pdo = $this->app->db();
         $model = new ItemModel($pdo);
-        
+
         // Hardcoded user ID
         // TODO: Use $_SESSION['idUser'] when session is available
         $userId = self::CURRENT_USER_ID;
-        
+
         $items = $model->getItemsByUserId($userId);
-        
+
         // Charger la première image de chaque item
         foreach ($items as &$item) {
             $image = $model->getFirstImageOfAnItem($item['idItem']);
@@ -91,14 +78,14 @@ class ItemController
     {
         $pdo = $this->app->db();
         $model = new ItemModel($pdo);
-        
+
         // Hardcoded user ID
         // TODO: Use $_SESSION['idUser'] when session is available
         $currentUserId = self::CURRENT_USER_ID;
-        
+
         $itemId = $this->app->request()->query['itemId'] ?? null;
         $range = (int) ($this->app->request()->query['range'] ?? 5);
-        
+
         $items = [];
         $selectedItem = null;
 
@@ -114,7 +101,7 @@ class ItemController
             // Sinon afficher tous les items
             $items = $this->getAllItems();
         }
-        
+
         // Charger la première image pour chaque item
         foreach ($items as &$item) {
             $image = $model->getFirstImageOfAnItem($item['idItem']);
@@ -138,27 +125,27 @@ class ItemController
         $pdo = $this->app->db();
         $demandModel = new DemandModel($pdo);
         $itemModel = new ItemModel($pdo);
-        
+
         // Hardcoded user ID
         // TODO: Use $_SESSION['idUser'] when session is available
         $currentUserId = self::CURRENT_USER_ID;
-        
+
         $idObjetOffert = $this->app->request()->data->idObjetOffert;
         $idObjetDemande = $this->app->request()->data->idObjetDemande;
-        
+
         // Récupérer l'item demandé pour connaître le propriétaire (idReceveur)
         $itemDemande = $itemModel->getItemById($idObjetDemande);
-        
+
         if (!$itemDemande) {
             $this->app->json(['success' => false, 'message' => 'Item not found'], 404);
             return;
         }
-        
+
         $idReceveur = $itemDemande['idUser'];
-        
+
         // Créer la demande d'échange
         $demandeId = $demandModel->createDemande($currentUserId, $idReceveur, $idObjetOffert, $idObjetDemande);
-        
+
         if ($demandeId) {
             $this->app->json([
                 'success' => true,
@@ -168,5 +155,25 @@ class ItemController
         } else {
             $this->app->json(['success' => false, 'message' => 'Failed to create exchange request'], 500);
         }
+    }
+
+    public function createItem()
+    {
+        $pdo = $this->app->db();
+        $model = new ItemModel($pdo);
+
+        // Hardcoded user ID 
+        $currentUserId = self::CURRENT_USER_ID;
+        $name = $this->app->request()->data->name;           // from name="name"
+        $desc = $this->app->request()->data->description;   // from name="description"
+        $idcategorie = $this->app->request()->data->idcategorie;  // from name="idcategorie"
+        $price = $this->app->request()->data->price;        // from name="price"
+
+        // For the file upload
+        $imageFile = $this->app->request()->files['imageURL'];  // from name="imageURL"
+
+        $model->createItem($name, $desc, $price, $idcategorie, $currentUserId, [$imageFile]);
+
+        $this->app->json(['success' => true, 'message' => 'Item created successfully']);
     }
 }
