@@ -47,7 +47,7 @@ class CategoryController {
 	public function renderItemForm(): void {
 		$categories = $this->getAllCategories();
 
-		$this->app->render('itemForm', [
+		$this->app->render('item-new', [
 			'categories' => $categories,
 		]);
 	}
