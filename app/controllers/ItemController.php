@@ -130,7 +130,7 @@ class ItemController
         }
 
         $idReceveur = $itemDemande['idUser'];
-        
+
         $demandeId = $demandModel->createDemande($currentUserId, $idReceveur, $idObjetOffert, $idObjetDemande, 1);
 
         if ($demandeId) {
@@ -154,10 +154,34 @@ class ItemController
         $desc = $this->app->request()->data->description; 
         $idcategorie = $this->app->request()->data->idcategorie; 
         $price = $this->app->request()->data->price;      
-        $imageFile = $this->app->request()->files['imageURL']; 
+        $imageFile = $this->app->request()->files['imageURL'] ?? null;
 
-        $model->createItem($name, $desc, $price, $idcategorie, $currentUserId, [$imageFile]);
+        $imageUrls = [];
 
-        $this->app->json(['success' => true, 'message' => 'Item created successfully']);
+        // Handle file upload
+        if ($imageFile && $imageFile['error'] === UPLOAD_ERR_OK) {
+            $uploadDir = $_SERVER['DOCUMENT_ROOT'] . BASE_URL . '/assets/images/items/';
+            $uploadUrl = BASE_URL . '/assets/images/items/';
+            
+            if (!is_dir($uploadDir)) {
+                mkdir($uploadDir, 0755, true);
+            }
+
+            $extension = pathinfo($imageFile['name'], PATHINFO_EXTENSION);
+            $filename = uniqid('item_') . '.' . $extension;
+            $destination = $uploadDir . $filename;
+
+            if (move_uploaded_file($imageFile['tmp_name'], $destination)) {
+                $imageUrls[] = $uploadUrl . $filename;
+            }
+        }
+
+        $itemId = $model->createItem($name, $desc, $price, $idcategorie, $currentUserId, $imageUrls);
+
+        if ($itemId) {
+            $this->app->redirect('/my-items');
+        } else {
+            $this->app->redirect('/items/new?error=creation_failed');
+        }
     }
 }
