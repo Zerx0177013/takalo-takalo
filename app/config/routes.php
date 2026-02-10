@@ -15,14 +15,23 @@ use app\controllers\AuthController;
 // This wraps all routes in the group with the SecurityHeadersMiddleware
 $router->group('', function (Router $router) use ($app) {
 
+
+	$router->get('/savage', function () use ($app) {
+		$app->render('savage.test');
+	});
 	$router->group('/', function () use ($router, $app) {
 		$authController = new AuthController($app);
 		if (!$authController->isLogged()) {
 			$router->post('/login', function () use ($app) {
 				$email = $app->request()->data->email ?? null;
 				$password = $app->request()->data->password ?? null;
+<<<<<<< HEAD
+				$authController = new \app\controllers\AuthController($app);
+				$authController->login($email, $password);
+=======
 				$authController = new AuthController($app);
 				$user = $authController->login($email, $password);
+>>>>>>> aa58b72ddb808bdab6e2ed8df806764405ac7e8e
 				if ($authController->isLogged())
 					$app->redirect('/dashboard');
 				else

@@ -31,7 +31,7 @@ class AuthController
         $db = $this->app->db();
         $model = new UserModel($db);
         $val = $model->checkInfo($email, $password);
-        $this->authModel->login($val['idUser']);
+        $this->authModel->login($val['idUser'],$val);
         return $val;
     }
     public function logOut()
