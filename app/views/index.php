@@ -354,10 +354,12 @@ use Tracy\Bar;
             </ul>
 
             <div class="logout-section">
-                <button class="logout-btn" onclick="window.location.href='/logout'" title="Se déconnecter">
+                <a href="/logout">
+                <button class="logout-btn" title="Se déconnecter">
                     <i class="mdi mdi-logout"></i>
                     <span>Déconnexion</span>
                 </button>
+                </a>
             </div>
         </div>
 
