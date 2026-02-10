@@ -25,15 +25,9 @@ class SecurityHeadersMiddleware
 			$tracyCssBypass = ' \'unsafe-inline\'';
 		}
 
-<<<<<<< HEAD
-	//	$csp = "default-src 'self'; script-src 'self' 'nonce-{$nonce}' 'strict-dynamic'; style-src 'self' {$tracyCssBypass}; img-src 'self' data:;";
-		$this->app->response()->header('X-Frame-Options', 'SAMEORIGIN');
-	//	$this->app->response()->header("Content-Security-Policy", $csp);
-=======
 		//$csp = "default-src 'self'; script-src 'self' 'nonce-{$nonce}' 'strict-dynamic'; style-src 'self' {$tracyCssBypass}; img-src 'self' data:;";
 		$this->app->response()->header('X-Frame-Options', 'SAMEORIGIN');
 		//$this->app->response()->header("Content-Security-Policy", $csp);
->>>>>>> d7ea70ce4f89b3c435716fc0e5a8a0d62b07eb33
 		$this->app->response()->header('X-XSS-Protection', '1; mode=block');
 		$this->app->response()->header('X-Content-Type-Options', 'nosniff');
 		$this->app->response()->header('Referrer-Policy', 'no-referrer-when-downgrade');
