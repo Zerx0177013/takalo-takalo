@@ -303,66 +303,9 @@ use Tracy\Bar;
 <body>
     <div class="page-wrapper">
         <!-- Sidebar -->
-        <div class="sidebar-wrapper">
-            <div class="logo">
-                <img src="/assets/images/logo.png" alt="Takalo-Takalo">
-            </div>
-            
-            <ul class="nav-menu">
-                <li>
-                    <a href="<?= BASE_URL ?>/" class="active">
-                        <i class="mdi mdi-home-outline"></i>
-                        <span>Accueil</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="<?= BASE_URL ?>/items/new">
-                        <i class="mdi mdi-plus-circle-outline"></i>
-                        <span>Ajouter un objet</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="<?= BASE_URL ?>/my-items">
-                        <i class="mdi mdi-package-outline"></i>
-                        <span>Mes objets</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" title="Non implémenté">
-                        <i class="mdi mdi-swap-horizontal"></i>
-                        <span>Mes échanges</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" title="Non implémenté">
-                        <i class="mdi mdi-heart-outline"></i>
-                        <span>Favoris</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" title="Non implémenté">
-                        <i class="mdi mdi-account-outline"></i>
-                        <span>Mon profil</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" title="Non implémenté">
-                        <i class="mdi mdi-cog-outline"></i>
-                        <span>Paramètres</span>
-                    </a>
-                </li>
-            </ul>
-
-            <div class="logout-section">
-                <a href="/logout">
-                <button class="logout-btn" title="Se déconnecter">
-                    <i class="mdi mdi-logout"></i>
-                    <span>Déconnexion</span>
-                </button>
-                </a>
-            </div>
-        </div>
-
+<?php
+require_once("sidebar.php") ;
+?>
         <!-- Main Content -->
         <div class="main-content">
             <div class="header">
