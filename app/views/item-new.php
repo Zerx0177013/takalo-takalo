@@ -215,6 +215,61 @@
         .image-upload-zone input[type="file"] {
             display: none;
         }
+        .image-preview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        .image-preview-item {
+            position: relative;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            background: #fafafa;
+            aspect-ratio: 1;
+        }
+        .image-preview-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .image-preview-item .remove-image {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: rgba(231, 76, 60, 0.9);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            line-height: 1;
+            transition: all 0.3s ease;
+        }
+        .image-preview-item .remove-image:hover {
+            background: #c0392b;
+            transform: scale(1.1);
+        }
+        .image-preview-item .file-name {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 8px;
+            font-size: 0.75rem;
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
         .form-actions {
             display: flex;
             gap: 15px;
@@ -442,12 +497,13 @@
                         <label>
                             Photos de l'objet
                         </label>
-                        <div class="image-upload-zone" onclick="document.getElementById('imageURL').click()">
+                        <label for="imageURL" class="image-upload-zone">
                             <i class="mdi mdi-cloud-upload"></i>
                             <p><strong>Cliquez pour ajouter des photos</strong></p>
-                            <small class="help-text">Formats acceptés : JPG, PNG, GIF (max 5MB)</small>
-                            <input type="file" id="imageURL" name="imageURL" accept="image/*" multiple>
-                        </div>
+                            <small class="help-text">Formats acceptés : JPG, PNG, GIF</small>
+                        </label>
+                        <input type="file" id="imageURL" name="imageURL" accept="image/*" multiple style="display: none;">
+                        <div id="imagePreviewContainer" style="display: none; margin-top: 20px;"></div>
                     </div>
 
                     <div class="form-actions">
@@ -475,14 +531,79 @@
     <!-- endinject -->
     
     <script>
+        let selectedFiles = [];
+
         // Image upload preview
         document.getElementById('imageURL').addEventListener('change', function(e) {
-            const files = e.target.files;
+            const files = Array.from(e.target.files);
+            const previewContainer = document.getElementById('imagePreviewContainer');
+            
             if (files.length > 0) {
+                selectedFiles = files;
+                displayImagePreviews();
+                
+                // Update upload zone text
                 const uploadZone = document.querySelector('.image-upload-zone');
                 uploadZone.querySelector('p').innerHTML = `<strong>${files.length} fichier(s) sélectionné(s)</strong>`;
             }
         });
+
+        function displayImagePreviews() {
+            const previewContainer = document.getElementById('imagePreviewContainer');
+            previewContainer.innerHTML = '';
+            
+            if (selectedFiles.length === 0) {
+                previewContainer.style.display = 'none';
+                return;
+            }
+            
+            previewContainer.style.display = 'block';
+            const grid = document.createElement('div');
+            grid.className = 'image-preview-grid';
+            
+            selectedFiles.forEach((file, index) => {
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    const previewItem = document.createElement('div');
+                    previewItem.className = 'image-preview-item';
+                    
+                    previewItem.innerHTML = `
+                        <img src="${e.target.result}" alt="${file.name}">
+                        <button type="button" class="remove-image" onclick="removeImage(${index})" title="Supprimer">
+                            &times;
+                        </button>
+                        <div class="file-name">${file.name}</div>
+                    `;
+                    
+                    grid.appendChild(previewItem);
+                };
+                
+                reader.readAsDataURL(file);
+            });
+            
+            previewContainer.appendChild(grid);
+        }
+
+        function removeImage(index) {
+            selectedFiles.splice(index, 1);
+            
+            // Update the file input
+            const dataTransfer = new DataTransfer();
+            selectedFiles.forEach(file => dataTransfer.items.add(file));
+            document.getElementById('imageURL').files = dataTransfer.files;
+            
+            // Update display
+            displayImagePreviews();
+            
+            // Update upload zone text
+            const uploadZone = document.querySelector('.image-upload-zone');
+            if (selectedFiles.length > 0) {
+                uploadZone.querySelector('p').innerHTML = `<strong>${selectedFiles.length} fichier(s) sélectionné(s)</strong>`;
+            } else {
+                uploadZone.querySelector('p').innerHTML = `<strong>Cliquez pour ajouter des photos</strong>`;
+            }
+        }
     </script>
 </body>
 </html>
