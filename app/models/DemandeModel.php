@@ -91,4 +91,17 @@ class DemandeModel
             return false;
         }
     }
+
+    public function getDemandsByUserId($userId)
+    {
+        try {
+            $statement = $this->pdo->prepare(
+                'SELECT * FROM `demande` WHERE idDemandeur = :userId OR idReceveur = :userId ORDER BY createdAt DESC'
+            );
+            $statement->execute([':userId' => $userId]);
+            return $statement->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            return [];
+        }
+    }
 }
