@@ -30,6 +30,23 @@ class ItemController
         return $items;
     }
 
+    public function getAllItemsExceptSelf(): array
+    {
+        $pdo = $this->app->db();
+        $model = new ItemModel($pdo);
+        $currentUserId = $_SESSION['idUser'];
+
+        $items = $model->getAllItemsExceptSelf($currentUserId);
+
+        // Charger la première image de chaque item
+        foreach ($items as &$item) {
+            $image = $model->getFirstImageOfAnItem($item['idItem']);
+            $item['image'] = $image ? $image['imageURL'] : null;
+        }
+
+        return $items;
+    }
+
     public function getItemById(int $id): ?array
     {
         $pdo = $this->app->db();
@@ -150,10 +167,10 @@ class ItemController
         $model = new ItemModel($pdo);
 
         $currentUserId = $_SESSION['idUser'];
-        $name = $this->app->request()->data->name;           
-        $desc = $this->app->request()->data->description; 
-        $idcategorie = $this->app->request()->data->idcategorie; 
-        $price = $this->app->request()->data->price;      
+        $name = $this->app->request()->data->name;
+        $desc = $this->app->request()->data->description;
+        $idcategorie = $this->app->request()->data->idcategorie;
+        $price = $this->app->request()->data->price;
 
         $imageFile = $this->app->request()->files['imageURL'] ?? null;
 
@@ -163,7 +180,7 @@ class ItemController
         if ($imageFile) {
             $uploadDir = $_SERVER['DOCUMENT_ROOT'] . BASE_URL . '/assets/images/items/';
             $uploadUrl = BASE_URL . '/assets/images/items/';
-            
+
             if (!is_dir($uploadDir)) {
                 mkdir($uploadDir, 0755, true);
             }

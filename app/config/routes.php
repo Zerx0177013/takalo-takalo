@@ -61,7 +61,7 @@ $router->group('', function (Router $router) use ($app) {
 
 			$router->get('/', function () use ($app) {
 				$controller = new ItemController($app);
-				$app->render('index', ['items' => $controller->getAllItems()]);
+				$app->render('index', ['items' => $controller->getAllItemsExceptSelf()]);
 			});
 
 			$router->get('/propositions', [ItemController::class, 'propositions']);
