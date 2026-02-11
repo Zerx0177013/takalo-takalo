@@ -102,7 +102,7 @@ class ItemController
 
     public function index()
     {
-        $items = $this->getAllItems();
+        $items = $this->getAllItemsExceptSelf();
         $this->app->render('index', ['items' => $items]);
     }
 
