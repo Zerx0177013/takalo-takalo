@@ -154,12 +154,13 @@ class ItemController
         $desc = $this->app->request()->data->description; 
         $idcategorie = $this->app->request()->data->idcategorie; 
         $price = $this->app->request()->data->price;      
+
         $imageFile = $this->app->request()->files['imageURL'] ?? null;
 
         $imageUrls = [];
 
-        // Handle file upload
-        if ($imageFile && $imageFile['error'] === UPLOAD_ERR_OK) {
+        // Handle file upload (single or multiple)
+        if ($imageFile) {
             $uploadDir = $_SERVER['DOCUMENT_ROOT'] . BASE_URL . '/assets/images/items/';
             $uploadUrl = BASE_URL . '/assets/images/items/';
             
@@ -167,12 +168,32 @@ class ItemController
                 mkdir($uploadDir, 0755, true);
             }
 
-            $extension = pathinfo($imageFile['name'], PATHINFO_EXTENSION);
-            $filename = uniqid('item_') . '.' . $extension;
-            $destination = $uploadDir . $filename;
+            // Check if multiple files were uploaded
+            if (is_array($imageFile['name'])) {
+                // Multiple files
+                $fileCount = count($imageFile['name']);
+                for ($i = 0; $i < $fileCount; $i++) {
+                    if ($imageFile['error'][$i] === UPLOAD_ERR_OK) {
+                        $extension = pathinfo($imageFile['name'][$i], PATHINFO_EXTENSION);
+                        $filename = uniqid('item_') . '.' . $extension;
+                        $destination = $uploadDir . $filename;
 
-            if (move_uploaded_file($imageFile['tmp_name'], $destination)) {
-                $imageUrls[] = $uploadUrl . $filename;
+                        if (move_uploaded_file($imageFile['tmp_name'][$i], $destination)) {
+                            $imageUrls[] = $uploadUrl . $filename;
+                        }
+                    }
+                }
+            } else {
+                // Single file
+                if ($imageFile['error'] === UPLOAD_ERR_OK) {
+                    $extension = pathinfo($imageFile['name'], PATHINFO_EXTENSION);
+                    $filename = uniqid('item_') . '.' . $extension;
+                    $destination = $uploadDir . $filename;
+
+                    if (move_uploaded_file($imageFile['tmp_name'], $destination)) {
+                        $imageUrls[] = $uploadUrl . $filename;
+                    }
+                }
             }
         }
 

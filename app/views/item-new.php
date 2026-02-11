@@ -414,7 +414,7 @@
                             <p><strong>Cliquez pour ajouter des photos</strong></p>
                             <small class="help-text">Formats acceptés : JPG, PNG, GIF</small>
                         </label>
-                        <input type="file" id="imageURL" name="imageURL" accept="image/*" multiple style="display: none;">
+                        <input type="file" id="imageURL" name="imageURL[]" accept="image/*" multiple style="display: none;">
                         <div id="imagePreviewContainer" style="display: none; margin-top: 20px;"></div>
                     </div>
 
