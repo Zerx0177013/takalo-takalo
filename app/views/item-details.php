@@ -157,6 +157,18 @@
                         <span><strong>Prix:</strong> <?= number_format($item['price'], 2) ?> Ar</span>
                       </div>
                       <div class="info-row">
+                        <i class="mdi mdi-account"></i>
+                        <span><strong>Propriétaire:</strong> 
+                          <?php 
+                            if (isset($currentUserId) && $item['ownerId'] == $currentUserId) {
+                              echo 'Moi';
+                            } else {
+                              echo htmlspecialchars($item['ownerUsername'] ?? 'Inconnu');
+                            }
+                          ?>
+                        </span>
+                      </div>
+                      <div class="info-row">
                         <i class="mdi mdi-tag"></i>
                         <span><strong>Catégorie:</strong> <?= htmlspecialchars($item['category'] ?? 'Non spécifié') ?></span>
                       </div>

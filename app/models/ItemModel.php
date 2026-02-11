@@ -28,9 +28,10 @@ class ItemModel
     {
         try {
             $statement = $this->pdo->prepare('
-                SELECT i.*, c.name as category 
+                SELECT i.*, c.name as category, u.username as ownerUsername, u.idUser as ownerId
                 FROM `item` i 
                 LEFT JOIN `categorie` c ON i.idcategorie = c.idcategorie 
+                LEFT JOIN `user` u ON i.idUser = u.idUser
                 WHERE i.idItem = :id 
                 LIMIT 1
             ');

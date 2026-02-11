@@ -62,7 +62,8 @@ class ItemController
         
         $this->app->render('item-details', [
             'item' => $item,
-            'images' => $images
+            'images' => $images,
+            'currentUserId' => $_SESSION['idUser'] ?? null
         ]);
     }
 
