@@ -46,7 +46,7 @@ class ItemModel
     public function getAllItemsSelf($idSelf)
     {
         try {
-            $statement = $this->pdo->prepare('SELECT * FROM `item` WHERE idItem = :idSelf');
+            $statement = $this->pdo->prepare('SELECT * FROM `item` WHERE idUser = :idSelf');
             $statement->execute([':idSelf' => $idSelf]);
 
             return $statement->fetchAll(PDO::FETCH_ASSOC);
@@ -58,7 +58,7 @@ class ItemModel
     public function getAllItemsExceptSelf($idSelf)
     {
         try {
-            $statement = $this->pdo->prepare('SELECT * FROM `item` WHERE idItem != :idSelf');
+            $statement = $this->pdo->prepare('SELECT * FROM `item` WHERE idUser != :idSelf');
             $statement->execute([':idSelf' => $idSelf]);
 
             return $statement->fetchAll(PDO::FETCH_ASSOC);
