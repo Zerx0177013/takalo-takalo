@@ -70,6 +70,7 @@ $router->group('', function (Router $router) use ($app) {
 			// Items routes
 			$router->get('/items/new', [CategoryController::class, 'renderItemForm']);
 			$router->get('/items/@id', [ItemController::class, 'getItemById']);
+			$router->delete('/items/@id', [ItemController::class, 'deleteItem']);
 
 			$router->post('/items', [ItemController::class, 'createItem']);
 

@@ -104,4 +104,17 @@ class DemandeModel
             return [];
         }
     }
+
+    public function deleteDemandsByItemId($itemId)
+    {
+        try {
+            $statement = $this->pdo->prepare(
+                'DELETE FROM `demande` WHERE idObjetOffert = :itemId OR idObjetDemande = :itemId'
+            );
+            $statement->execute([':itemId' => $itemId]);
+            return $statement->rowCount();
+        } catch (PDOException $e) {
+            return 0;
+        }
+    }
 }

@@ -66,19 +66,37 @@ class ItemController
         ]);
     }
 
-    public function deleteEverythingAboutItem($id){
+    public function deleteItem($id)
+    {
         $pdo = $this->app->db();
         $model = new ItemModel($pdo);
         $demandModel = new DemandeModel($pdo);
 
-        // Supprimer les demandes liées à cet item
-        $demandModel->deleteDemandsByItemId($id);
+        // Vérifier que l'item appartient à l'utilisateur actuel
+        $item = $model->getItemById($id);
+        if (!$item || $item['idUser'] !== $_SESSION['idUser']) {
+            $this->app->json(['success' => false, 'message' => 'Unauthorized'], 403);
+            return;
+        }
 
-        // Supprimer les images liées à cet item
-        $model->deleteImagesByItemId($id);
+        try {
+            // Supprimer les demandes liées à cet item
+            $demandModel->deleteDemandsByItemId($id);
 
-        // Supprimer l'item lui-même
-        $model->deleteItemById($id);
+            // Supprimer les images liées à cet item
+            $model->deleteImagesByItemId($id);
+
+            // Supprimer l'item lui-même
+            $deleted = $model->deleteItemById($id);
+
+            if ($deleted) {
+                $this->app->json(['success' => true, 'message' => 'Item deleted successfully']);
+            } else {
+                $this->app->json(['success' => false, 'message' => 'Failed to delete item'], 500);
+            }
+        } catch (\Exception $e) {
+            $this->app->json(['success' => false, 'message' => 'Error deleting item'], 500);
+        }
     }
 
     public function index()
