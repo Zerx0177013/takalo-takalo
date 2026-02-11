@@ -47,11 +47,38 @@ class ItemController
         return $items;
     }
 
-    public function getItemById(int $id): ?array
+    public function getItemById(int $id)
     {
         $pdo = $this->app->db();
         $model = new ItemModel($pdo);
-        return $model->getItemById($id);
+        $item = $model->getItemById($id);
+        
+        if (!$item) {
+            $this->app->redirect('/');
+            return;
+        }
+        
+        $images = $model->getAllImagesOfAnItem($id);
+        
+        $this->app->render('item-details', [
+            'item' => $item,
+            'images' => $images
+        ]);
+    }
+
+    public function deleteEverythingAboutItem($id){
+        $pdo = $this->app->db();
+        $model = new ItemModel($pdo);
+        $demandModel = new DemandeModel($pdo);
+
+        // Supprimer les demandes liées à cet item
+        $demandModel->deleteDemandsByItemId($id);
+
+        // Supprimer les images liées à cet item
+        $model->deleteImagesByItemId($id);
+
+        // Supprimer l'item lui-même
+        $model->deleteItemById($id);
     }
 
     public function index()
