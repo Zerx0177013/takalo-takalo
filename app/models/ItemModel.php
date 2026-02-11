@@ -27,7 +27,13 @@ class ItemModel
     public function getItemById($id)
     {
         try {
-            $statement = $this->pdo->prepare('SELECT * FROM `item` WHERE idItem = :id LIMIT 1');
+            $statement = $this->pdo->prepare('
+                SELECT i.*, c.name as category 
+                FROM `item` i 
+                LEFT JOIN `categorie` c ON i.idcategorie = c.idcategorie 
+                WHERE i.idItem = :id 
+                LIMIT 1
+            ');
             $statement->execute([':id' => $id]);
             $item = $statement->fetch(PDO::FETCH_ASSOC);
             return $item === false ? null : $item;
@@ -208,6 +214,28 @@ class ItemModel
             return $statement->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             return [];
+        }
+    }
+
+    public function deleteImagesByItemId($itemId)
+    {
+        try {
+            $statement = $this->pdo->prepare('DELETE FROM `imageItem` WHERE idItem = :itemId');
+            $statement->execute([':itemId' => $itemId]);
+            return $statement->rowCount();
+        } catch (PDOException $e) {
+            return 0;
+        }
+    }
+
+    public function deleteItemById($id)
+    {
+        try {
+            $statement = $this->pdo->prepare('DELETE FROM `item` WHERE idItem = :id');
+            $statement->execute([':id' => $id]);
+            return $statement->rowCount() > 0;
+        } catch (PDOException $e) {
+            return false;
         }
     }
 }
