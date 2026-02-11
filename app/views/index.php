@@ -56,7 +56,7 @@ require_once("sidebar.php") ;
                                 <?php endif; ?>
                                 <div class="item-actions">
                                     <button class="btn-primary" onclick="window.location.href='/items/<?php echo $item['idItem']; ?>'">Voir détails</button>
-                                    <button class="btn-secondary">Échanger</button>
+                                    <button class="btn-secondary" onclick="window.location.href='/propositions?itemId=<?php echo $item['idItem']; ?>'">Échanger</button>
                                 </div>
                             </div>
                         </div>
