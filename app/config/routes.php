@@ -20,8 +20,9 @@ $router->group('', function (Router $router) use ($app) {
 			$email = $app->request()->data->email ?? null;
 			$password = $app->request()->data->password ?? null;
 			$authController = new AuthController($app);
+			$controller = new ItemController($app);
 			$user = $authController->login($email, $password);
-			$authController->checkLogin('index');
+			$authController->checkLogin('index',['items' => $controller->getAllItemsExceptSelf()]);
 		});
 
 		$router->get('/login', function () use ($app) {
