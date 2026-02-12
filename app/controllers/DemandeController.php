@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace app\controllers;
 
 use app\models\DemandeModel;
+use app\models\HistoriqueModel;
 use flight\Engine;
 
 class DemandeController
@@ -45,6 +46,28 @@ class DemandeController
 
         $demandes = $model->getAllDemandeToMyselfWithDetails($currentUserId);
 
-        $this->app->render('mes-demandes', ['demandes' => $demandes]);
+        $this->app->render('other-demandes', ['demandes' => $demandes]);
+    }
+
+   
+
+    public function refuseDemande($id)
+    {
+        $pdo = $this->app->db();
+        $model = new DemandeModel($pdo);
+        $demandeId = $id;
+
+        if (!$demandeId) {
+            $this->app->json(['success' => false, 'message' => 'ID de demande manquant']);
+            return;
+        }
+
+        $result = $model->refuseDemande($demandeId);
+
+        if ($result) {
+            $this->app->json(['success' => true, 'message' => 'Demande refusée']);
+        } else {
+            $this->app->json(['success' => false, 'message' => 'Erreur lors du refus']);
+        }
     }
 }
