@@ -1,7 +1,3 @@
-<?php
-
-use Tracy\Bar;
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,7 +13,7 @@ use Tracy\Bar;
     <link rel="stylesheet" href="/assets/css/style.css">
     <!-- End layout styles -->
     <link rel="shortcut icon" href="/assets/images/favicon.ico" />
-    <link rel="stylesheet" href="assets/css/index.css">
+    <link rel="stylesheet" href="/assets/css/index.css">
 </head>
 <body>
     <div class="page-wrapper">
