@@ -68,4 +68,15 @@ class CategoryModel
             return false;
         }
     }
+
+    public function categoryExists($id)
+    {
+        try {
+            $statement = $this->pdo->prepare('SELECT COUNT(*) FROM `categorie` WHERE idcategorie = :id');
+            $statement->execute([':id' => $id]);
+            return $statement->fetchColumn() > 0;
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
 }
