@@ -9,33 +9,13 @@ use app\controllers\ItemController;
 use app\controllers\LoginController;
 use app\controllers\AuthController;
 use app\controllers\DemandeController;
-use app\controllers\ExchangeController;
 
-/** 
- * @var Router $router 
- * @var Engine $app
- */
-
-// This wraps all routes in the group with the SecurityHeadersMiddleware
 $router->group('', function (Router $router) use ($app) {
-
-
 	$router->get('/savage', function () use ($app) {
 		$app->render('savage.test');
 	});
+
 	$router->group('/', function () use ($router, $app) {
-		$authController = new AuthController($app);
-		if (!$authController->isLogged()) {
-			$router->post('/login', function () use ($app) {
-				$email = $app->request()->data->email ?? null;
-				$password = $app->request()->data->password ?? null;
-				$authController = new AuthController($app);
-				$user = $authController->login($email, $password);
-				if ($authController->isLogged())
-					$app->redirect('/dashboard');
-				else
-					$app->redirect('/login');
-			});
 		$router->post('/login', function () use ($app) {
 			$email = $app->request()->data->email ?? null;
 			$password = $app->request()->data->password ?? null;
@@ -44,68 +24,172 @@ $router->group('', function (Router $router) use ($app) {
 			$authController->checkLogin('index');
 		});
 
-			$router->get('/', function () use ($app) {
+		$router->get('/login', function () use ($app) {
+			$authController = new AuthController($app);
+			if ($authController->isLogged())
+				$app->redirect('/dashboard');
+			else
 				$app->render('login');
-			});
+		});
 
-			$router->get('/login', function () use ($app) {
-				$app->render('login');
-			});
-
-			$router->get('/register', function () use ($app) {
+		$router->get('/register', function () use ($app) {
+			$authController = new AuthController($app);
+			if ($authController->isLogged())
+				$app->redirect('/dashboard');
+			else
 				$app->render('register');
-			});
+		});
 
-			$router->post('/register', [RegisterController::class, 'register']);
-		} else {
+		$router->post('/register', [RegisterController::class, 'register']);
 
-			$router->get('/logout', function () use ($app) {
-				$authController = new AuthController($app);
-				$authController->logOut();
-				$app->redirect('/login');
-			});
+		$router->get('/logout', function () use ($app) {
+			$authController = new AuthController($app);
+			$authController->logOut();
+			$app->redirect('/login');
+		});
 
-			$router->get('/dashboard', function () use ($app) {
-				$app->render('dashboard');
-			});
 		$router->get('/dashboard', function () use ($app) {
 			$authController = new AuthController($app);
 			$authController->checkLogin('dashboard');
 		});
 
-			$router->get('/', function () use ($app) {
-				$controller = new ItemController($app);
+		$router->get('/', function () use ($app) {
+			$controller = new ItemController($app);
+			$authController = new AuthController($app);
+			if ($authController->isLogged())
 				$app->render('index', ['items' => $controller->getAllItemsExceptSelf()]);
-			});
+			else
+				$app->redirect('/login');
+		});
 
-			$router->get('/propositions', [ItemController::class, 'propositions']);
-			$router->get('/my-items', [ItemController::class, 'myItems']);
-			$router->get('/mes-demandes', [DemandeController::class, 'mesdemandes']);
-			$router->get('/other-demandes', [DemandeController::class, 'othersdemandes']);
-			
-			// Demandes routes
-			$router->post('/demandes/@id/accept', [ExchangeController::class, 'proceedExchange']);
-			$router->post('/demandes/@id/refuse', [DemandeController::class, 'refuseDemande']);
+		$router->get('/propositions', function () use ($app) {
+			$authController = new AuthController($app);
+			if ($authController->isLogged()) {
+				$controller = new ItemController($app);
+				$controller->propositions();
+			} else {
+				$app->redirect('/login');
+			}
+		});
 
-			// Items routes
-			$router->get('/items/new', [CategoryController::class, 'renderItemForm']);
-			$router->get('/items/@id', [ItemController::class, 'getItemById']);
-			$router->delete('/items/@id', [ItemController::class, 'deleteItem']);
+		$router->get('/my-items', function () use ($app) {
+			$authController = new AuthController($app);
+			if ($authController->isLogged()) {
+				$controller = new ItemController($app);
+				$controller->myItems();
+			} else {
+				$app->redirect('/login');
+			}
+		});
 
-			$router->post('/items', [ItemController::class, 'createItem']);
+		$router->get('/mes-demandes', function () use ($app) {
+			$authController = new AuthController($app);
+			if ($authController->isLogged()) {
+				$controller = new DemandeController($app);
+				$controller->mesdemandes();
+			} else {
+				$app->redirect('/login');
+			}
+		});
 
-			// Categories CRUD routes
-			$router->get('/categories', [CategoryController::class, 'renderCategoryList']);
-			$router->get('/categories/@id', [CategoryController::class, 'renderCategoryDetail']);
-			$router->post('/categories', [CategoryController::class, 'createCategory']);
-			// put il va prendre categorie/id et envoie une appelle à updateCategory avec l'id en paramètre;
-			// en prennant en compte que put s'utilise pour mettre à jour une ressource.
-			$router->put('/categories/@id', [CategoryController::class, 'updateCategory']);
-			// delete il va prendre categorie/id et envoie une appelle à deleteCategory avec l'id en paramètre;
-			// en prennant en compte que delete s'utilise pour supprimer une ressource.
-			$router->delete('/categories/@id', [CategoryController::class, 'deleteCategory']);
-		}
+		$router->get('/items/new', function () use ($app) {
+			$authController = new AuthController($app);
+			if ($authController->isLogged()) {
+				$controller = new CategoryController($app);
+				$controller->renderItemForm();
+			} else {
+				$app->redirect('/login');
+			}
+		});
+
+		$router->get('/items/@id', function ($id) use ($app) {
+			$authController = new AuthController($app);
+			if ($authController->isLogged()) {
+				$controller = new ItemController($app);
+				$controller->getItemById($id);
+			} else {
+				$app->redirect('/login');
+			}
+		});
+
+		$router->delete('/items/@id', function ($id) use ($app) {
+			$authController = new AuthController($app);
+			if ($authController->isLogged()) {
+				$controller = new ItemController($app);
+				$controller->deleteItem($id);
+			} else {
+				$app->json(['success' => false, 'message' => 'Unauthorized'], 401);
+			}
+		});
+
+		$router->post('/items', function () use ($app) {
+			$authController = new AuthController($app);
+			if ($authController->isLogged()) {
+				$controller = new ItemController($app);
+				$controller->createItem();
+			} else {
+				$app->redirect('/login');
+			}
+		});
+
+		$router->get('/categories', function () use ($app) {
+			$authController = new AuthController($app);
+			if ($authController->isLogged()) {
+				$controller = new CategoryController($app);
+				$controller->renderCategoryList();
+			} else {
+				$app->redirect('/login');
+			}
+		});
+
+		$router->get('/categories/@id/edit', function ($id) use ($app) {
+			$authController = new AuthController($app);
+			if ($authController->isLogged()) {
+				$controller = new CategoryController($app);
+				$controller->renderEditForm($id);
+			} else {
+				$app->redirect('/login');
+			}
+		});
+
+		$router->get('/categories/@id', function ($id) use ($app) {
+			$authController = new AuthController($app);
+			if ($authController->isLogged()) {
+				$controller = new CategoryController($app);
+				$controller->renderCategoryDetail($id);
+			} else {
+				$app->redirect('/login');
+			}
+		});
+
+		$router->post('/categories', function () use ($app) {
+			$authController = new AuthController($app);
+			if ($authController->isLogged()) {
+				$controller = new CategoryController($app);
+				$controller->createCategory();
+			} else {
+				$app->json(['success' => false, 'message' => 'Unauthorized'], 401);
+			}
+		});
+
+		$router->put('/categories/@id', function ($id) use ($app) {
+			$authController = new AuthController($app);
+			if ($authController->isLogged()) {
+				$controller = new CategoryController($app);
+				$controller->updateCategory($id);
+			} else {
+				$app->json(['success' => false, 'message' => 'Unauthorized'], 401);
+			}
+		});
+
+		$router->delete('/categories/@id', function ($id) use ($app) {
+			$authController = new AuthController($app);
+			if ($authController->isLogged()) {
+				$controller = new CategoryController($app);
+				$controller->deleteCategory($id);
+			} else {
+				$app->json(['success' => false, 'message' => 'Unauthorized'], 401);
+			}
+		});
 	});
-
-
 }, [SecurityHeadersMiddleware::class]);
