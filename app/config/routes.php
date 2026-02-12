@@ -65,8 +65,7 @@ $router->group('', function (Router $router) use ($app) {
 			$authController = new AuthController($app);
 			if ($authController->isLogged())
 				$app->render('index', ['items' => $controller->getAllItemsExceptSelf()]);
-			else
-				$app->redirect('/login');
+			else $app->redirect('/login');
 		});
 
 		$router->get('/propositions', function () use ($app) {
@@ -83,49 +82,22 @@ $router->group('', function (Router $router) use ($app) {
 		});
 
 		// Items routes
-		$router->get('/items/new', function () use ($app) {
-			$authController = new AuthController($app);
-			$authController->checkLogin('items/new', [CategoryController::class, 'renderItemForm']);
-		});
-		$router->get('/items/@id', function () use ($app) {
-			$authController = new AuthController($app);
-			$authController->checkLogin('item-details', [ItemController::class, 'getItemById']);
-		});
-		$router->delete('/items/@id', function () use ($app) {
-			$authController = new AuthController($app);
-			$authController->checkLogin('item-details', [ItemController::class, 'deleteItem']);
-		});
+		$router->get('/items/new', [CategoryController::class, 'renderItemForm']);
+		$router->get('/items/@id', [ItemController::class, 'getItemById']);
+		$router->delete('/items/@id', [ItemController::class, 'deleteItem']);
 
-		$router->post('/items', function () use ($app) {
-			$authController = new AuthController($app);
-			$authController->checkLogin('items/new', [ItemController::class, 'createItem']);
-		});
+		$router->post('/items', [ItemController::class, 'createItem']);
 
 		// Categories CRUD routes
-		$router->get('/categories', function () use ($app) {
-			$authController = new AuthController($app);
-			$authController->checkLogin('categories', [CategoryController::class, 'renderCategories']);
-		});
-		$router->get('/categories/@id', function () use ($app) {
-			$authController = new AuthController($app);
-			$authController->checkLogin('category-detail', [CategoryController::class, 'renderCategoryDetail']);
-		});
-		$router->post('/categories', function () use ($app) {
-			$authController = new AuthController($app);
-			$authController->checkLogin('categories', [CategoryController::class, 'createCategory']);
-		});
+		$router->get('/categories', [CategoryController::class, 'renderCategoryList']);
+		$router->get('/categories/@id', [CategoryController::class, 'renderCategoryDetail']);
+		$router->post('/categories', [CategoryController::class, 'createCategory']);
 		// put il va prendre categorie/id et envoie une appelle à updateCategory avec l'id en paramètre;
 		// en prennant en compte que put s'utilise pour mettre à jour une ressource.
-		$router->put('/categories/@id', function () use ($app) {
-			$authController = new AuthController($app);
-			$authController->checkLogin('category-detail', [CategoryController::class, 'updateCategory']);
-		});
+		$router->put('/categories/@id', [CategoryController::class, 'updateCategory']);
 		// delete il va prendre categorie/id et envoie une appelle à deleteCategory avec l'id en paramètre;
 		// en prennant en compte que delete s'utilise pour supprimer une ressource.
-		$router->delete('/categories/@id', function () use ($app) {
-			$authController = new AuthController($app);
-			$authController->checkLogin('category-detail', [CategoryController::class, 'deleteCategory']);
-		});
+		$router->delete('/categories/@id', [CategoryController::class, 'deleteCategory']);
 
 	});
 
