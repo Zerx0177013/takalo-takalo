@@ -36,6 +36,13 @@ $router->group('', function (Router $router) use ($app) {
 				else
 					$app->redirect('/login');
 			});
+		$router->post('/login', function () use ($app) {
+			$email = $app->request()->data->email ?? null;
+			$password = $app->request()->data->password ?? null;
+			$authController = new AuthController($app);
+			$user = $authController->login($email, $password);
+			$authController->checkLogin('index');
+		});
 
 			$router->get('/', function () use ($app) {
 				$app->render('login');
@@ -61,6 +68,10 @@ $router->group('', function (Router $router) use ($app) {
 			$router->get('/dashboard', function () use ($app) {
 				$app->render('dashboard');
 			});
+		$router->get('/dashboard', function () use ($app) {
+			$authController = new AuthController($app);
+			$authController->checkLogin('dashboard');
+		});
 
 			$router->get('/', function () use ($app) {
 				$controller = new ItemController($app);
