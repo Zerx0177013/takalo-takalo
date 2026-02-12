@@ -191,15 +191,45 @@ class ItemModel
         }
     }
 
-    public function getItemsByReferencePrice($referencePrice, $rangeOffset = 5)
+    public function getItemsByReferencePrice($referencePrice, $rangeOffset = 5, $idSelf)
     {
         try {
             $minPrice = max(0, $referencePrice - $rangeOffset);
             $maxPrice = $referencePrice + $rangeOffset;
-            $statement = $this->pdo->prepare('SELECT * FROM `item` WHERE price >= :minPrice AND price <= :maxPrice');
+            $statement = $this->pdo->prepare('SELECT * FROM `item` WHERE price >= :minPrice AND price <= :maxPrice AND idUser != :idSelf');
             $statement->execute([
                 ':minPrice' => $minPrice,
-                ':maxPrice' => $maxPrice
+                ':maxPrice' => $maxPrice,
+                ':idSelf' => $idSelf
+            ]);
+            return $statement->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            return [];
+        }
+    }
+
+    public function getItemsByCategory($idCategory)
+    {
+        try {
+            $statement = $this->pdo->prepare('SELECT * FROM `item` WHERE idcategorie = :idCategory');
+            $statement->execute([':idCategory' => $idCategory]);
+            return $statement->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            return [];
+        }
+    }
+
+    public function getItemsByCategoryAndPriceRange($idCategory, $referencePrice, $rangeOffset = 5, $idSelf)
+    {
+        try {
+            $minPrice = max(0, $referencePrice - $rangeOffset);
+            $maxPrice = $referencePrice + $rangeOffset;
+            $statement = $this->pdo->prepare('SELECT * FROM `item` WHERE idcategorie = :idCategory AND price >= :minPrice AND price <= :maxPrice AND idUser != :idSelf');
+            $statement->execute([
+                ':idCategory' => $idCategory,
+                ':minPrice' => $minPrice,
+                ':maxPrice' => $maxPrice,
+                ':idSelf' => $idSelf
             ]);
             return $statement->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
