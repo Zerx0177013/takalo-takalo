@@ -89,17 +89,58 @@ $router->group('', function (Router $router) use ($app) {
 		$router->post('/items', [ItemController::class, 'createItem']);
 
 		// Categories CRUD routes
-		$router->get('/categories', [CategoryController::class, 'renderCategoryList']);
-		$router->get('/categories/@id', [CategoryController::class, 'renderCategoryDetail']);
-		$router->post('/categories', [CategoryController::class, 'createCategory']);
-		// put il va prendre categorie/id et envoie une appelle à updateCategory avec l'id en paramètre;
-		// en prennant en compte que put s'utilise pour mettre à jour une ressource.
-		$router->put('/categories/@id', [CategoryController::class, 'updateCategory']);
-		// delete il va prendre categorie/id et envoie une appelle à deleteCategory avec l'id en paramètre;
-		// en prennant en compte que delete s'utilise pour supprimer une ressource.
-		$router->delete('/categories/@id', [CategoryController::class, 'deleteCategory']);
-
+	$router->get('/categories', function () use ($app) {
+		$authController = new AuthController($app);
+		$authController->checkLogin('categories', [CategoryController::class, 'renderCategoryList']);
 	});
-
-
+	
+	$router->get('/categories/@id/edit', function ($id) use ($app) {
+		$authController = new AuthController($app);
+		if ($authController->isLogged()) {
+			$controller = new CategoryController($app);
+			$controller->renderEditForm($id);
+		} else {
+			$app->redirect('/login');
+		}
+	});
+	
+	$router->get('/categories/@id', function ($id) use ($app) {
+		$authController = new AuthController($app);
+		if ($authController->isLogged()) {
+			$controller = new CategoryController($app);
+			$controller->renderCategoryDetail($id);
+		} else {
+			$app->redirect('/login');
+		}
+	});
+	
+	$router->post('/categories', function () use ($app) {
+		$authController = new AuthController($app);
+		if ($authController->isLogged()) {
+			$controller = new CategoryController($app);
+			$controller->createCategory();
+		} else {
+			$app->json(['success' => false, 'message' => 'Unauthorized'], 401);
+		}
+	});
+	
+	$router->put('/categories/@id', function ($id) use ($app) {
+		$authController = new AuthController($app);
+		if ($authController->isLogged()) {
+			$controller = new CategoryController($app);
+			$controller->updateCategory($id);
+		} else {
+			$app->json(['success' => false, 'message' => 'Unauthorized'], 401);
+		}
+	});
+	
+	$router->delete('/categories/@id', function ($id) use ($app) {
+		$authController = new AuthController($app);
+		if ($authController->isLogged()) {
+			$controller = new CategoryController($app);
+			$controller->deleteCategory($id);
+		} else {
+			$app->json(['success' => false, 'message' => 'Unauthorized'], 401);
+		}
+	});
 }, [SecurityHeadersMiddleware::class]);
