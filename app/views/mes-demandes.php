@@ -123,19 +123,19 @@
                             <div class="demande-body">
                                 <div class="demande-info">
                                     <label><i class="mdi mdi-account"></i> Demandeur</label>
-                                    <span>User #<?php echo htmlspecialchars($demande['idDemandeur']); ?></span>
+                                    <span><?php echo htmlspecialchars($demande['demandeur_username']); ?></span>
                                 </div>
                                 <div class="demande-info">
                                     <label><i class="mdi mdi-account-check"></i> Receveur</label>
-                                    <span>User #<?php echo htmlspecialchars($demande['idReceveur']); ?></span>
+                                    <span><?php echo htmlspecialchars($demande['receveur_username']); ?></span>
                                 </div>
                                 <div class="demande-info">
                                     <label><i class="mdi mdi-package-variant"></i> Objet offert</label>
-                                    <span>Item #<?php echo htmlspecialchars($demande['idObjetOffert']); ?></span>
+                                    <span><?php echo htmlspecialchars($demande['objet_offert_name']); ?></span>
                                 </div>
                                 <div class="demande-info">
                                     <label><i class="mdi mdi-package-variant-closed"></i> Objet demandé</label>
-                                    <span>Item #<?php echo htmlspecialchars($demande['idObjetDemande']); ?></span>
+                                    <span><?php echo htmlspecialchars($demande['objet_demande_name']); ?></span>
                                 </div>
                                 <?php if (!empty($demande['createdAt'])) { ?>
                                 <div class="demande-info">

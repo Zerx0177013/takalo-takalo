@@ -76,6 +76,32 @@ class DemandeModel
         }
     }
 
+    public function getAllDemandeFromMyselfWithDetails($id)
+    {
+        try {
+            $sql = 'SELECT * FROM v_details_demandes WHERE idDemandeur = :id';
+            
+            $statement = $this->pdo->prepare($sql);
+            $statement->execute([':id' => $id]);
+            return $statement->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            return [];
+        }
+    }
+
+    public function getAllDemandeToMyselfWithDetails($id)
+    {
+        try {
+            $sql = 'SELECT * FROM v_details_demandes WHERE idReceveur = :id';
+        
+            $statement = $this->pdo->prepare($sql);
+            $statement->execute([':id' => $id]);
+            return $statement->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            return [];
+        }
+    }
+
     public function acceptDemande($id)
     {
         try {

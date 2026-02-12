@@ -27,7 +27,7 @@ class DemandeController
             return;
         }
 
-        $demandes = $model->getAllDemandeFromMyself($currentUserId);
+        $demandes = $model->getAllDemandeFromMyselfWithDetails($currentUserId);
 
         $this->app->render('mes-demandes', ['demandes' => $demandes]);
     }
@@ -43,7 +43,7 @@ class DemandeController
             return;
         }
 
-        $demandes = $model->getAllDemandeToMyself($currentUserId);
+        $demandes = $model->getAllDemandeToMyselfWithDetails($currentUserId);
 
         $this->app->render('mes-demandes', ['demandes' => $demandes]);
     }
