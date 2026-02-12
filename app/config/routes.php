@@ -77,8 +77,7 @@ $router->group('', function (Router $router) use ($app) {
 			$router->post('/items', [ItemController::class, 'createItem']);
 
 			// Categories CRUD routes
-			$router->get('/categories', [CategoryController::class, 'renderCategoryList']);
-			$router->get('/categories/@id', [CategoryController::class, 'renderCategoryDetail']);
+			$router->get('/categories', [CategoryController::class, 'renderCategoryList']);		$router->get('/categories/@id/edit', [CategoryController::class, 'renderEditForm']);			$router->get('/categories/@id', [CategoryController::class, 'renderCategoryDetail']);
 			$router->post('/categories', [CategoryController::class, 'createCategory']);
 			// put il va prendre categorie/id et envoie une appelle à updateCategory avec l'id en paramètre;
 			// en prennant en compte que put s'utilise pour mettre à jour une ressource.
