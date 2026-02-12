@@ -31,11 +31,21 @@ class AuthController
         $db = $this->app->db();
         $model = new UserModel($db);
         $val = $model->checkInfo($email, $password);
-        $this->authModel->login($val['idUser'],$val);
+        $this->authModel->login($val['idUser'], $val);
         return $val;
     }
     public function logOut()
     {
-    $this->authModel->logout();
+        $this->authModel->logout();
+    }
+    public function checkLogin($else, $callback = null)
+    {
+        if ($this->isLogged()) {
+            if ($callback !== null)
+                $this->app->render($else, $callback);
+            else
+                $this->app->render($else);
+        } else
+            $this->app->redirect('/login');
     }
 }

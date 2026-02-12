@@ -44,6 +44,21 @@ class CategoryController {
 		}
 	}
 
+	public function renderEditForm($id): void {
+		$pdo = $this->app->db();
+		$model = new CategoryModel($pdo);
+		$category = $model->getCategoryById($id);
+
+		if ($category) {
+			$this->app->render('category-form', [
+				'category' => $category,
+				'currentPage' => 'categories',
+			]);
+		} else {
+			$this->app->notFound();
+		}
+	}
+
 	public function renderItemForm(): void {
 		$categories = $this->getAllCategories();
 
