@@ -75,6 +75,45 @@
             font-size: 14px;
             color: #333;
         }
+
+                .filter-bar {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .filter-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .filter-btn {
+            padding: 8px 20px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            color: #666;
+        }
+        .filter-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        .filter-btn.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-color: transparent;
+        }
+        .filter-label {
+            font-size: 14px;
+            color: #666;
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -89,10 +128,39 @@
                 <p>Consultez toutes les demandes d'échange que vous avez initiées</p>
             </div>
 
+            <div class="filter-bar">
+                <label class="filter-label">
+                    <i class="mdi mdi-filter"></i> Filtrer par statut
+                </label>
+                <div class="filter-buttons">
+                    <button class="filter-btn active" data-filter="all">
+                        <i class="mdi mdi-all-inclusive"></i> Toutes
+                    </button>
+                    <button class="filter-btn" data-filter="pending">
+                        <i class="mdi mdi-clock-outline"></i> En attente
+                    </button>
+                    <button class="filter-btn" data-filter="accepted">
+                        <i class="mdi mdi-check-circle"></i> Acceptées
+                    </button>
+                    <button class="filter-btn" data-filter="refused">
+                        <i class="mdi mdi-close-circle"></i> Refusées
+                    </button>
+                </div>
+            </div>
+
             <div class="demandes-container">
                 <?php if (!empty($demandes)) { ?>
                     <?php foreach ($demandes as $demande) { ?>
-                        <div class="demande-card">
+                        <div class="demande-card" data-status="<?php 
+                            $statusId = $demande['idDemandeStatus'] ?? 1;
+                            if ($statusId == 2) {
+                                echo 'accepted';
+                            } elseif ($statusId == 3) {
+                                echo 'refused';
+                            } else {
+                                echo 'pending';
+                            }
+                        ?>">
                             <div class="demande-header">
                                 <div class="demande-id">
                                     <i class="mdi mdi-swap-horizontal"></i>
@@ -170,5 +238,36 @@
     <script src="/assets/js/off-canvas.js"></script>
     <script src="/assets/js/hoverable-collapse.js"></script>
     <script src="/assets/js/misc.js"></script>
+    <!-- <script> </script> -->
+     <script>
+        // Filter functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const demandeCards = document.querySelectorAll('.demande-card');
+            
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Update active button
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    const filter = this.getAttribute('data-filter');
+                    
+                    demandeCards.forEach(card => {
+                        const cardStatus = card.getAttribute('data-status');
+                        
+                        if (filter === 'all') {
+                            card.style.display = 'block';
+                        } else if (filter === cardStatus) {
+                            card.style.display = 'block';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                });
+            });
+        });
+
+    </script>
 </body>
 </html>

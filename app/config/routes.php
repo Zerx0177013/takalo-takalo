@@ -9,6 +9,8 @@ use app\controllers\ItemController;
 use app\controllers\LoginController;
 use app\controllers\AuthController;
 use app\controllers\DemandeController;
+use app\controllers\ExchangeController;
+
 /** 
  * @var Router $router 
  * @var Engine $app
@@ -68,6 +70,11 @@ $router->group('', function (Router $router) use ($app) {
 			$router->get('/propositions', [ItemController::class, 'propositions']);
 			$router->get('/my-items', [ItemController::class, 'myItems']);
 			$router->get('/mes-demandes', [DemandeController::class, 'mesdemandes']);
+			$router->get('/other-demandes', [DemandeController::class, 'othersdemandes']);
+			
+			// Demandes routes
+			$router->post('/demandes/@id/accept', [ExchangeController::class, 'proceedExchange']);
+			$router->post('/demandes/@id/refuse', [DemandeController::class, 'refuseDemande']);
 
 			// Items routes
 			$router->get('/items/new', [CategoryController::class, 'renderItemForm']);
