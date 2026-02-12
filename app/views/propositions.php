@@ -17,7 +17,8 @@ use Tracy\Bar;
     <link rel="stylesheet" href="/assets/css/style.css">
     <!-- End layout styles -->
     <link rel="shortcut icon" href="/assets/images/favicon.ico" />
-    <style>
+    <link rel="stylesheet" href="/assets/css/index.css">
+ 
         * {
             margin: 0;
             padding: 0;
@@ -322,7 +323,7 @@ use Tracy\Bar;
                 gap: 20px;
             }
         }
-    </style>
+    </style> -->
 </head>
 <body>
     <div class="page-wrapper">
