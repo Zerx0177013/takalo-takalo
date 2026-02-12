@@ -56,18 +56,24 @@ class DemandeModel
 
     public function getAllDemandeToMyself($id)
     {
-        $statement = $this->pdo->prepare('SELECT * FROM `demande` WHERE idReceveur = :id LIMIT 1');
-        $statement->execute([':id' => $id]);
-        $demande = $statement->fetch(PDO::FETCH_ASSOC);
-        return $demande === false ? null : $demande;
+        try {
+            $statement = $this->pdo->prepare('SELECT * FROM `demande` WHERE idReceveur = :id ORDER BY createdAt DESC');
+            $statement->execute([':id' => $id]);
+            return $statement->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            return [];
+        }
     }
 
     public function getAllDemandeFromMyself($id)
     {
-        $statement = $this->pdo->prepare('SELECT * FROM `demande` WHERE idDemandeur = :id LIMIT 1');
-        $statement->execute([':id' => $id]);
-        $demande = $statement->fetch(PDO::FETCH_ASSOC);
-        return $demande === false ? null : $demande;
+        try {
+            $statement = $this->pdo->prepare('SELECT * FROM `demande` WHERE idDemandeur = :id ORDER BY createdAt DESC');
+            $statement->execute([':id' => $id]);
+            return $statement->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            return [];
+        }
     }
 
     public function acceptDemande($id)
