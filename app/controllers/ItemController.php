@@ -6,6 +6,8 @@ namespace app\controllers;
 
 use app\models\ItemModel;
 use app\models\DemandeModel;
+use app\models\CategoryModel;
+
 use flight\Engine;
 
 class ItemController
@@ -147,15 +149,19 @@ class ItemController
 
         if ($itemId) {
             // Si un item ID est spécifié, charger cet item et filtrer par sa plage de prix
+            $categoryModel = new CategoryModel($pdo);
             $selectedItem = $model->getItemById($itemId);
-            if ($selectedItem && $selectedItem['price']) {
-                $items = $model->getItemsByReferencePrice($selectedItem['price'], $range);
+            $exits = $categoryModel->categoryExists($selectedItem['idcategorie']);
+            if ($selectedItem && $selectedItem['price'] && $exits) {
+                $items = $model->getItemsByReferencePrice($selectedItem['price'], $range, $currentUserId);
+               //$items = $model->getItemsByCategoryAndPriceRange($selectedItem['idcategorie'], $selectedItem['price'], $range, $currentUserId);
+
             } else {
-                $items = $this->getAllItems();
+                $items = $this->getAllItemsExceptSelf();
             }
         } else {
             // Sinon afficher tous les items
-            $items = $this->getAllItems();
+            $items = $this->getAllItemsExceptSelf();
         }
 
         // Charger la première image pour chaque item
