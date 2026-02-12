@@ -178,41 +178,6 @@ class ItemController
         ]);
     }
 
-
-    public function createExchange()
-    {
-        $pdo = $this->app->db();
-        $demandModel = new DemandeModel($pdo);
-        $itemModel = new ItemModel($pdo);
-
-
-        $currentUserId = $_SESSION['idUser'];
-
-        $idObjetOffert = $this->app->request()->data->idObjetOffert;
-        $idObjetDemande = $this->app->request()->data->idObjetDemande;
-
-        $itemDemande = $itemModel->getItemById($idObjetDemande);
-
-        if (!$itemDemande) {
-            $this->app->json(['success' => false, 'message' => 'Item not found'], 404);
-            return;
-        }
-
-        $idReceveur = $itemDemande['idUser'];
-
-        $demandeId = $demandModel->createDemande($currentUserId, $idReceveur, $idObjetOffert, $idObjetDemande, 1);
-
-        if ($demandeId) {
-            $this->app->json([
-                'success' => true,
-                'message' => 'Exchange request created',
-                'demandeId' => $demandeId
-            ], 201);
-        } else {
-            $this->app->json(['success' => false, 'message' => 'Failed to create exchange request'], 500);
-        }
-    }
-
     public function createItem()
     {
         $pdo = $this->app->db();

@@ -63,6 +63,12 @@
             </a>
         </li>
         <li class="nav-item">
+            <a class="nav-link" href="/other-demandes">
+                <span class="menu-title">Demandes reçues</span>
+                <i class="mdi mdi-file-document-box menu-icon"></i>
+            </a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link" href="/logout">
                 <button type="button" class="btn btn-danger">Deconnexion</button>
 
