@@ -8,6 +8,7 @@ use flight\net\Router;
 use app\controllers\ItemController;
 use app\controllers\LoginController;
 use app\controllers\AuthController;
+use app\controllers\DemandeController;
 /** 
  * @var Router $router 
  * @var Engine $app
@@ -66,6 +67,7 @@ $router->group('', function (Router $router) use ($app) {
 
 			$router->get('/propositions', [ItemController::class, 'propositions']);
 			$router->get('/my-items', [ItemController::class, 'myItems']);
+			$router->get('/mes-demandes', [DemandeController::class, 'mesdemandes']);
 
 			// Items routes
 			$router->get('/items/new', [CategoryController::class, 'renderItemForm']);
