@@ -21,7 +21,7 @@ $router->group('', function (Router $router) use ($app) {
 			$password = $app->request()->data->password ?? null;
 			$authController = new AuthController($app);
 			$user = $authController->login($email, $password);
-			$authController->checkLogin('/login');
+			$authController->checkLogin('index');
 		});
 
 		$router->get('/login', function () use ($app) {
@@ -50,7 +50,7 @@ $router->group('', function (Router $router) use ($app) {
 
 		$router->get('/dashboard', function () use ($app) {
 			$authController = new AuthController($app);
-			$authController->checkLogin('/dashboard');
+			$authController->checkLogin('dashboard');
 		});
 
 		$router->get('/', function () use ($app) {
