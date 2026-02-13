@@ -21,9 +21,12 @@ $router->group('', function (Router $router) use ($app) {
 			$email = $app->request()->data->email ?? null;
 			$password = $app->request()->data->password ?? null;
 			$authController = new AuthController($app);
-			$controller = new ItemController($app);
 			$user = $authController->login($email, $password);
-			$authController->checkLogin('index', ['items' => $controller->getAllItemsExceptSelf()]);
+			if ($authController->isLogged()) {
+				$app->redirect('/');
+			} else {
+				$app->redirect('/login');
+			}
 		});
 
 		$router->get('/login', function () use ($app) {
@@ -56,12 +59,13 @@ $router->group('', function (Router $router) use ($app) {
 		});
 
 		$router->get('/', function () use ($app) {
-			$controller = new ItemController($app);
 			$authController = new AuthController($app);
-			if ($authController->isLogged())
-				$app->render('index', ['items' => $controller->getAllItemsExceptSelf()]);
-			else
+			if ($authController->isLogged()) {
+				$controller = new ItemController($app);
+				$controller->index();
+			} else {
 				$app->redirect('/login');
+			}
 		});
 
 		$router->get('/propositions', function () use ($app) {
