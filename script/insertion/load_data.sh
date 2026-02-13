@@ -63,6 +63,7 @@ declare -a scripts=(
     "2026-02-10_01_INSERTADMIN.sql:Insertion de l'administrateur"
     "2026-02-13_02_insertObjets.sql:Insertion des objets"
     "2026-02-13_03_insertDemandes.sql:Insertion des demandes"
+    "test_v_historique.sql"
 )
 
 # Compteurs
