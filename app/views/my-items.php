@@ -50,8 +50,12 @@
                                     <div class="item-price"><?php echo number_format($item['price'], 2, ',', ' '); ?> Ar</div>
                                 <?php endif; ?>
                                 <div class="item-actions">
-                                    <button class="btn-primary btn-exchange" data-item-id="<?php echo $item['idItem']; ?>">Échanger</button>
-                                    <button class="btn-secondary btn-details" data-item-id="<?php echo $item['idItem']; ?>">Détails</button>
+                                    <button class="btn btn-gradient-primary btn-lg btn-exchange" data-item-id="<?php echo $item['idItem']; ?>">
+                                        <i class="mdi mdi-swap-horizontal"></i> Échanger
+                                    </button>
+                                    <button class="btn btn-gradient-light btn-lg btn-details" data-item-id="<?php echo $item['idItem']; ?>">
+                                        <i class="mdi mdi-eye"></i> Détails
+                                    </button>
                                 </div>
                             </div>
                         </div>

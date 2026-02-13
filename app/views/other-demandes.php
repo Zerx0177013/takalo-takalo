@@ -283,8 +283,8 @@
                         <i class="mdi mdi-email-outline"></i>
                         <h2>Aucune demande reçue</h2>
                         <p>Vous n'avez pas encore reçu de demande d'échange.</p>
-                        <button class="btn-primary" onclick="window.location.href='/items/new'">
-                            Ajouter un objet
+                        <button class="btn btn-gradient-primary btn-lg" onclick="window.location.href='/items/new'">
+                            <i class="mdi mdi-plus"></i> Ajouter un objet
                         </button>
                     </div>
                 <?php } ?>

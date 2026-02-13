@@ -51,8 +51,12 @@ require_once("sidebar.php") ;
                                     <div class="item-price"><?php echo number_format($item['price'], 2, ',', ' '); ?> Ar</div>
                                 <?php endif; ?>
                                 <div class="item-actions">
-                                    <button class="btn-primary" onclick="window.location.href='/items/<?php echo $item['idItem']; ?>'">Voir détails</button>
-                                    <button class="btn-secondary" onclick="window.location.href='/propositions?itemId=<?php echo $item['idItem']; ?>'">Échanger</button>
+                                    <button class="btn btn-gradient-primary btn-lg" onclick="window.location.href='/items/<?php echo $item['idItem']; ?>'">
+                                        <i class="mdi mdi-eye"></i> Voir détails
+                                    </button>
+                                    <button class="btn btn-gradient-light btn-lg" onclick="window.location.href='/propositions?itemId=<?php echo $item['idItem']; ?>'">
+                                        <i class="mdi mdi-swap-horizontal"></i> Échanger
+                                    </button>
                                 </div>
                             </div>
                         </div>

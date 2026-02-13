@@ -114,11 +114,11 @@
                     </div>
 
                     <div class="form-actions">
-                        <button type="button" class="btn-cancel" onclick="window.location.href='/items/new'">
+                        <button type="button" class="btn btn-gradient-light btn-lg" onclick="window.location.href='/my-items'">
                             <i class="mdi mdi-close"></i>
                             Annuler
                         </button>
-                        <button type="submit" class="btn-submit">
+                        <button type="submit" class="btn btn-gradient-primary btn-lg">
                             <i class="mdi mdi-check"></i>
                             Publier l'objet
                         </button>

@@ -225,8 +225,8 @@
                         <i class="mdi mdi-email-outline"></i>
                         <h2>Aucune demande</h2>
                         <p>Vous n'avez pas encore envoyé de demande d'échange.</p>
-                        <button class="btn-primary" onclick="window.location.href='/'">
-                            Découvrir des objets
+                        <button class="btn btn-gradient-primary btn-lg" onclick="window.location.href='/'">
+                            <i class="mdi mdi-magnify"></i> Découvrir des objets
                         </button>
                     </div>
                 <?php } ?>

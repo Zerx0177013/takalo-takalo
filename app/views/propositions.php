@@ -56,8 +56,12 @@ use Tracy\Bar;
                                     <div class="item-price"><?php echo number_format($item['price'], 2, ',', ' '); ?> Ar</div>
                                 <?php endif; ?>
                                 <div class="item-actions">
-                                    <button class="btn-primary" onclick="confirmExchange(<?php echo $selectedItem['idItem']; ?>, <?php echo $item['idItem']; ?>, '<?php echo htmlspecialchars($selectedItem['name']); ?>', '<?php echo htmlspecialchars($item['name']); ?>')">Échanger</button>
-                                    <button class="btn-secondary">Détails</button>
+                                    <button class="btn btn-gradient-primary btn-lg" onclick="confirmExchange(<?php echo $selectedItem['idItem']; ?>, <?php echo $item['idItem']; ?>, '<?php echo htmlspecialchars($selectedItem['name']); ?>', '<?php echo htmlspecialchars($item['name']); ?>')">
+                                        <i class="mdi mdi-swap-horizontal"></i> Échanger
+                                    </button>
+                                    <button class="btn btn-gradient-light btn-lg" onclick="window.location.href='/items/<?php echo $item['idItem']; ?>'">
+                                        <i class="mdi mdi-eye"></i> Détails
+                                    </button>
                                 </div>
                             </div>
                         </div>
