@@ -10,6 +10,7 @@ use app\controllers\LoginController;
 use app\controllers\AuthController;
 use app\controllers\DemandeController;
 use app\controllers\ExchangeController;
+use app\controllers\HistoriqueController;
 
 $router->group('', function (Router $router) use ($app) {
 	$router->get('/savage', function () use ($app) {
@@ -245,6 +246,16 @@ $router->group('', function (Router $router) use ($app) {
 			}
 		});
 
+		$router->get('/historique/@id', function ($id) use ($app) {
+			$authController = new AuthController($app);
+			$histoController = new HistoriqueController($app);
+			$historique = $histoController->getHistoriqueByID($id);
+			if($historique !== null)
+			$authController->checkLogin('historique', ['historique' => $historique]);
+			else
+				$app->redirect('/') ;
+			
+		});
 		$router->post('/demandes/@id/refuse', function ($id) use ($app) {
 			$authController = new AuthController($app);
 			if ($authController->isLogged()) {

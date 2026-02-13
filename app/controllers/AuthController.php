@@ -62,4 +62,5 @@ class AuthController
         if($_SESSION['isAdmin'])  $this->app->redirect('/');
         else $this->app->render('dashboard') ;
     }
+
 }
