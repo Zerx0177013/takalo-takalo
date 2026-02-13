@@ -19,24 +19,27 @@ class AuthController
     public function __construct(Engine $app)
     {
         $this->app = $app;
-        $this->authModel = new AuthModel(Flight::db());
-        $this->userModel = new UserModel(Flight::db());
     }
     public function isLogged()
     {
-        return $this->authModel->isLoggedIn();
+        $authModel = new AuthModel($this->app->db());
+        return $authModel->isLoggedIn();
     }
     public function login($email, $password)
     {
         $db = $this->app->db();
         $model = new UserModel($db);
+        $authModel = new AuthModel($db);
         $val = $model->checkInfo($email, $password);
-        $this->authModel->login($val['idUser'], $val);
+        if ($val == null)
+            return null;
+        else
+            $authModel->login($val['idUser'], $val);
         return $val;
     }
     public function logOut()
     {
-        $this->authModel->logout();
+        $authModel = new AuthModel($this->app->db());
     }
     public function checkLogin($else, $callback = null)
     {
