@@ -4,28 +4,36 @@ namespace app\models;
 use flight\Engine;
 use PDO;
 
-class AuthModel {
+class AuthModel
+{
 
     private $db;
 
-    public function __construct($db) {
+    public function __construct($db)
+    {
         $this->db = $db;
         $this->startSession();
     }
 
-    private function startSession(): void {
+    private function startSession(): void
+    {
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
     }
-    public function isLoggedIn(): bool {
-        return isset($_SESSION['idUser']);
+    public function isLoggedIn(): bool
+    {
+        return (!empty($_SESSION['idUser'])|| isset($_SESSION['isAdmin']));
     }
-    public function login($userId,$user) {
+    public function login($userId, $user)
+    {
         $_SESSION['idUser'] = $userId;
-        $_SESSION['username'] = $user['username'] ;
+        $_SESSION['username'] = $user['username'];
+        if (isset($user['isAddmin']))
+            $_SESSION['isAddmin'] = $user['isAddmin'];
     }
-    public function logout() {
+    public function logout()
+    {
         session_unset();
         session_destroy();
     }

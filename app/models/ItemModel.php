@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\controllers\AuthController;
 use PDO;
 use PDOException;
 
@@ -57,6 +58,10 @@ class ItemModel
 
     public function getAllItemsExceptSelf($idSelf)
     {
+        $authModel = new AuthModel($this->pdo);
+        if ($authModel->isLoggedIn() === false) {
+            return [];
+        }
         try {
             $statement = $this->pdo->prepare('SELECT * FROM `item` WHERE idUser != :idSelf');
             $statement->execute([':idSelf' => $idSelf]);
