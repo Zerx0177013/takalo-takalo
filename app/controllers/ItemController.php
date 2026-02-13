@@ -164,7 +164,6 @@ class ItemController
             $items = $this->getAllItemsExceptSelf();
         }
 
-        // Charger la première image pour chaque item
         foreach ($items as &$item) {
             $image = $model->getFirstImageOfAnItem($item['idItem']);
             $item['image'] = $image ? $image['imageURL'] : null;

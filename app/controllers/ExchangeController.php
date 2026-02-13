@@ -25,21 +25,51 @@ class ExchangeController
         $demandModel = new DemandeModel($pdo);
         $itemModel = new ItemModel($pdo);
 
+        // Validate user session
+        if (!isset($_SESSION['idUser'])) {
+            $this->app->json(['success' => false, 'message' => 'User not authenticated'], 401);
+            return;
+        }
 
         $currentUserId = $_SESSION['idUser'];
 
-        $idObjetOffert = $this->app->request()->data->idObjetOffert;
-        $idObjetDemande = $this->app->request()->data->idObjetDemande;
+        // Get and validate request data
+        $idObjetOffert = $this->app->request()->data->idObjetOffert ?? null;
+        $idObjetDemande = $this->app->request()->data->idObjetDemande ?? null;
 
+        if (!$idObjetOffert || !$idObjetDemande) {
+            $this->app->json(['success' => false, 'message' => 'Missing required parameters'], 400);
+            return;
+        }
+
+        // Validate offered item exists and belongs to current user
+        $itemOffert = $itemModel->getItemById($idObjetOffert);
+        if (!$itemOffert) {
+            $this->app->json(['success' => false, 'message' => 'Offered item not found'], 404);
+            return;
+        }
+
+        if ($itemOffert['idUser'] !== $currentUserId) {
+            $this->app->json(['success' => false, 'message' => 'You do not own the offered item'], 403);
+            return;
+        }
+
+        // Validate requested item exists
         $itemDemande = $itemModel->getItemById($idObjetDemande);
-
         if (!$itemDemande) {
-            $this->app->json(['success' => false, 'message' => 'Item not found'], 404);
+            $this->app->json(['success' => false, 'message' => 'Requested item not found'], 404);
             return;
         }
 
         $idReceveur = $itemDemande['idUser'];
 
+        // Prevent self-exchange
+        if ($currentUserId === $idReceveur) {
+            $this->app->json(['success' => false, 'message' => 'You cannot exchange with yourself'], 400);
+            return;
+        }
+
+        // Create exchange request
         $demandeId = $demandModel->createDemande($currentUserId, $idReceveur, $idObjetOffert, $idObjetDemande, 1);
 
         if ($demandeId) {
