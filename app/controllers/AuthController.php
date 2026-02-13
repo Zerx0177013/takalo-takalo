@@ -40,6 +40,8 @@ class AuthController
     public function logOut()
     {
         $authModel = new AuthModel($this->app->db());
+        $authModel->logout();
+
     }
     public function checkLogin($else, $callback = null)
     {
