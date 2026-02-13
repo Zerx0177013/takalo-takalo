@@ -7,6 +7,7 @@ use flight\Engine;
 use flight\net\Router;
 use app\controllers\ItemController;
 use app\controllers\LoginController;
+use app\controllers\StatController;
 use app\controllers\AuthController;
 use app\controllers\DemandeController;
 use app\controllers\ExchangeController;
@@ -22,9 +23,17 @@ $router->group('', function (Router $router) use ($app) {
 			$email = $app->request()->data->email ?? null;
 			$password = $app->request()->data->password ?? null;
 			$authController = new AuthController($app);
-			$controller = new ItemController($app);
 			$user = $authController->login($email, $password);
-			$authController->checkLogin('index', ['items' => $controller->getAllItemsExceptSelf()]);
+			if ($authController->isLogged()) {
+				// Rediriger selon le rôle
+				if ($authController->isAdmin()) {
+					$app->redirect('/dashboard');
+				} else {
+					$app->redirect('/');
+				}
+			} else {
+				$app->redirect('/login');
+			}
 		});
 
 		$router->get('/login', function () use ($app) {
@@ -53,16 +62,20 @@ $router->group('', function (Router $router) use ($app) {
 
 		$router->get('/dashboard', function () use ($app) {
 			$authController = new AuthController($app);
-			$authController->checkLogin('dashboard');
+			if ($authController->requireAdmin()) {
+				$statController = new StatController($app);
+				$statController->getInformationOverall();
+			}
 		});
 
 		$router->get('/', function () use ($app) {
-			$controller = new ItemController($app);
 			$authController = new AuthController($app);
-			if ($authController->isLogged())
-				$app->render('index', ['items' => $controller->getAllItemsExceptSelf()]);
-			else
+			if ($authController->isLogged()) {
+				$controller = new ItemController($app);
+				$controller->index();
+			} else {
 				$app->redirect('/login');
+			}
 		});
 
 		$router->get('/propositions', function () use ($app) {
@@ -148,72 +161,64 @@ $router->group('', function (Router $router) use ($app) {
 
 		$router->get('/categories', function () use ($app) {
 			$authController = new AuthController($app);
-			if ($authController->isLogged()) {
+			if ($authController->requireAdmin()) {
 				$controller = new CategoryController($app);
 				$controller->renderCategoryList();
-			} else {
-				$app->redirect('/login');
 			}
 		});
 
 		$router->get('/categories/new', function () use ($app) {
 			$authController = new AuthController($app);
-			if ($authController->isLogged()) {
+			if ($authController->requireAdmin()) {
 				$controller = new CategoryController($app);
 				$controller->renderAddForm();
-			} else {
-				$app->redirect('/login');
 			}
 		});
 
 		$router->get('/categories/@id/edit', function ($id) use ($app) {
 			$authController = new AuthController($app);
-			if ($authController->isLogged()) {
+			if ($authController->requireAdmin()) {
 				$controller = new CategoryController($app);
 				$controller->renderEditForm($id);
-			} else {
-				$app->redirect('/login');
 			}
 		});
 
 		$router->get('/categories/@id', function ($id) use ($app) {
 			$authController = new AuthController($app);
-			if ($authController->isLogged()) {
+			if ($authController->requireAdmin()) {
 				$controller = new CategoryController($app);
 				$controller->renderCategoryDetail($id);
-			} else {
-				$app->redirect('/login');
 			}
 		});
 
 		$router->post('/categories', function () use ($app) {
 			$authController = new AuthController($app);
-			if ($authController->isLogged()) {
-				$controller = new CategoryController($app);
-				$controller->createCategory();
-			} else {
+			if (!$authController->isLogged() || !$authController->isAdmin()) {
 				$app->json(['success' => false, 'message' => 'Unauthorized'], 401);
+				return;
 			}
+			$controller = new CategoryController($app);
+			$controller->createCategory();
 		});
 
 		$router->put('/categories/@id', function ($id) use ($app) {
 			$authController = new AuthController($app);
-			if ($authController->isLogged()) {
-				$controller = new CategoryController($app);
-				$controller->updateCategory($id);
-			} else {
+			if (!$authController->isLogged() || !$authController->isAdmin()) {
 				$app->json(['success' => false, 'message' => 'Unauthorized'], 401);
+				return;
 			}
+			$controller = new CategoryController($app);
+			$controller->updateCategory($id);
 		});
 
 		$router->delete('/categories/@id', function ($id) use ($app) {
 			$authController = new AuthController($app);
-			if ($authController->isLogged()) {
-				$controller = new CategoryController($app);
-				$controller->deleteCategory($id);
-			} else {
+			if (!$authController->isLogged() || !$authController->isAdmin()) {
 				$app->json(['success' => false, 'message' => 'Unauthorized'], 401);
+				return;
 			}
+			$controller = new CategoryController($app);
+			$controller->deleteCategory($id);
 		});
 
 		$router->post('/exchange', function () use ($app) {

@@ -28,10 +28,40 @@ require_once("sidebar.php") ;
                 <p>Découvrez les objets disponibles pour l'échange</p>
             </div>
 
+            <div class="filter-bar" style="background: white; padding: 20px; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                <div style="display: flex; gap: 15px; flex-wrap: wrap; align-items: center;">
+                    <div style="flex: 1; min-width: 250px;">
+                        <label style="font-size: 14px; color: #666; font-weight: 600; margin-bottom: 8px; display: block;">
+                            <i class="mdi mdi-magnify"></i> Rechercher
+                        </label>
+                        <input type="text" id="searchInput" placeholder="Rechercher par nom ou description..." 
+                               style="width: 100%; padding: 12px 15px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 14px;">
+                    </div>
+                    <div style="flex: 0 0 200px;">
+                        <label style="font-size: 14px; color: #666; font-weight: 600; margin-bottom: 8px; display: block;">
+                            <i class="mdi mdi-tag"></i> Catégorie
+                        </label>
+                        <select id="categoryFilter" style="width: 100%; padding: 12px 15px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 14px; cursor: pointer;">
+                            <option value="all">Toutes les catégories</option>
+                            <?php if (!empty($categories)): ?>
+                                <?php foreach ($categories as $category): ?>
+                                    <option value="<?php echo htmlspecialchars($category['idcategorie']); ?>">
+                                        <?php echo htmlspecialchars($category['name']); ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
             <div class="items-grid">
                 <?php if (!empty($items)): ?>
                     <?php foreach ($items as $item): ?>
-                        <div class="item-card">
+                        <div class="item-card" 
+                             data-category="<?php echo htmlspecialchars($item['idcategorie'] ?? ''); ?>" 
+                             data-name="<?php echo strtolower(htmlspecialchars($item['name'])); ?>" 
+                             data-description="<?php echo strtolower(htmlspecialchars($item['description'] ?? '')); ?>">
                             <div class="item-image">
                                 <?php if (!empty($item['image'])): ?>
                                     <img src="<?php echo htmlspecialchars($item['image']); ?>" alt="<?php echo htmlspecialchars($item['name']); ?>">
@@ -80,5 +110,7 @@ require_once("sidebar.php") ;
     <script src="/assets/js/hoverable-collapse.js"></script>
     <script src="/assets/js/misc.js"></script>
     <!-- endinject -->
+    
+    <script src="/assets/js/filter-items.js"></script>
 </body>
 </html>

@@ -24,10 +24,42 @@
                 <p>Sélectionnez un objet pour le proposer en échange</p>
             </div>
 
+            <div class="filter-bar" style="background: white; padding: 20px; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                <div style="display: flex; gap: 15px; flex-wrap: wrap; align-items: center;">
+                    <div style="flex: 1; min-width: 250px;">
+                        <label style="font-size: 14px; color: #666; font-weight: 600; margin-bottom: 8px; display: block;">
+                            <i class="mdi mdi-magnify"></i> Rechercher
+                        </label>
+                        <input type="text" id="searchInput" placeholder="Rechercher par nom ou description..." 
+                               style="width: 100%; padding: 12px 15px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 14px;">
+                    </div>
+                    <div style="flex: 0 0 200px;">
+                        <label style="font-size: 14px; color: #666; font-weight: 600; margin-bottom: 8px; display: block;">
+                            <i class="mdi mdi-tag"></i> Catégorie
+                        </label>
+                        <select id="categoryFilter" style="width: 100%; padding: 12px 15px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 14px; cursor: pointer;">
+                            <option value="all">Toutes les catégories</option>
+                            <?php if (!empty($categories)): ?>
+                                <?php foreach ($categories as $category): ?>
+                                    <option value="<?php echo htmlspecialchars($category['idcategorie']); ?>">
+                                        <?php echo htmlspecialchars($category['name']); ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
             <div class="items-grid">
                 <?php if (!empty($items)): ?>
                     <?php foreach ($items as $item): ?>
-                        <div class="item-card" id="item-<?php echo $item['idItem']; ?>" data-item-id="<?php echo $item['idItem']; ?>">
+                        <div class="item-card" 
+                             id="item-<?php echo $item['idItem']; ?>" 
+                             data-item-id="<?php echo $item['idItem']; ?>"
+                             data-category="<?php echo htmlspecialchars($item['idcategorie'] ?? ''); ?>" 
+                             data-name="<?php echo strtolower(htmlspecialchars($item['name'])); ?>" 
+                             data-description="<?php echo strtolower(htmlspecialchars($item['description'] ?? '')); ?>">
                             <button class="delete-btn" data-item-id="<?php echo $item['idItem']; ?>" title="Supprimer">
                                 <i class="mdi mdi-close"></i>
                             </button>
@@ -76,67 +108,8 @@
     <script src="/assets/js/hoverable-collapse.js"></script>
     <script src="/assets/js/misc.js"></script>
     
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Event listeners pour les boutons "Échanger"
-            document.querySelectorAll('.btn-exchange').forEach(function(button) {
-                button.addEventListener('click', function() {
-                    const itemId = this.getAttribute('data-item-id');
-                    window.location.href = '/propositions?itemId=' + itemId;
-                });
-            });
+    <script src="/assets/js/boutons-event-item.js"></script>
+    <script src="/assets/js/filter-items.js"></script>
 
-            // Event listeners pour les boutons "Détails"
-            document.querySelectorAll('.btn-details').forEach(function(button) {
-                button.addEventListener('click', function() {
-                    const itemId = this.getAttribute('data-item-id');
-                    window.location.href = '/items/' + itemId;
-                });
-            });
-
-            // Event listeners pour les boutons de suppression
-            document.querySelectorAll('.delete-btn').forEach(function(button) {
-                button.addEventListener('click', function(event) {
-                    event.stopPropagation();
-                    
-                    const itemId = this.getAttribute('data-item-id');
-                    
-                    if (confirm('Êtes-vous sûr de vouloir supprimer cet objet ? Cette action est irréversible.')) {
-                        fetch('/items/' + itemId, {
-                            method: 'DELETE',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            }
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.success) {
-                                // Supprimer l'élément du DOM avec une animation
-                                const itemCard = document.getElementById('item-' + itemId);
-                                itemCard.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
-                                itemCard.style.opacity = '0';
-                                itemCard.style.transform = 'scale(0.8)';
-                                
-                                setTimeout(() => {
-                                    itemCard.remove();
-                                    // Vérifier s'il reste des items
-                                    const grid = document.querySelector('.items-grid');
-                                    if (grid.children.length === 0) {
-                                        location.reload();
-                                    }
-                                }, 300);
-                            } else {
-                                alert('Erreur lors de la suppression: ' + (data.message || 'Erreur inconnue'));
-                            }
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                            alert('Erreur lors de la suppression de l\'objet');
-                        });
-                    }
-                });
-            });
-        });
-    </script>
 </body>
 </html>

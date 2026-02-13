@@ -11,7 +11,8 @@ class UserModel
     public function getNumberOfUsers(): int
     {
         $stmt = $this->db->query('SELECT * FROM `V_COUNT_USERS`');
-        return (int) $stmt->fetchColumn("total_users");
+        $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+        return (int) ($result['total_users'] ?? 0);
     }
 
     public function checkEmail(string $email){
