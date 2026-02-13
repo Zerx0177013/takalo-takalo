@@ -20,12 +20,14 @@
                 <i class="mdi mdi-bookmark-check text-success nav-profile-badge"></i>
             </a>
         </li>
+        <?php if (isset($_SESSION['isAdmin']) && $_SESSION['isAdmin'] == 1): ?>
         <li class="nav-item">
             <a class="nav-link" href="/dashboard">
                 <span class="menu-title">Dashboard</span>
                 <i class="mdi mdi-view-dashboard menu-icon"></i>
             </a>
         </li>
+        <?php endif; ?>
         <li class="nav-item">
             <a class="nav-link" href="/">
                 <span class="menu-title">Accueil</span>
@@ -44,12 +46,14 @@
                 <i class="mdi mdi-plus-circle menu-icon"></i>
             </a>
         </li>
+        <?php if (isset($_SESSION['isAdmin']) && $_SESSION['isAdmin'] == 1): ?>
         <li class="nav-item">
             <a class="nav-link" href="/categories">
                 <span class="menu-title">Catégories</span>
                 <i class="mdi mdi-shape menu-icon"></i>
             </a>
         </li>
+        <?php endif; ?>
         <li class="nav-item">
             <a class="nav-link" href="/mes-demandes">
                 <span class="menu-title">Mes demandes</span>

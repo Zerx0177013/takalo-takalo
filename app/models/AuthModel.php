@@ -29,8 +29,8 @@ class AuthModel
     {
         $_SESSION['idUser'] = $userId;
         $_SESSION['username'] = $user['username'];
-        if (isset($user['isAddmin']))
-            $_SESSION['isAddmin'] = $user['isAddmin'];
+        if (isset($user['isAdmin']) && $user['isAdmin'] == 1)
+            $_SESSION['isAdmin'] = $user['isAdmin'];
     }
     public function logout()
     {
