@@ -53,4 +53,13 @@ class AuthController
         } else
             $this->app->redirect('/login');
     }
+    public function dashboard()
+    {
+        if (!$this->isLogged()) {
+            $this->app->redirect('/');
+        }
+        $authModel = new AuthModel($this->app->pdo()) ;
+        if($_SESSION['isAdmin'])  $this->app->redirect('/');
+        else $this->app->render('dashboard') ;
+    }
 }

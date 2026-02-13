@@ -23,14 +23,11 @@ class AuthModel
     }
     public function isLoggedIn(): bool
     {
-        return (!empty($_SESSION['idUser'])|| isset($_SESSION['isAdmin']));
+        return (!empty($_SESSION['idUser']) || isset($_SESSION['isAdmin']));
     }
     public function login($userId, $user)
     {
-        $_SESSION['idUser'] = $userId;
-        $_SESSION['username'] = $user['username'];
-        if (isset($user['isAddmin']))
-            $_SESSION['isAddmin'] = $user['isAddmin'];
+        $_SESSION = $user;
     }
     public function logout()
     {
