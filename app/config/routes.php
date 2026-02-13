@@ -7,6 +7,7 @@ use flight\Engine;
 use flight\net\Router;
 use app\controllers\ItemController;
 use app\controllers\LoginController;
+use app\controllers\StatController;
 use app\controllers\AuthController;
 use app\controllers\DemandeController;
 use app\controllers\ExchangeController;
@@ -55,7 +56,12 @@ $router->group('', function (Router $router) use ($app) {
 
 		$router->get('/dashboard', function () use ($app) {
 			$authController = new AuthController($app);
-			$authController->checkLogin('dashboard');
+			if ($authController->isLogged()) {
+				$statController = new StatController($app);
+				$statController->getInformationOverall();
+			} else {
+				$app->redirect('/login');
+			}
 		});
 
 		$router->get('/', function () use ($app) {
