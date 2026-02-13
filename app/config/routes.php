@@ -9,6 +9,7 @@ use app\controllers\ItemController;
 use app\controllers\LoginController;
 use app\controllers\AuthController;
 use app\controllers\DemandeController;
+use app\controllers\ExchangeController;
 
 $router->group('', function (Router $router) use ($app) {
 	$router->get('/savage', function () use ($app) {
@@ -199,6 +200,46 @@ $router->group('', function (Router $router) use ($app) {
 			if ($authController->isLogged()) {
 				$controller = new CategoryController($app);
 				$controller->deleteCategory($id);
+			} else {
+				$app->json(['success' => false, 'message' => 'Unauthorized'], 401);
+			}
+		});
+
+		$router->post('/exchange', function () use ($app) {
+			$authController = new AuthController($app);
+			if ($authController->isLogged()) {
+				$controller = new ExchangeController($app);
+				$controller->createExchange();
+			} else {
+				$app->json(['success' => false, 'message' => 'Unauthorized'], 401);
+			}
+		});
+
+		$router->post('/exchange/@id/proceed', function ($id) use ($app) {
+			$authController = new AuthController($app);
+			if ($authController->isLogged()) {
+				$controller = new ExchangeController($app);
+				$controller->proceedExchange($id);
+			} else {
+				$app->json(['success' => false, 'message' => 'Unauthorized'], 401);
+			}
+		});
+
+		$router->post('/demandes/@id/accept', function ($id) use ($app) {
+			$authController = new AuthController($app);
+			if ($authController->isLogged()) {
+				$controller = new ExchangeController($app);
+				$controller->proceedExchange($id);
+			} else {
+				$app->json(['success' => false, 'message' => 'Unauthorized'], 401);
+			}
+		});
+
+		$router->post('/demandes/@id/refuse', function ($id) use ($app) {
+			$authController = new AuthController($app);
+			if ($authController->isLogged()) {
+				$controller = new DemandeController($app);
+				$controller->refuseDemande($id);
 			} else {
 				$app->json(['success' => false, 'message' => 'Unauthorized'], 401);
 			}
