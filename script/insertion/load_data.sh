@@ -14,6 +14,7 @@ DB_USER="root"
 DB_PASS=""
 DB_NAME="takalo"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PARENT_SCRIPT_DIR="$(dirname "$SCRIPT_DIR")"
 
 # Fonction pour afficher les messages
 print_success() {
@@ -28,9 +29,11 @@ print_info() {
     echo -e "${YELLOW}→ $1${NC}"
 }
 
-# Vérifier si mysql est disponible
-if ! command -v mysql &> /dev/null; then
-    print_error "MySQL n'est pas installé ou n'est pas dans le PATH"
+# Vérifier si mysql de XAMPP est disponible
+MYSQL_PATH="/opt/lampp/bin/mysql"
+if [ ! -f "$MYSQL_PATH" ]; then
+    print_error "MySQL de XAMPP n'est pas trouvé à $MYSQL_PATH"
+    print_info "Assurez-vous que XAMPP est installé et que MySQL est démarré"
     exit 1
 fi
 
@@ -44,15 +47,18 @@ read -sp "Entrez le mot de passe MySQL pour l'utilisateur '$DB_USER' (laissez vi
 echo ""
 echo ""
 
-# Construire la commande MySQL
+# Construire la commande MySQL avec le chemin XAMPP
 if [ -z "$DB_PASS" ]; then
-    MYSQL_CMD="mysql -u $DB_USER"
+    MYSQL_CMD="$MYSQL_PATH -u $DB_USER"
 else
-    MYSQL_CMD="mysql -u $DB_USER -p$DB_PASS"
+    MYSQL_CMD="$MYSQL_PATH -u $DB_USER -p$DB_PASS"
 fi
 
 # Liste des scripts à exécuter dans l'ordre
 declare -a scripts=(
+    "$PARENT_SCRIPT_DIR/2026-02-09_01_tables.sql:Création de la base de données et tables"
+    "$PARENT_SCRIPT_DIR/2026-02-09_01_view.sql:Création des vues"
+    "2026-02-13_00_insertCategories.sql:Insertion des catégories et statuts"
     "2026-02-13_01_insertUser.sql:Insertion des utilisateurs"
     "2026-02-10_01_INSERTADMIN.sql:Insertion de l'administrateur"
     "2026-02-13_02_insertObjets.sql:Insertion des objets"
@@ -67,21 +73,37 @@ failed=0
 # Exécuter chaque script
 for item in "${scripts[@]}"; do
     IFS=':' read -r script description <<< "$item"
-    script_path="$SCRIPT_DIR/$script"
+    
+    # Déterminer le chemin complet du script
+    if [[ "$script" == /* ]]; then
+        # Chemin absolu
+        script_path="$script"
+    elif [[ "$script" == "$PARENT_SCRIPT_DIR"* ]]; then
+        # Chemin déjà avec PARENT_SCRIPT_DIR
+        script_path="$script"
+    else
+        # Chemin relatif au répertoire insertion
+        script_path="$SCRIPT_DIR/$script"
+    fi
     
     print_info "$description..."
     
     if [ ! -f "$script_path" ]; then
-        print_error "Fichier non trouvé: $script"
+        print_error "Fichier non trouvé: $script_path"
         ((failed++))
         continue
     fi
     
-    if $MYSQL_CMD < "$script_path" 2>/dev/null; then
+    # Exécuter le script SQL
+    if $MYSQL_CMD $DB_NAME < "$script_path" 2>/tmp/mysql_error.log; then
         print_success "$description - OK"
         ((success++))
     else
         print_error "$description - ERREUR"
+        if [ -s /tmp/mysql_error.log ]; then
+            echo -e "${RED}Détails de l'erreur:${NC}"
+            cat /tmp/mysql_error.log
+        fi
         ((failed++))
     fi
     echo ""
