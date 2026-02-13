@@ -259,7 +259,6 @@ $router->group('', function (Router $router) use ($app) {
 			$authController->checkLogin('historique', ['historique' => $historique]);
 			else
 				$app->redirect('/') ;
-			
 		});
 		$router->post('/demandes/@id/refuse', function ($id) use ($app) {
 			$authController = new AuthController($app);
