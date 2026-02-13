@@ -36,7 +36,7 @@ class ItemController
     public function getAllItemsExceptSelf(): array
     {
         $authModel = new AuthModel($this->app->db());
-        if($authModel->isLoggedIn() === false) return [] ;
+        if($authModel->isLoggedIn() === false){ return [] ;}
         $pdo = $this->app->db();
         $model = new ItemModel($pdo);
         $currentUserId = $_SESSION['idUser'];
