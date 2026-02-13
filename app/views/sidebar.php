@@ -45,12 +45,6 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="/propositions">
-                <span class="menu-title">Propositions</span>
-                <i class="mdi mdi-swap-horizontal menu-icon"></i>
-            </a>
-        </li>
-        <li class="nav-item">
             <a class="nav-link" href="/categories">
                 <span class="menu-title">Catégories</span>
                 <i class="mdi mdi-shape menu-icon"></i>
