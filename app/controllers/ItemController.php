@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace app\controllers;
 
+use app\models\AuthModel;
 use app\models\ItemModel;
 use app\models\DemandeModel;
 use app\models\CategoryModel;
@@ -34,6 +35,8 @@ class ItemController
 
     public function getAllItemsExceptSelf(): array
     {
+        $authModel = new AuthModel($this->app->db());
+        if($authModel->isLoggedIn() === false) return [] ;
         $pdo = $this->app->db();
         $model = new ItemModel($pdo);
         $currentUserId = $_SESSION['idUser'];
