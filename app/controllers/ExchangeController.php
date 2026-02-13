@@ -7,6 +7,8 @@ namespace app\controllers;
 use app\models\ItemModel;
 use app\models\DemandeModel;
 use app\models\HistoriqueModel;
+use app\models\EchangeModel;
+
 
 use flight\Engine;
 
@@ -125,5 +127,23 @@ class ExchangeController
         } else {
             $this->app->json(['success' => false, 'message' => 'Erreur lors de l\'acceptation']);
         }
+    }
+
+    public function getNombreEchangeReussi()
+    {
+        $pdo = $this->app->db();
+        $historiqueModel = new EchangeModel($pdo);
+        $currentUserId = $_SESSION['idUser'] ?? null;
+
+        if (!$currentUserId) {
+            $this->app->json(['success' => false, 'message' => 'User not authenticated'], 401);
+            return;
+        }
+
+        $nombreEchanges = $historiqueModel->getNombreEchangeReussi();
+
+        return $nombreEchanges;
+        // $this->app->json(['success' => true, 'nombreEchanges' => $nombreEchanges]);
+        // $this->app->render('dashboard', ['nombreEchanges' => $nombreEchanges]);
     }
 }
