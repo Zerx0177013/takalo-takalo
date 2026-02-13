@@ -59,6 +59,12 @@ class CategoryController {
 		}
 	}
 
+	public function renderAddForm(): void {
+		$this->app->render('category-add', [
+			'currentPage' => 'categories',
+		]);
+	}
+
 	public function renderItemForm(): void {
 		$categories = $this->getAllCategories();
 

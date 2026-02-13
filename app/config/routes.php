@@ -155,6 +155,16 @@ $router->group('', function (Router $router) use ($app) {
 			}
 		});
 
+		$router->get('/categories/new', function () use ($app) {
+			$authController = new AuthController($app);
+			if ($authController->isLogged()) {
+				$controller = new CategoryController($app);
+				$controller->renderAddForm();
+			} else {
+				$app->redirect('/login');
+			}
+		});
+
 		$router->get('/categories/@id/edit', function ($id) use ($app) {
 			$authController = new AuthController($app);
 			if ($authController->isLogged()) {
