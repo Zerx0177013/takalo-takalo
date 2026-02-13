@@ -24,10 +24,42 @@
                 <p>Sélectionnez un objet pour le proposer en échange</p>
             </div>
 
+            <div class="filter-bar" style="background: white; padding: 20px; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                <div style="display: flex; gap: 15px; flex-wrap: wrap; align-items: center;">
+                    <div style="flex: 1; min-width: 250px;">
+                        <label style="font-size: 14px; color: #666; font-weight: 600; margin-bottom: 8px; display: block;">
+                            <i class="mdi mdi-magnify"></i> Rechercher
+                        </label>
+                        <input type="text" id="searchInput" placeholder="Rechercher par nom ou description..." 
+                               style="width: 100%; padding: 12px 15px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 14px;">
+                    </div>
+                    <div style="flex: 0 0 200px;">
+                        <label style="font-size: 14px; color: #666; font-weight: 600; margin-bottom: 8px; display: block;">
+                            <i class="mdi mdi-tag"></i> Catégorie
+                        </label>
+                        <select id="categoryFilter" style="width: 100%; padding: 12px 15px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 14px; cursor: pointer;">
+                            <option value="all">Toutes les catégories</option>
+                            <?php if (!empty($categories)): ?>
+                                <?php foreach ($categories as $category): ?>
+                                    <option value="<?php echo htmlspecialchars($category['idcategorie']); ?>">
+                                        <?php echo htmlspecialchars($category['name']); ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
             <div class="items-grid">
                 <?php if (!empty($items)): ?>
                     <?php foreach ($items as $item): ?>
-                        <div class="item-card" id="item-<?php echo $item['idItem']; ?>" data-item-id="<?php echo $item['idItem']; ?>">
+                        <div class="item-card" 
+                             id="item-<?php echo $item['idItem']; ?>" 
+                             data-item-id="<?php echo $item['idItem']; ?>"
+                             data-category="<?php echo htmlspecialchars($item['idcategorie'] ?? ''); ?>" 
+                             data-name="<?php echo strtolower(htmlspecialchars($item['name'])); ?>" 
+                             data-description="<?php echo strtolower(htmlspecialchars($item['description'] ?? '')); ?>">
                             <button class="delete-btn" data-item-id="<?php echo $item['idItem']; ?>" title="Supprimer">
                                 <i class="mdi mdi-close"></i>
                             </button>
@@ -136,6 +168,34 @@
                     }
                 });
             });
+            
+            // Filtrage des items
+            const searchInput = document.getElementById('searchInput');
+            const categoryFilter = document.getElementById('categoryFilter');
+            const itemCards = document.querySelectorAll('.item-card');
+            
+            function filterItems() {
+                const searchTerm = searchInput.value.toLowerCase();
+                const selectedCategory = categoryFilter.value;
+                
+                itemCards.forEach(function(card) {
+                    const itemName = card.getAttribute('data-name');
+                    const itemDescription = card.getAttribute('data-description');
+                    const itemCategory = card.getAttribute('data-category');
+                    
+                    const matchesSearch = itemName.includes(searchTerm) || itemDescription.includes(searchTerm);
+                    const matchesCategory = selectedCategory === 'all' || itemCategory === selectedCategory;
+                    
+                    if (matchesSearch && matchesCategory) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            }
+            
+            searchInput.addEventListener('input', filterItems);
+            categoryFilter.addEventListener('change', filterItems);
         });
     </script>
 </body>
