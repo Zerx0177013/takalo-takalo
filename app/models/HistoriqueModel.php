@@ -27,18 +27,6 @@ class HistoriqueModel
         }
     }
 
-    public function getEchangesObjet($itemId)
-    {
-        try {
-            $sql = 'SELECT * FROM v_historique_objet WHERE idItem = :itemId ORDER BY dateEchange ASC';
-            $statement = $this->pdo->prepare($sql);
-            $statement->execute([':itemId' => $itemId]);
-            return $statement->fetchAll(PDO::FETCH_ASSOC);
-        } catch (PDOException $e) {
-            return [];
-        }
-    }
-
     public function createEchange($idDemande, $idDemandeur, $idOffreur, $idObjetOffert, $idObjetDemande)
     {
         try {
