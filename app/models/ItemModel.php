@@ -208,6 +208,23 @@ class ItemModel
         }
     }
 
+    public function getItemsByReferencePriceOthers($referencePrice, $rangeOffset = 5, $idSelf)
+    {
+        try {
+            $minPrice = max(0, $referencePrice - $rangeOffset);
+            $maxPrice = $referencePrice + $rangeOffset;
+            $statement = $this->pdo->prepare('SELECT * FROM `item` WHERE price >= :minPrice AND price <= :maxPrice AND idUser = :idSelf');
+            $statement->execute([
+                ':minPrice' => $minPrice,
+                ':maxPrice' => $maxPrice,
+                ':idSelf' => $idSelf
+            ]);
+            return $statement->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            return [];
+        }
+    }
+
     public function getItemsByCategory($idCategory)
     {
         try {

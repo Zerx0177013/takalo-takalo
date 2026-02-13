@@ -152,10 +152,20 @@ class ItemController
             $categoryModel = new CategoryModel($pdo);
             $selectedItem = $model->getItemById($itemId);
             $exits = $categoryModel->categoryExists($selectedItem['idcategorie']);
+            
             if ($selectedItem && $selectedItem['price'] && $exits) {
-                $items = $model->getItemsByReferencePrice($selectedItem['price'], $range, $currentUserId);
-               //$items = $model->getItemsByCategoryAndPriceRange($selectedItem['idcategorie'], $selectedItem['price'], $range, $currentUserId);
-
+                // Déterminer si on affiche les items du user ou des autres
+                if ($selectedItem['idUser'] === $currentUserId) {
+                    // L'item sélectionné appartient au user → afficher les items des AUTRES (ce qu'il peut recevoir)
+                    $items = $model->getItemsByReferencePrice($selectedItem['price'], $range, $currentUserId);
+                } else {
+                    // L'item sélectionné appartient à quelqu'un d'autre → afficher les items DU USER (ce qu'il peut offrir)
+                    $items = $model->getItemsByReferencePriceOthers($selectedItem['price'], $range, $currentUserId);
+                    // Exclure l'item sélectionné s'il apparaît dans la liste
+                    $items = array_filter($items, function($item) use ($itemId) {
+                        return $item['idItem'] != $itemId;
+                    });
+                }
             } else {
                 $items = $this->getAllItemsExceptSelf();
             }
