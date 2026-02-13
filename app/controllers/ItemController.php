@@ -104,14 +104,23 @@ class ItemController
 
     public function index()
     {
+        $pdo = $this->app->db();
+        $categoryModel = new CategoryModel($pdo);
+        
         $items = $this->getAllItemsExceptSelf();
-        $this->app->render('index', ['items' => $items]);
+        $categories = $categoryModel->getAllCategories();
+        
+        $this->app->render('index', [
+            'items' => $items,
+            'categories' => $categories
+        ]);
     }
 
     public function myItems()
     {
         $pdo = $this->app->db();
         $model = new ItemModel($pdo);
+        $categoryModel = new CategoryModel($pdo);
 
         $userId = $_SESSION['idUser'];
 
@@ -122,10 +131,13 @@ class ItemController
             $image = $model->getFirstImageOfAnItem($item['idItem']);
             $item['image'] = $image ? $image['imageURL'] : null;
         }
+        
+        $categories = $categoryModel->getAllCategories();
 
         $this->app->render('my-items', [
             'items' => $items,
-            'currentUserId' => $userId
+            'currentUserId' => $userId,
+            'categories' => $categories
         ]);
     }
 
