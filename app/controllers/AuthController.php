@@ -25,6 +25,24 @@ class AuthController
         $authModel = new AuthModel($this->app->db());
         return $authModel->isLoggedIn();
     }
+
+    public function isAdmin()
+    {
+        return isset($_SESSION['isAdmin']) && $_SESSION['isAdmin'] == 1;
+    }
+
+    public function requireAdmin()
+    {
+        if (!$this->isLogged()) {
+            $this->app->redirect('/login');
+            return false;
+        }
+        if (!$this->isAdmin()) {
+            $this->app->redirect('/');
+            return false;
+        }
+        return true;
+    }
     public function login($email, $password)
     {
         $db = $this->app->db();
