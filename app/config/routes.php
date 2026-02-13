@@ -22,7 +22,7 @@ $router->group('', function (Router $router) use ($app) {
 			$authController = new AuthController($app);
 			$controller = new ItemController($app);
 			$user = $authController->login($email, $password);
-			$authController->checkLogin('index',['items' => $controller->getAllItemsExceptSelf()]);
+			$authController->checkLogin('index', ['items' => $controller->getAllItemsExceptSelf()]);
 		});
 
 		$router->get('/login', function () use ($app) {
@@ -92,6 +92,17 @@ $router->group('', function (Router $router) use ($app) {
 				$app->redirect('/login');
 			}
 		});
+
+		$router->get('/other-demandes', function () use ($app) {
+			$authController = new AuthController($app);
+			if ($authController->isLogged()) {
+				$controller = new DemandeController($app);
+				$controller->othersdemandes();
+			} else {
+				$app->redirect('/login');
+			}
+		});
+
 
 		$router->get('/items/new', function () use ($app) {
 			$authController = new AuthController($app);
