@@ -214,11 +214,12 @@ class ItemModel
         }
     }
 
-    public function getItemsByReferencePriceOthers($referencePrice, $rangeOffset = 5, $idSelf)
+    public function getItemsByReferencePriceOthers($referencePrice, $rangeOffset, $idSelf)
     {
         try {
-            $minPrice = max(0, $referencePrice - $rangeOffset);
-            $maxPrice = $referencePrice + $rangeOffset;
+            $pourcentageOffset = $referencePrice * ($rangeOffset / 100);
+            $minPrice = $referencePrice - $pourcentageOffset;
+            $maxPrice = $referencePrice + $pourcentageOffset;
             $statement = $this->pdo->prepare('SELECT * FROM `item` WHERE price >= :minPrice AND price <= :maxPrice AND idUser = :idSelf');
             $statement->execute([
                 ':minPrice' => $minPrice,

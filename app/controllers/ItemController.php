@@ -189,6 +189,12 @@ class ItemController
         foreach ($items as &$item) {
             $image = $model->getFirstImageOfAnItem($item['idItem']);
             $item['image'] = $image ? $image['imageURL'] : null;
+            
+            if ($selectedItem && $selectedItem['price'] > 0) {
+                $item['differencePourcentage'] = (($item['price'] - $selectedItem['price']) / $selectedItem['price']) * 100;
+            } else {
+                $item['differencePourcentage'] = null;
+            }
         }
 
         $this->app->render('propositions', [
