@@ -33,6 +33,12 @@ use Tracy\Bar;
                 <p>Tous les objets disponibles pour l'échange</p>
             </div>
 
+            <div class="filter-section" style="margin-bottom: 20px; display: flex; gap: 10px; flex-wrap: wrap;">
+                <a href="/propositions?itemId=<?php echo $selectedItem['idItem']; ?>" class="btn btn-gradient-light" style="padding: 8px 16px; text-decoration: none;">Tous</a>
+                <a href="/propositions?itemId=<?php echo $selectedItem['idItem']; ?>&range=10" class="btn btn-gradient-secondary" style="padding: 8px 16px; text-decoration: none;">±10%</a>
+                <a href="/propositions?itemId=<?php echo $selectedItem['idItem']; ?>&range=20" class="btn btn-gradient-secondary" style="padding: 8px 16px; text-decoration: none;">±20%</a>
+            </div>
+
             <div class="items-grid">
                 <?php if (!empty($items)): ?>
                     <?php foreach ($items as $item): ?>
@@ -53,7 +59,13 @@ use Tracy\Bar;
                                     ?>
                                 </p>
                                 <?php if (!empty($item['price'])): ?>
-                                    <div class="item-price"><?php echo number_format($item['price'], 2, ',', ' '); ?> Ar</div>
+                                    <div class="item-price"><?php echo number_format($item['price'], 2, ',', ' '); ?> Ar
+                                        <?php if ($item['differencePourcentage'] !== null): ?>
+                                            <span style="margin-left: 10px; font-size: 0.9em; <?php echo ($item['differencePourcentage'] > 0) ? 'color: #ff6b6b;' : 'color: #51cf66;'; ?>">
+                                                <?php echo ($item['differencePourcentage'] > 0) ? '+' : ''; ?><?php echo number_format($item['differencePourcentage'], 1, ',', ' '); ?>%
+                                            </span>
+                                        <?php endif; ?>
+                                    </div>
                                 <?php endif; ?>
                                 <div class="item-actions">
                                     <button class="btn btn-gradient-primary btn-lg" onclick="confirmExchange(<?php echo $selectedItem['idItem']; ?>, <?php echo $item['idItem']; ?>, '<?php echo htmlspecialchars($selectedItem['name']); ?>', '<?php echo htmlspecialchars($item['name']); ?>')">

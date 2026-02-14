@@ -16,7 +16,7 @@
                     <span
                         class="font-weight-bold mb-2"><?php echo htmlspecialchars($_SESSION['username'] ?? 'Utilisateur'); ?></span>
                     <?php if (!$_SESSION['isAdmin']): ?> <span class="text-secondary text-small">Membre</span>
-                    <?php else: ?> <span class="text-secondary text-small">Membre</span>
+                    <?php else: ?> <span class="text-secondary text-small">Administrateur</span>
                     <?php endif; ?>
                 </div>
                 <i class="mdi mdi-bookmark-check text-success nav-profile-badge"></i>

@@ -157,7 +157,7 @@ class ItemController
         $currentUserId = $_SESSION['idUser'];
 
         $itemId = $this->app->request()->query['itemId'] ?? null;
-        $range = (int) ($this->app->request()->query['range'] ?? 5);
+        $range = (int) ($this->app->request()->query['range']);
 
         $items = [];
         $selectedItem = null;
@@ -168,13 +168,10 @@ class ItemController
             $selectedItem = $model->getItemById($itemId);
             $exits = $categoryModel->categoryExists($selectedItem['idcategorie']);
             
-            if ($selectedItem && $selectedItem['price'] && $exits) {
-                // Déterminer si on affiche les items du user ou des autres
+            if ($selectedItem && $selectedItem['price'] && $exits && $range > 0) {
                 if ($selectedItem['idUser'] === $currentUserId) {
-                    // L'item sélectionné appartient au user → afficher les items des AUTRES (ce qu'il peut recevoir)
                     $items = $model->getItemsByReferencePrice($selectedItem['price'], $range, $currentUserId);
                 } else {
-                    // L'item sélectionné appartient à quelqu'un d'autre → afficher les items DU USER (ce qu'il peut offrir)
                     $items = $model->getItemsByReferencePriceOthers($selectedItem['price'], $range, $currentUserId);
                     // Exclure l'item sélectionné s'il apparaît dans la liste
                     $items = array_filter($items, function($item) use ($itemId) {
@@ -192,6 +189,12 @@ class ItemController
         foreach ($items as &$item) {
             $image = $model->getFirstImageOfAnItem($item['idItem']);
             $item['image'] = $image ? $image['imageURL'] : null;
+            
+            if ($selectedItem && $selectedItem['price'] > 0) {
+                $item['differencePourcentage'] = (($item['price'] - $selectedItem['price']) / $selectedItem['price']) * 100;
+            } else {
+                $item['differencePourcentage'] = null;
+            }
         }
 
         $this->app->render('propositions', [

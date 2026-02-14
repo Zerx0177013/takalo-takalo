@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
   document.querySelectorAll(".btn-exchange").forEach(function (button) {
     button.addEventListener("click", function () {
       const itemId = this.getAttribute("data-item-id");
-      window.location.href = "/propositions?itemId=" + itemId;
+      window.location.href = "/propositions?itemId=" + itemId ;
     });
   });
 
