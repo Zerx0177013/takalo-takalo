@@ -114,7 +114,8 @@ class ExchangeController
                 $demande['idObjetOffert'],
                 $demande['idObjetDemande']
             );
-
+            $demandeModel->invalidateDemandeForItem($demande['idObjetOffert']);
+            $demandeModel->invalidateDemandeForItem($demande['idObjetDemande']);
             if ($echangeId) {
                 // L'objet offert change de propriétaire (du demandeur vers le receveur)
                 $historiqueModel->updateItemOwner($demande['idObjetOffert'], $demande['idReceveur']);

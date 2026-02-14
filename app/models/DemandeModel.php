@@ -149,4 +149,24 @@ class DemandeModel
             return 0;
         }
     }
+    public function getDemandesOfItem($itemID){
+        try {
+            $statement = $this->pdo->prepare('SELECT idDemande FROM v_details_demandes WHERE (idObjetOffert = :itemID OR idObjetDemande = :itemID) AND statusAt IS NULL');
+            $statement->execute([':itemID' => $itemID]);
+            return $statement->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            return [];
+        }
+    }
+
+     public function invalidateDemandeForItem($id)
+    {
+        $demandesActives = $this->getDemandesOfItem($id);
+        if (empty($demandesActives))
+            return;
+        foreach ($demandesActives as $demande) {
+            $this->refuseDemande($demande['idDemande']);
+        }
+
+    }
 }
