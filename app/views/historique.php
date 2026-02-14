@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="/assets/css/style.css">
     <link rel="shortcut icon" href="/assets/images/favicon.ico" />
     <link rel="stylesheet" href="/assets/css/category.css">
+    <link rel="stylesheet" href="/assets/css/demande.css">
 </head>
 
 <body>
@@ -30,42 +31,47 @@
 
                 </div>
 
-                <div class="categories-card">
-                    <?php if (empty($historique)): ?>
+                <div class="demandes-container">
+                    <?php if (!empty($historique)) { ?>
+                        <?php foreach ($historique as $echange) { ?>
+                            <div class="demande-card" data-status="<?php
+                            $statusId = $echange['idDemandeStatus'] ?? 1;
+                            if ($statusId == 2) {
+                                echo 'accepted';
+                            } elseif ($statusId == 3) {
+                                echo 'refused';
+                            } else {
+                                echo 'pending';
+                            }
+                            ?>">
+                                <div class="demande-header">
+                                </div>
+                                <div class="demande-body">
+                                    <div class="demande-info">
+                                        <label><i class="mdi mdi-account"></i> Ancien proprietaire</label>
+                                        <span><?php echo htmlspecialchars($echange['ancien_proprietaire']); ?></span>
+                                    </div>
+                                    <div class="demande-info">
+                                        <label><i class="mdi mdi-account-check"></i> Nouveau proprietaire</label>
+                                        <span><?php echo htmlspecialchars($echange['nouveau_proprietaire']); ?></span>
+                                    </div>
+                                    <div class="demande-info">
+                                        <label><i class="mdi mdi-package-variant"></i> Date</label>
+                                        <span><?php echo htmlspecialchars($echange['dateEchange']); ?></span>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php } ?>
+                    <?php } else { ?>
                         <div class="empty-state">
-                            <i class="mdi mdi-tag-off-outline"></i>
-                            <p>Aucune catégorie trouvée</p>
+                            <i class="mdi mdi-email-outline"></i>
+                            <h2>Aucune histoire</h2>
+                            <p>Cet objet n'a jamais été échangé.</p>
+                            <button class="btn btn-gradient-primary btn-lg" onclick="window.location.href='/'">
+                                <i class="mdi mdi-magnify"></i> Découvrir des objets
+                            </button>
                         </div>
-                    <?php else: ?>
-                        <table class="categories-table">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Date echange </th>
-                                    <th>ancien proprietaire</th>
-                                    <th>nouveau proprietaire</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php foreach ($historique as $entry): ?>
-                                    <tr>
-                                        <td class="category-id">
-                                            #<?= htmlspecialchars((string) ($entry['idItem'] ?? ''), ENT_QUOTES, 'UTF-8') ?>
-                                        </td>
-                                        <td class="category-name">
-                                            <?= htmlspecialchars((string) ($entry['dateEchange'] ?? ''), ENT_QUOTES, 'UTF-8') ?>
-                                        </td>
-                                        <td class="category-name">
-                                            <?= htmlspecialchars((string) ($entry['ancien_proprietaire'] ?? ''), ENT_QUOTES, 'UTF-8') ?>
-                                        </td>
-                                        <td class="category-name">
-                                            <?= htmlspecialchars((string) ($entry['nouveau_proprietaire'] ?? ''), ENT_QUOTES, 'UTF-8') ?>
-                                        </td>
-                                    </tr>
-                                <?php endforeach; ?>
-                            </tbody>
-                        </table>
-                    <?php endif; ?>
+                    <?php } ?>
                 </div>
             </div>
             <!-- end content-wrapper -->
