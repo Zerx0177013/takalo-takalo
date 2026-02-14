@@ -4,6 +4,7 @@ use Tracy\Bar;
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -17,75 +18,90 @@ use Tracy\Bar;
     <link rel="stylesheet" href="/assets/css/style.css">
     <!-- End layout styles -->
     <link rel="shortcut icon" href="/assets/images/favicon.ico" />
-    <link rel="stylesheet" href="/assets/css/index.css"></head>
+    <link rel="stylesheet" href="/assets/css/index.css">
+</head>
+
 <body>
     <div class="page-wrapper">
         <!-- Sidebar -->
-    <?php
-   require_once("sidebar.php");
-   ?>
+        <?php
+        require_once("sidebar.php");
+        ?>
 
 
         <!-- Main Content -->
-        <div class="main-content">
-            <div class="header">
-                <h1>💱 Propositions d'échange</h1>
-                <p>Tous les objets disponibles pour l'échange</p>
-            </div>
+        <div class="main-panel">
+            <div class="content-wrapper">
+                <div class="header">
+                    <h1>💱 Propositions d'échange</h1>
+                    <p>Tous les objets disponibles pour l'échange</p>
+                </div>
 
-            <div class="filter-section" style="margin-bottom: 20px; display: flex; gap: 10px; flex-wrap: wrap;">
-                <a href="/propositions?itemId=<?php echo $selectedItem['idItem']; ?>" class="btn btn-gradient-light" style="padding: 8px 16px; text-decoration: none;">Tous</a>
-                <a href="/propositions?itemId=<?php echo $selectedItem['idItem']; ?>&range=10" class="btn btn-gradient-secondary" style="padding: 8px 16px; text-decoration: none;">±10%</a>
-                <a href="/propositions?itemId=<?php echo $selectedItem['idItem']; ?>&range=20" class="btn btn-gradient-secondary" style="padding: 8px 16px; text-decoration: none;">±20%</a>
-            </div>
+                <div class="filter-section" style="margin-bottom: 20px; display: flex; gap: 10px; flex-wrap: wrap;">
+                    <a href="/propositions?itemId=<?php echo $selectedItem['idItem']; ?>" class="btn btn-gradient-light"
+                        style="padding: 8px 16px; text-decoration: none;">Tous</a>
+                    <a href="/propositions?itemId=<?php echo $selectedItem['idItem']; ?>&range=10"
+                        class="btn btn-gradient-secondary" style="padding: 8px 16px; text-decoration: none;">±10%</a>
+                    <a href="/propositions?itemId=<?php echo $selectedItem['idItem']; ?>&range=20"
+                        class="btn btn-gradient-secondary" style="padding: 8px 16px; text-decoration: none;">±20%</a>
+                </div>
 
-            <div class="items-grid">
-                <?php if (!empty($items)): ?>
-                    <?php foreach ($items as $item): ?>
-                        <div class="item-card">
-                            <div class="item-image">
-                                <?php if (!empty($item['image'])): ?>
-                                    <img src="<?php echo htmlspecialchars($item['image']); ?>" alt="<?php echo htmlspecialchars($item['name']); ?>">
-                                <?php else: ?>
-                                    <i class="mdi mdi-package-variant"></i>
-                                <?php endif; ?>
-                            </div>
-                            <div class="item-content">
-                                <h3 class="item-name"><?php echo htmlspecialchars($item['name']); ?></h3>
-                                <p class="item-description">
-                                    <?php 
+                <div class="items-grid">
+                    <?php if (!empty($items)): ?>
+                        <?php foreach ($items as $item): ?>
+                            <div class="item-card">
+                                <div class="item-image">
+                                    <?php if (!empty($item['image'])): ?>
+                                        <img src="<?php echo htmlspecialchars($item['image']); ?>"
+                                            alt="<?php echo htmlspecialchars($item['name']); ?>">
+                                    <?php else: ?>
+                                        <i class="mdi mdi-package-variant"></i>
+                                    <?php endif; ?>
+                                </div>
+                                <div class="item-content">
+                                    <h3 class="item-name"><?php echo htmlspecialchars($item['name']); ?></h3>
+                                    <p class="item-description">
+                                        <?php
                                         $description = $item['description'] ?? 'Aucune description disponible.';
                                         echo htmlspecialchars($description);
-                                    ?>
-                                </p>
-                                <?php if (!empty($item['price'])): ?>
-                                    <div class="item-price"><?php echo number_format($item['price'], 2, ',', ' '); ?> Ar
-                                        <?php if ($item['differencePourcentage'] !== null): ?>
-                                            <span style="margin-left: 10px; font-size: 0.9em; <?php echo ($item['differencePourcentage'] > 0) ? 'color: #ff6b6b;' : 'color: #51cf66;'; ?>">
-                                                <?php echo ($item['differencePourcentage'] > 0) ? '+' : ''; ?><?php echo number_format($item['differencePourcentage'], 1, ',', ' '); ?>%
-                                            </span>
-                                        <?php endif; ?>
+                                        ?>
+                                    </p>
+                                    <?php if (!empty($item['price'])): ?>
+                                        <div class="item-price"><?php echo number_format($item['price'], 2, ',', ' '); ?> Ar
+                                            <?php if ($item['differencePourcentage'] !== null): ?>
+                                                <span
+                                                    style="margin-left: 10px; font-size: 0.9em; <?php echo ($item['differencePourcentage'] > 0) ? 'color: #ff6b6b;' : 'color: #51cf66;'; ?>">
+                                                    <?php echo ($item['differencePourcentage'] > 0) ? '+' : ''; ?>
+                                                    <?php echo number_format($item['differencePourcentage'], 1, ',', ' '); ?>%
+                                                </span>
+                                            <?php endif; ?>
+                                        </div>
+                                    <?php endif; ?>
+                                    <div class="item-actions">
+                                        <button class="btn btn-gradient-primary btn-lg"
+                                            onclick="confirmExchange(<?php echo $selectedItem['idItem']; ?>, <?php echo $item['idItem']; ?>, '<?php echo htmlspecialchars($selectedItem['name']); ?>', '<?php echo htmlspecialchars($item['name']); ?>')">
+                                            <i class="mdi mdi-swap-horizontal"></i> Échanger
+                                        </button>
+                                        <button class="btn btn-gradient-light btn-lg"
+                                            onclick="window.location.href='/items/<?php echo $item['idItem']; ?>'">
+                                            <i class="mdi mdi-eye"></i> Détails
+                                        </button>
                                     </div>
-                                <?php endif; ?>
-                                <div class="item-actions">
-                                    <button class="btn btn-gradient-primary btn-lg" onclick="confirmExchange(<?php echo $selectedItem['idItem']; ?>, <?php echo $item['idItem']; ?>, '<?php echo htmlspecialchars($selectedItem['name']); ?>', '<?php echo htmlspecialchars($item['name']); ?>')">
-                                        <i class="mdi mdi-swap-horizontal"></i> Échanger
-                                    </button>
-                                    <button class="btn btn-gradient-light btn-lg" onclick="window.location.href='/items/<?php echo $item['idItem']; ?>'">
-                                        <i class="mdi mdi-eye"></i> Détails
-                                    </button>
                                 </div>
                             </div>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <div class="empty-state">
+                            <i class="mdi mdi-package-variant-closed"></i>
+                            <h2>Aucune proposition disponible</h2>
+                            <p>Il n'y a actuellement aucune proposition d'échange disponible.</p>
                         </div>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <div class="empty-state">
-                        <i class="mdi mdi-package-variant-closed"></i>
-                        <h2>Aucune proposition disponible</h2>
-                        <p>Il n'y a actuellement aucune proposition d'échange disponible.</p>
-                    </div>
-                <?php endif; ?>
+                    <?php endif; ?>
+                </div>
             </div>
+            <?php
+            require_once("footer.php");
+            ?>
         </div>
     </div>
 
@@ -124,6 +140,7 @@ use Tracy\Bar;
         </div>
     </div>
 
-  <script src="/assets/js/propositions.js"></script>
+    <script src="/assets/js/propositions.js"></script>
 </body>
+
 </html>

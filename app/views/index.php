@@ -22,7 +22,9 @@
 require_once("sidebar.php") ;
 ?>
         <!-- Main Content -->
-        <div class="main-content">
+        <div class="main-panel">
+            <div class="content-wrapper">
+                <!-- Header -->
             <div class="header">
                 <h1>📦 Objets disponibles</h1>
                 <p>Découvrez les objets disponibles pour l'échange</p>
@@ -99,6 +101,10 @@ require_once("sidebar.php") ;
                     </div>
                 <?php endif; ?>
             </div>
+            </div>
+            <?php 
+            require_once("footer.php");
+            ?>
         </div>
     </div>
 

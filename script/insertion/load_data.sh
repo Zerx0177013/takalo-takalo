@@ -58,12 +58,15 @@ fi
 declare -a scripts=(
     "$PARENT_SCRIPT_DIR/2026-02-09_01_tables.sql:Création de la base de données et tables"
     "$PARENT_SCRIPT_DIR/2026-02-09_01_view.sql:Création des vues"
+     "$PARENT_SCRIPT_DIR/2026-02-12_01_view_details_demandes.sql:Création des vues détaillées des demandes"
+  "$PARENT_SCRIPT_DIR/2026-02-12_02_view_historique.sql:Création des vues détaillées de l'historique"
+     
     "2026-02-13_00_insertCategories.sql:Insertion des catégories et statuts"
     "2026-02-13_01_insertUser.sql:Insertion des utilisateurs"
     "2026-02-10_01_INSERTADMIN.sql:Insertion de l'administrateur"
     "2026-02-13_02_insertObjets.sql:Insertion des objets"
     "2026-02-13_03_insertDemandes.sql:Insertion des demandes"
-    "test_v_historique.sql"
+    "2026-02-13_04_test_historique.sql:Data test historique des demandes"
 )
 
 # Compteurs

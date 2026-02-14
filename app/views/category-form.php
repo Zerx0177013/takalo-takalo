@@ -20,38 +20,43 @@
         ?>
 
         <!-- Main Content -->
-        <div class="main-content">
-            <div class="header">
-                <div class="header-text">
-                    <h1>✏️ Modifier la catégorie</h1>
-                    <p>Modifiez les informations de la catégorie</p>
+        <div class="main-panel">
+            <div class="content-wrapper">
+                <div class="header">
+                    <div class="header-text">
+                        <h1>✏️ Modifier la catégorie</h1>
+                        <p>Modifiez les informations de la catégorie</p>
+                    </div>
+                    <a href="/categories" class="btn-add">
+                        <i class="mdi mdi-arrow-left"></i>
+                        Retour à la liste
+                    </a>
                 </div>
-                <a href="/categories" class="btn-add">
-                    <i class="mdi mdi-arrow-left"></i>
-                    Retour à la liste
-                </a>
-            </div>
 
-            <div class="categories-card">
-                <form id="editCategoryForm" class="category-form">
-                    <div class="form-group">
-                        <label for="categoryName">Nom de la catégorie</label>
-                        <input type="text" id="categoryName" name="name" class="form-control"
-                            value="<?= htmlspecialchars((string) ($category['name'] ?? ''), ENT_QUOTES, 'UTF-8') ?>"
-                            required>
-                    </div>
+                <div class="categories-card">
+                    <form id="editCategoryForm" class="category-form">
+                        <div class="form-group">
+                            <label for="categoryName">Nom de la catégorie</label>
+                            <input type="text" id="categoryName" name="name" class="form-control"
+                                value="<?= htmlspecialchars((string) ($category['name'] ?? ''), ENT_QUOTES, 'UTF-8') ?>"
+                                required>
+                        </div>
 
-                    <div class="form-actions">
-                        <button type="submit" class="btn-submit">
-                            <i class="mdi mdi-content-save"></i>
-                            Enregistrer les modifications
-                        </button>
-                        <a href="/categories" class="btn-cancel">
-                            Annuler
-                        </a>
-                    </div>
-                </form>
+                        <div class="form-actions">
+                            <button type="submit" class="btn-submit">
+                                <i class="mdi mdi-content-save"></i>
+                                Enregistrer les modifications
+                            </button>
+                            <a href="/categories" class="btn-cancel">
+                                Annuler
+                            </a>
+                        </div>
+                    </form>
+                </div>
             </div>
+            <?php
+            require_once("footer.php");
+            ?>
         </div>
     </div>
 

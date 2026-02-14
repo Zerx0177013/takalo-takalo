@@ -20,52 +20,59 @@
         ?>
 
         <!-- Main Content -->
-        <div class="main-content">
-            <div class="header">
-                <div class="header-text">
-                    <h1>🏷️ Historique d'echanges</h1>
-                    <p>Voyez ici les echanges passes de cet objet</p>
+        <div class="main-panel">
+            <div class="content-wrapper">
+                <div class="header">
+                    <div class="header-text">
+                        <h1>🏷️ Historique d'echanges</h1>
+                        <p>Voyez ici les echanges passes de cet objet</p>
+                    </div>
+
                 </div>
 
-            </div>
-
-            <div class="categories-card">
-                <?php if (empty($historique)): ?>
-                    <div class="empty-state">
-                        <i class="mdi mdi-tag-off-outline"></i>
-                        <p>Aucune catégorie trouvée</p>
-                    </div>
-                <?php else: ?>
-                    <table class="categories-table">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Date echange </th>
-                                <th>ancien proprietaire</th>
-                                <th>nouveau proprietaire</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($historique as $entry): ?>
+                <div class="categories-card">
+                    <?php if (empty($historique)): ?>
+                        <div class="empty-state">
+                            <i class="mdi mdi-tag-off-outline"></i>
+                            <p>Aucune catégorie trouvée</p>
+                        </div>
+                    <?php else: ?>
+                        <table class="categories-table">
+                            <thead>
                                 <tr>
-                                    <td class="category-id">
-                                        #<?= htmlspecialchars((string) ($entry['idItem'] ?? ''), ENT_QUOTES, 'UTF-8') ?>
-                                    </td>
-                                    <td class="category-name">
-                                        <?= htmlspecialchars((string) ($entry['dateEchange'] ?? ''), ENT_QUOTES, 'UTF-8') ?>
-                                    </td>
-                                    <td class="category-name">
-                                        <?= htmlspecialchars((string) ($entry['ancien_proprietaire'] ?? ''), ENT_QUOTES, 'UTF-8') ?>
-                                    </td>
-                                    <td class="category-name">
-                                        <?= htmlspecialchars((string) ($entry['nouveau_proprietaire'] ?? ''), ENT_QUOTES, 'UTF-8') ?>
-                                    </td>
+                                    <th>ID</th>
+                                    <th>Date echange </th>
+                                    <th>ancien proprietaire</th>
+                                    <th>nouveau proprietaire</th>
                                 </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
-                <?php endif; ?>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($historique as $entry): ?>
+                                    <tr>
+                                        <td class="category-id">
+                                            #<?= htmlspecialchars((string) ($entry['idItem'] ?? ''), ENT_QUOTES, 'UTF-8') ?>
+                                        </td>
+                                        <td class="category-name">
+                                            <?= htmlspecialchars((string) ($entry['dateEchange'] ?? ''), ENT_QUOTES, 'UTF-8') ?>
+                                        </td>
+                                        <td class="category-name">
+                                            <?= htmlspecialchars((string) ($entry['ancien_proprietaire'] ?? ''), ENT_QUOTES, 'UTF-8') ?>
+                                        </td>
+                                        <td class="category-name">
+                                            <?= htmlspecialchars((string) ($entry['nouveau_proprietaire'] ?? ''), ENT_QUOTES, 'UTF-8') ?>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    <?php endif; ?>
+                </div>
             </div>
+            <!-- end content-wrapper -->
+
+            <?php
+            require_once("footer.php");
+            ?>
         </div>
     </div>
 

@@ -191,128 +191,135 @@
         require_once("sidebar.php");
         ?>
 
-        <div class="main-content">
-            <div class="header">
-                <h1>📥 Demandes reçues</h1>
-                <p>Gérez les demandes d'échange que vous avez reçues des autres utilisateurs</p>
-            </div>
-
-            <div class="filter-bar">
-                <label class="filter-label">
-                    <i class="mdi mdi-filter"></i> Filtrer par statut
-                </label>
-                <div class="filter-buttons">
-                    <button class="filter-btn active" data-filter="all">
-                        <i class="mdi mdi-all-inclusive"></i> Toutes
-                    </button>
-                    <button class="filter-btn" data-filter="pending">
-                        <i class="mdi mdi-clock-outline"></i> En attente
-                    </button>
-                    <button class="filter-btn" data-filter="accepted">
-                        <i class="mdi mdi-check-circle"></i> Acceptées
-                    </button>
-                    <button class="filter-btn" data-filter="refused">
-                        <i class="mdi mdi-close-circle"></i> Refusées
-                    </button>
+        <div class="main-panel">
+            <div class="content-wrapper">
+                <div class="header">
+                    <h1>📥 Demandes reçues</h1>
+                    <p>Gérez les demandes d'échange que vous avez reçues des autres utilisateurs</p>
                 </div>
-            </div>
 
-            <div class="demandes-container">
-                <?php if (!empty($demandes)) { ?>
-                    <?php foreach ($demandes as $demande) { ?>
-                        <div class="demande-card" data-status="<?php
-                                                                $statusId = $demande['idDemandeStatus'] ?? 1;
-                                                                if ($statusId == 2) {
-                                                                    echo 'accepted';
-                                                                } elseif ($statusId == 3) {
-                                                                    echo 'refused';
-                                                                } else {
-                                                                    echo 'pending';
-                                                                }
-                                                                ?>">
-                            <div class="demande-header">
-                                <div class="demande-id">
-                                    <i class="mdi mdi-swap-horizontal"></i>
-                                    Demande #<?php echo htmlspecialchars($demande['idDemande']); ?>
-                                </div>
-                                <div class="demande-status <?php
-                                                            $statusId = $demande['idDemandeStatus'] ?? 1;
-                                                            if ($statusId == 2) {
-                                                                echo 'status-accepted';
-                                                            } elseif ($statusId == 3) {
-                                                                echo 'status-refused';
-                                                            } else {
-                                                                echo 'status-pending';
-                                                            }
-                                                            ?>">
-                                    <?php
-                                    $statusId = $demande['idDemandeStatus'] ?? 1;
-                                    if ($statusId == 2) {
-                                        echo '✓ Acceptée';
-                                    } elseif ($statusId == 3) {
-                                        echo '✗ Refusée';
-                                    } else {
-                                        echo '⏳ En attente';
-                                    }
-                                    ?>
-                                </div>
-                            </div>
-                            <div class="demande-body">
-                                <div class="demande-info">
-                                    <label><i class="mdi mdi-account"></i> De</label>
-                                    <span><?php echo htmlspecialchars($demande['demandeur_username']); ?></span>
-                                </div>
-                                <div class="demande-info">
-                                    <label><i class="mdi mdi-account-check"></i> À</label>
-                                    <span><?php echo htmlspecialchars($demande['receveur_username']); ?> (Vous)</span>
-                                </div>
-                                <div class="demande-info">
-                                    <label><i class="mdi mdi-package-variant"></i> Vous recevez</label>
-                                    <span><?php echo htmlspecialchars($demande['objet_offert_name']); ?></span>
-                                </div>
-                                <div class="demande-info">
-                                    <label><i class="mdi mdi-package-variant-closed"></i> Vous donnez</label>
-                                    <span><?php echo htmlspecialchars($demande['objet_demande_name']); ?></span>
-                                </div>
-                                <?php if (!empty($demande['createdAt'])) { ?>
-                                    <div class="demande-info">
-                                        <label><i class="mdi mdi-calendar"></i> Date de création</label>
-                                        <span><?php echo date('d/m/Y H:i', strtotime($demande['createdAt'])); ?></span>
-                                    </div>
-                                <?php } ?>
-                                <?php if (!empty($demande['statusAt'])) { ?>
-                                    <div class="demande-info">
-                                        <label><i class="mdi mdi-update"></i> Dernière mise à jour</label>
-                                        <span><?php echo date('d/m/Y H:i', strtotime($demande['statusAt'])); ?></span>
-                                    </div>
-                                <?php } ?>
-                            </div>
-
-                            <?php if (($demande['idDemandeStatus'] ?? 1) == 1) { ?>
-                                <div class="demande-actions">
-                                    <button class="btn-accept" data-demande-id="<?php echo $demande['idDemande']; ?>" data-action="accept">
-                                        <i class="mdi mdi-check-circle"></i>
-                                        Accepter
-                                    </button>
-                                    <button class="btn-refuse" data-demande-id="<?php echo $demande['idDemande']; ?>" data-action="refuse">
-                                        <i class="mdi mdi-close-circle"></i>
-                                        Refuser
-                                    </button>
-                                </div>
-                            <?php } ?>
-                        </div>
-                    <?php } ?>
-                <?php } else { ?>
-                    <div class="empty-state">
-                        <i class="mdi mdi-email-outline"></i>
-                        <h2>Aucune demande reçue</h2>
-                        <p>Vous n'avez pas encore reçu de demande d'échange.</p>
-                        <button class="btn btn-gradient-primary btn-lg" onclick="window.location.href='/items/new'">
-                            <i class="mdi mdi-plus"></i> Ajouter un objet
+                <div class="filter-bar">
+                    <label class="filter-label">
+                        <i class="mdi mdi-filter"></i> Filtrer par statut
+                    </label>
+                    <div class="filter-buttons">
+                        <button class="filter-btn active" data-filter="all">
+                            <i class="mdi mdi-all-inclusive"></i> Toutes
+                        </button>
+                        <button class="filter-btn" data-filter="pending">
+                            <i class="mdi mdi-clock-outline"></i> En attente
+                        </button>
+                        <button class="filter-btn" data-filter="accepted">
+                            <i class="mdi mdi-check-circle"></i> Acceptées
+                        </button>
+                        <button class="filter-btn" data-filter="refused">
+                            <i class="mdi mdi-close-circle"></i> Refusées
                         </button>
                     </div>
-                <?php } ?>
+                </div>
+
+                <div class="demandes-container">
+                    <?php if (!empty($demandes)) { ?>
+                        <?php foreach ($demandes as $demande) { ?>
+                            <div class="demande-card" data-status="<?php
+                            $statusId = $demande['idDemandeStatus'] ?? 1;
+                            if ($statusId == 2) {
+                                echo 'accepted';
+                            } elseif ($statusId == 3) {
+                                echo 'refused';
+                            } else {
+                                echo 'pending';
+                            }
+                            ?>">
+                                <div class="demande-header">
+                                    <div class="demande-id">
+                                        <i class="mdi mdi-swap-horizontal"></i>
+                                        Demande #<?php echo htmlspecialchars($demande['idDemande']); ?>
+                                    </div>
+                                    <div class="demande-status <?php
+                                    $statusId = $demande['idDemandeStatus'] ?? 1;
+                                    if ($statusId == 2) {
+                                        echo 'status-accepted';
+                                    } elseif ($statusId == 3) {
+                                        echo 'status-refused';
+                                    } else {
+                                        echo 'status-pending';
+                                    }
+                                    ?>">
+                                        <?php
+                                        $statusId = $demande['idDemandeStatus'] ?? 1;
+                                        if ($statusId == 2) {
+                                            echo '✓ Acceptée';
+                                        } elseif ($statusId == 3) {
+                                            echo '✗ Refusée';
+                                        } else {
+                                            echo '⏳ En attente';
+                                        }
+                                        ?>
+                                    </div>
+                                </div>
+                                <div class="demande-body">
+                                    <div class="demande-info">
+                                        <label><i class="mdi mdi-account"></i> De</label>
+                                        <span><?php echo htmlspecialchars($demande['demandeur_username']); ?></span>
+                                    </div>
+                                    <div class="demande-info">
+                                        <label><i class="mdi mdi-account-check"></i> À</label>
+                                        <span><?php echo htmlspecialchars($demande['receveur_username']); ?> (Vous)</span>
+                                    </div>
+                                    <div class="demande-info">
+                                        <label><i class="mdi mdi-package-variant"></i> Vous recevez</label>
+                                        <span><?php echo htmlspecialchars($demande['objet_offert_name']); ?></span>
+                                    </div>
+                                    <div class="demande-info">
+                                        <label><i class="mdi mdi-package-variant-closed"></i> Vous donnez</label>
+                                        <span><?php echo htmlspecialchars($demande['objet_demande_name']); ?></span>
+                                    </div>
+                                    <?php if (!empty($demande['createdAt'])) { ?>
+                                        <div class="demande-info">
+                                            <label><i class="mdi mdi-calendar"></i> Date de création</label>
+                                            <span><?php echo date('d/m/Y H:i', strtotime($demande['createdAt'])); ?></span>
+                                        </div>
+                                    <?php } ?>
+                                    <?php if (!empty($demande['statusAt'])) { ?>
+                                        <div class="demande-info">
+                                            <label><i class="mdi mdi-update"></i> Dernière mise à jour</label>
+                                            <span><?php echo date('d/m/Y H:i', strtotime($demande['statusAt'])); ?></span>
+                                        </div>
+                                    <?php } ?>
+                                </div>
+
+                                <?php if (($demande['idDemandeStatus'] ?? 1) == 1) { ?>
+                                    <div class="demande-actions">
+                                        <button class="btn-accept" data-demande-id="<?php echo $demande['idDemande']; ?>"
+                                            data-action="accept">
+                                            <i class="mdi mdi-check-circle"></i>
+                                            Accepter
+                                        </button>
+                                        <button class="btn-refuse" data-demande-id="<?php echo $demande['idDemande']; ?>"
+                                            data-action="refuse">
+                                            <i class="mdi mdi-close-circle"></i>
+                                            Refuser
+                                        </button>
+                                    </div>
+                                <?php } ?>
+                            </div>
+                        <?php } ?>
+                    <?php } else { ?>
+                        <div class="empty-state">
+                            <i class="mdi mdi-email-outline"></i>
+                            <h2>Aucune demande reçue</h2>
+                            <p>Vous n'avez pas encore reçu de demande d'échange.</p>
+                            <button class="btn btn-gradient-primary btn-lg" onclick="window.location.href='/items/new'">
+                                <i class="mdi mdi-plus"></i> Ajouter un objet
+                            </button>
+                        </div>
+                    <?php } ?>
+                </div>
             </div>
+            <?php
+            require_once("footer.php");
+            ?>
         </div>
     </div>
 
@@ -324,14 +331,14 @@
 
     <script>
         // Handle accept/refuse actions using event delegation
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             // Get all accept and refuse buttons
             const acceptButtons = document.querySelectorAll('.btn-accept');
             const refuseButtons = document.querySelectorAll('.btn-refuse');
 
             // Add event listeners to accept buttons
             acceptButtons.forEach(button => {
-                button.addEventListener('click', function() {
+                button.addEventListener('click', function () {
                     const demandeId = this.getAttribute('data-demande-id');
                     const action = this.getAttribute('data-action');
                     handleDemande(demandeId, action);
@@ -340,7 +347,7 @@
 
             // Add event listeners to refuse buttons
             refuseButtons.forEach(button => {
-                button.addEventListener('click', function() {
+                button.addEventListener('click', function () {
                     const demandeId = this.getAttribute('data-demande-id');
                     const action = this.getAttribute('data-action');
                     handleDemande(demandeId, action);
@@ -359,11 +366,11 @@
             const url = `/demandes/${demandeId}/${action}`;
 
             fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                })
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {

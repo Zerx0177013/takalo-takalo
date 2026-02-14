@@ -3,7 +3,7 @@
     <ul class="nav">
         <li class="nav-item nav-profile">
             <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-                <a class="navbar-brand brand-logo" href="index.html">
+                <a class="navbar-brand brand-logo" href="<?= BASE_URL?>">
                     <img src="assets/images/logo.png" alt="logo" style="width:300px; height:auto; display:block;">
                 </a>
             </div>
