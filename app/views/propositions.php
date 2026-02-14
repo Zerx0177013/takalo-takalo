@@ -33,6 +33,12 @@ use Tracy\Bar;
                 <p>Tous les objets disponibles pour l'échange</p>
             </div>
 
+            <div class="filter-section" style="margin-bottom: 20px; display: flex; gap: 10px; flex-wrap: wrap;">
+                <a href="/propositions?itemId=<?php echo $selectedItem['idItem']; ?>" class="btn btn-gradient-light" style="padding: 8px 16px; text-decoration: none;">Tous</a>
+                <a href="/propositions?itemId=<?php echo $selectedItem['idItem']; ?>&range=10" class="btn btn-gradient-secondary" style="padding: 8px 16px; text-decoration: none;">±10%</a>
+                <a href="/propositions?itemId=<?php echo $selectedItem['idItem']; ?>&range=20" class="btn btn-gradient-secondary" style="padding: 8px 16px; text-decoration: none;">±20%</a>
+            </div>
+
             <div class="items-grid">
                 <?php if (!empty($items)): ?>
                     <?php foreach ($items as $item): ?>
